@@ -1,5 +1,6 @@
 package ua.deti.bulletjounal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.Button;
 public class Monthly_Log_Calendar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,6 +23,15 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         setContentView(R.layout.activity_monthly__log__calendar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Button notes =(Button) findViewById(R.id.notes);
+
+        notes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity2(v);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +60,13 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void activity2(View view){
+        Intent intent=new Intent(this,Monthly_Log_Notes.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+
     }
 
     @Override

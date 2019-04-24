@@ -71,7 +71,12 @@ public class Monthly_Log_Notes extends AppCompatActivity
         if (info=="false"){
             Text.setText("Nada adicionado");
         }else{
-            mLayout.addView(createNewTextView(info));
+            String []  tokens=info.split("\n");
+            for (String b:tokens) {
+                mLayout.addView(createNewTextView(b));
+
+            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -132,12 +137,13 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 String description_save= (String) Description.getText().toString();
                 String title_save= (String) Title.getText().toString();
 
-                String to_save=spinner_save+"-"+title_save+"-"+description_save;
+                String to_save=spinner_save+"-"+title_save+"-"+description_save+"\n";
+                String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
                 String check =save(to_save);
                 Toast.makeText(getBaseContext(),check  ,
                         Toast.LENGTH_LONG).show();
-                updateView();
+                updateView(to_display);
                 myDialog.dismiss();
 
 
@@ -162,9 +168,9 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     }
 
-    public void updateView(){
-        String text=load();
-        mLayout.addView(createNewTextView(text));
+    public void updateView(String disp){
+
+        mLayout.addView(createNewTextView(disp));
 
     }
 
@@ -211,7 +217,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         File myfile=new File(directory,filename);
         try{
             myfile.createNewFile();
-            fos=openFileOutput(filename,MODE_PRIVATE);
+            fos=openFileOutput(filename,MODE_APPEND);
             fos.write(to_save.getBytes());
 
         }catch (FileNotFoundException e){
