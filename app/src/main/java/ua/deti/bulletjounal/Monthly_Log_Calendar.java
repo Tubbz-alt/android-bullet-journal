@@ -1,5 +1,6 @@
 package ua.deti.bulletjounal;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,16 +17,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 
 public class Monthly_Log_Calendar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Dialog DetailsDialog;
+    private Dialog AddDialog;
+    private Dialog MoreDialog;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +81,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         cl.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
+                createDialogDetails(calendarDay);
                 Toast.makeText(getBaseContext(),calendarDay.toString(),Toast.LENGTH_LONG).show();
             }
         });
@@ -81,6 +93,43 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
+
+    }
+
+    public void createDialogDetails(CalendarDay day){
+
+        DetailsDialog = new Dialog(this);
+        DetailsDialog.setContentView(R.layout.pop_window_details);
+        DetailsDialog.setCancelable(false);
+        DetailsDialog.setTitle("Details");
+
+
+
+
+
+        TextView title=(TextView)DetailsDialog.findViewById(R.id.masterTitle);
+        title.setText(day.getDay()+" de "+day.getMonth()+" de "+day.getYear());
+        Button Add= (Button) DetailsDialog.findViewById(R.id.Add_info_calendar);
+        Button Exit = (Button) DetailsDialog.findViewById(R.id.Exit_info_calendar);
+
+
+
+
+
+
+
+
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailsDialog.dismiss();
+
+            }
+        });
+
+
+
+        DetailsDialog.show();
 
     }
 
