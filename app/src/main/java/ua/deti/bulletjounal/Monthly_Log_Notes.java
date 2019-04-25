@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-
+import android.view.LayoutInflater;
 import java.io.BufferedReader;
 import java.io.File;
 import android.content.ContextWrapper;
@@ -29,6 +29,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.zip.Inflater;
 
 import android.app.Dialog;
 import android.widget.Toast;
@@ -37,8 +41,10 @@ public class Monthly_Log_Notes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String filename="example.txt";
     private LinearLayout mLayout;
-    TextView Text;
-    Dialog myDialog;
+    private TextView Text;
+    private Dialog myDialog;
+    private int button_id=0;
+    private Map<Integer,String> db=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +73,12 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
 
         Text=findViewById(R.id.textView7);
-        String info=load();
-        if (info=="false"){
+        boolean check=updateAllView();
+
+        if(!check){
             Text.setText("Nada adicionado");
-        }else{
-            String []  tokens=info.split("\n");
-            for (String b:tokens) {
-                mLayout.addView(createNewTextView(b));
-
-            }
-
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,12 +91,32 @@ public class Monthly_Log_Notes extends AppCompatActivity
     }
 
 
-    private TextView createNewTextView(String text) {
+    private void createNewTextView(String text) {
+
+        LayoutInflater inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         final LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         final TextView textView = new TextView(this);
+        final Button more =new Button(this);
+        more.setText("More");
+        more.setId(button_id);
+        final int btn_id=more.getId(); //get the button id so I can associate a function
         textView.setLayoutParams(lparams);
-        textView.setText("New text: " + text);
-        return textView;
+        textView.setText(text);
+        mLayout.addView(textView);
+        mLayout.addView(more);
+        db.put(btn_id,text);
+        Button btn= (Button)findViewById(btn_id);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callMoreDialog(btn_id);
+            }
+        });
+
+        if(Text.getText()=="Nada adicionado"){
+            Text.setText("");
+        }
+        button_id+=1;
     }
 
     private void activity2(View view){
@@ -137,13 +158,16 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 String description_save= (String) Description.getText().toString();
                 String title_save= (String) Title.getText().toString();
 
-                String to_save=spinner_save+"-"+title_save+"-"+description_save+"\n";
                 String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
-                String check =save(to_save);
-                Toast.makeText(getBaseContext(),check  ,
+
+                Toast.makeText(getBaseContext(),"Done"  ,
                         Toast.LENGTH_LONG).show();
-                updateView(to_display);
+
+                createNewTextView(to_display);
+
+                saveDB();
+
                 myDialog.dismiss();
 
 
@@ -168,9 +192,93 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     }
 
-    public void updateView(String disp){
+    public void callMoreDialog(final int more_id){
+        myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.pop_window_more);
+        myDialog.setCancelable(false);
+        myDialog.setTitle("Details");
 
-        mLayout.addView(createNewTextView(disp));
+
+        String text_disp=db.get(more_id);
+        String [] tokens=text_disp.split("-");
+        String type=tokens[0];
+        String title=tokens[1];
+        String description=tokens[2];
+
+        TextView title_text=(TextView)myDialog.findViewById(R.id.TitleText);
+        title_text.setText(title);
+        TextView description_text=(TextView)myDialog.findViewById(R.id.DescriptionText);
+        description_text.setText(description);
+        TextView type_text=(TextView)myDialog.findViewById(R.id.TypeText);
+        type_text.setText(type);
+
+
+
+
+        Button Delete= (Button) myDialog.findViewById(R.id.Delete);
+        Button cancel = (Button) myDialog.findViewById(R.id.Exit);
+
+        Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.remove(more_id);
+                saveDB();
+                db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
+                mLayout.removeAllViews();
+                boolean check=updateAllView();
+                if(!check){
+                    Text.setText("Nada adicionado");
+                }
+                else{
+                    Text.setText("");
+                }
+
+                myDialog.dismiss();
+
+
+            }
+        });
+
+
+
+
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(db);
+                myDialog.dismiss();
+
+            }
+        });
+
+
+
+        myDialog.show();
+
+
+
+
+
+    }
+
+
+
+    public boolean updateAllView(){
+
+        String info=load();
+        if (info=="false"){
+            return false;
+        }else{
+            String []  tokens=info.split("\n");
+            for (String b:tokens) {
+                createNewTextView(b);
+
+            }
+            return true;
+
+        }
 
     }
 
@@ -185,7 +293,12 @@ public class Monthly_Log_Notes extends AppCompatActivity
             String text;
 
             while((text=br.readLine())!=null){
+
                 sb.append(text).append("\n");
+            }
+
+            if(sb.toString()==""){
+                return "false";
             }
 
             return sb.toString();
@@ -210,15 +323,28 @@ public class Monthly_Log_Notes extends AppCompatActivity
         return null;
     };
 
-    public String save(String to_save){
+    public String saveDB(){
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         FileOutputStream fos=null;
         File directory= contextWrapper.getDir(getFilesDir().getName(), Context.MODE_PRIVATE);
         File myfile=new File(directory,filename);
+        Iterator it = db.entrySet().iterator();
         try{
+
             myfile.createNewFile();
-            fos=openFileOutput(filename,MODE_APPEND);
-            fos.write(to_save.getBytes());
+            fos=openFileOutput(filename,Context.MODE_PRIVATE);
+
+            while(it.hasNext()){
+
+                Map.Entry pair = (Map.Entry)it.next();
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                String to_save=(String)pair.getValue()+db.size()+"\n";
+
+                fos.write(to_save.getBytes());
+
+            }
+
+
 
         }catch (FileNotFoundException e){
 
