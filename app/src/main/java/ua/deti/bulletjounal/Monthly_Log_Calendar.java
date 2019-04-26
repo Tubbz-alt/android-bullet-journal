@@ -26,6 +26,11 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 
 public class Monthly_Log_Calendar extends AppCompatActivity
@@ -34,6 +39,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     private Dialog DetailsDialog;
     private Dialog AddDialog;
     private Dialog MoreDialog;
+    private TextView infoDisp;
 
 
 
@@ -102,6 +108,14 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         DetailsDialog.setContentView(R.layout.pop_window_details);
         DetailsDialog.setCancelable(false);
         DetailsDialog.setTitle("Details");
+        String filename="file_"+day.getDay();
+        String check=load(filename);
+        infoDisp=DetailsDialog.findViewById(R.id.infoDisp);
+
+
+        if(check=="false"){
+            infoDisp.setText("Nada adicionado");
+        }
 
 
 
@@ -132,6 +146,47 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         DetailsDialog.show();
 
     }
+
+    public String load (String filename) {
+        FileInputStream fis=null;
+
+        try{
+            fis=openFileInput(filename);
+            InputStreamReader isr=new InputStreamReader(fis);
+            BufferedReader br= new BufferedReader(isr);
+            StringBuilder sb=new StringBuilder();
+            String text;
+
+            while((text=br.readLine())!=null){
+
+                sb.append(text).append("\n");
+            }
+
+            if(sb.toString()==""){
+                return "false";
+            }
+
+            return sb.toString();
+
+
+        }catch (FileNotFoundException e){
+
+            e.printStackTrace();
+            return "false";
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if (fis !=null){
+                try{
+                    fis.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    };
 
     @Override
     public void onBackPressed() {

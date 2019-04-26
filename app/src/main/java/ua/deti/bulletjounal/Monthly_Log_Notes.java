@@ -151,7 +151,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText Description = (EditText) myDialog.findViewById(R.id.title);
+                final EditText Description = (EditText) myDialog.findViewById(R.id.description);
                 final  EditText Title = (EditText) myDialog.findViewById(R.id.title);
 
                 String spinner_save = dropdown.getSelectedItem().toString();
