@@ -62,6 +62,10 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     private Map<Integer,Map<Integer,String>> db=new HashMap<>();
     private MaterialCalendarView cl;
     private EventDecorator eventDec;
+    private EventDecorator taskDec;
+    private EventDecorator noteDec;
+
+
 
 
 
@@ -123,6 +127,10 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         Collection<CalendarDay> dates=new ArrayList<>();
 
         eventDec =new EventDecorator(Color.BLACK,dates);
+        taskDec =new EventDecorator(Color.GREEN,dates);
+        noteDec =new EventDecorator(Color.RED,dates);
+
+
 
 
 
@@ -260,7 +268,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    private void createNewTextView(String text, final int Dia) {
+    private void createNewTextView(String text, final int Dia,String type) {
 
         final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final TextView textView = new TextView(this);
@@ -291,8 +299,17 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         });
 
         button_id+=1;
-        eventDec.addDay(CalendarDay.from(2019,04,Dia));
-        cl.addDecorator(eventDec);
+        if(type=="Task"){
+            taskDec.addDay(CalendarDay.from(2019,04,Dia));
+            cl.addDecorator(taskDec);
+        }else if(type=="Event"){
+            eventDec.addDay(CalendarDay.from(2019,04,Dia));
+            cl.addDecorator(eventDec);
+        }else{
+            noteDec.addDay(CalendarDay.from(2019,04,Dia));
+            cl.addDecorator(noteDec);
+        }
+
 
 
     }
@@ -336,7 +353,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 Toast.makeText(getBaseContext(),"Done"  ,
                         Toast.LENGTH_LONG).show();
 
-                createNewTextView(to_display,dia);
+                createNewTextView(to_display,dia,spinner_save);
 
                 saveDB(dia);
 
@@ -372,7 +389,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         }else{
             String []  tokens=info.split("\n");
             for (String b:tokens) {
-                createNewTextView(b,Dia);
+                String [] tokens_a=b.split("-");
+                createNewTextView(b,Dia,tokens_a[0]);
 
             }
             return true;
