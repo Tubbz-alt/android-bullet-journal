@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_monthly__log__calendar"
+        layout="@layout/app_bar_monthly__log__hub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:headerLayout="@layout/nav_header_monthly__log__hub"
+        app:menu="@menu/activity_monthly__log__hub_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

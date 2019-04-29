@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-            Intent myIntent = new Intent(this, Monthly_Log_Notes.class);
+            Intent myIntent = new Intent(this, Monthly_Log_Hub.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav_slideshow) {

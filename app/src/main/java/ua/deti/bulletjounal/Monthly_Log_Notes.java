@@ -44,6 +44,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
     private TextView Text;
     private Dialog myDialog;
     private int button_id=0;
+    private String currMonth;
     private Map<Integer,String> db=new HashMap<>();
 
     @Override
@@ -53,6 +54,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         mLayout= (LinearLayout) findViewById(R.id.linearLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Button add_line = (Button) findViewById(R.id.Add_info);
         Button Calendar= (Button) findViewById(R.id.Calendar);
 
@@ -88,6 +90,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        currMonth=getIntent().getStringExtra("Month");
+        getSupportActionBar().setTitle(currMonth);
     }
 
 
@@ -137,6 +141,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         final Spinner dropdown = myDialog.findViewById(R.id.spinner1);
         //create a list of items for the spinner.
         String[] items = new String[]{"Task","Event","Note"};
+
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
