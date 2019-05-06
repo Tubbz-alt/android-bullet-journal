@@ -13,5 +13,13 @@
     <string name="title_activity_monthly__log__calendar">Monthly_Log_Calendar</string>
     <string name="title_activity_monthly__log__hub">Monthly_Log_Hub</string>
     <string name="title_activity_daily__log__hub">Daily_Log_Hub</string>
+    <string name="title_activity_collections_hub">Collections Hub</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 
 </resources>
