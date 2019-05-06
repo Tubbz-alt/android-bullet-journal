@@ -125,6 +125,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     private void activity2(View view){
         Intent intent=new Intent(this,Monthly_Log_Calendar.class);
+        intent.putExtra("Month",currMonth);
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
 
@@ -289,9 +291,15 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     public String load () {
         FileInputStream fis=null;
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        FileOutputStream fos=null;
+        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
 
         try{
-            fis=openFileInput(filename);
+            fis=new FileInputStream(myfile);
             InputStreamReader isr=new InputStreamReader(fis);
             BufferedReader br= new BufferedReader(isr);
             StringBuilder sb=new StringBuilder();
@@ -329,16 +337,18 @@ public class Monthly_Log_Notes extends AppCompatActivity
     };
 
     public String saveDB(){
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
-        FileOutputStream fos=null;
-        File directory= contextWrapper.getDir(getFilesDir().getName(), Context.MODE_PRIVATE);
-        File myfile=new File(directory,filename);
+        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
         Iterator it = db.entrySet().iterator();
+
+
         try{
 
             myfile.createNewFile();
-            fos=openFileOutput(filename,Context.MODE_PRIVATE);
-
+            FileOutputStream fos=new FileOutputStream(myfile);
             while(it.hasNext()){
 
                 Map.Entry pair = (Map.Entry)it.next();

@@ -64,6 +64,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     private EventDecorator eventDec;
     private EventDecorator taskDec;
     private EventDecorator noteDec;
+    private String currMonth;
+
 
 
 
@@ -102,13 +104,86 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        currMonth=getIntent().getStringExtra("Month");
+        getSupportActionBar().setTitle(currMonth);
+        int first_day=1;
+        int month_number=0;
+        int last_day=0;
+
+        switch (currMonth){
+            case "January":{
+                month_number=0;
+                last_day=31;
+                break;//tratar dos bissextos
+            }
+            case "February":{
+                month_number=1;
+                last_day=28;
+                break;//tratar dos bissextos
+            }
+            case "March":{
+                month_number=2;
+                last_day=31;
+                break;
+            }
+            case "April":{
+                month_number=3;
+                last_day=30;
+                break;
+
+            }
+            case "May":{
+                month_number=4;
+                last_day=31;
+                break;
+            }
+            case "June":{
+                month_number=5;
+                last_day=30;
+                break;
+            }
+            case "July":{
+                month_number=6;
+                last_day=31;
+                break;
+            }
+            case "August":{
+                month_number=7;
+                last_day=31;
+                break;
+            }
+            case "September":{
+                month_number=8;
+                last_day=30;
+                break;
+            }
+            case "October":{
+                month_number=9;
+                last_day=31;
+                break;
+
+            }
+            case "November":{
+                month_number=10;
+                last_day=30;
+                break;
+
+            }
+            case "December":{
+                month_number=11;
+                last_day=31;
+                break;
+
+            }
+
+        }
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DATE,Calendar.getInstance().getActualMinimum(Calendar.DATE));
         long date = calendar.getTime().getTime();
         cl=(MaterialCalendarView) findViewById(R.id.calendarView);
-        CalendarDay first=CalendarDay.from(2019,4,1);
-        CalendarDay last=CalendarDay.from(2019,4,30);
+        CalendarDay first=CalendarDay.from(2019,month_number,first_day);
+        CalendarDay last=CalendarDay.from(2019,month_number,last_day);
 
         cl.state().edit().setMinimumDate(first).setMaximumDate(last).commit();
 
@@ -129,6 +204,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         eventDec =new EventDecorator(Color.BLACK,dates);
         taskDec =new EventDecorator(Color.GREEN,dates);
         noteDec =new EventDecorator(Color.RED,dates);
+
+
 
 
 
@@ -400,17 +477,20 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     }
 
     public String saveDB(int Dia){
-        String filename="file_"+Dia;
+        String filename="Calendar_"+currMonth+"_"+Dia+".txt";
+
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
-        FileOutputStream fos=null;
-        File directory= contextWrapper.getDir(getFilesDir().getName(), Context.MODE_PRIVATE);
-        File myfile=new File(directory,filename);
+
+        File myfile=new File(documentsFolder,filename);
         Map tempMap=db.get(Dia);
         Iterator it = tempMap.entrySet().iterator();
         try{
 
             myfile.createNewFile();
-            fos=openFileOutput(filename,Context.MODE_PRIVATE);
+            FileOutputStream fos=new FileOutputStream(myfile);
 
             while(it.hasNext()){
 
@@ -435,12 +515,19 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     };
 
     public String load (int Dia) {
-        String filename="file_"+Dia;
+
+
 
         FileInputStream fis=null;
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        FileOutputStream fos=null;
+        File myfile=new File(documentsFolder,"Calendar_"+currMonth+"_"+Dia+".txt");
 
         try{
-            fis=openFileInput(filename);
+            fis=new FileInputStream(myfile);
             InputStreamReader isr=new InputStreamReader(fis);
             BufferedReader br= new BufferedReader(isr);
             StringBuilder sb=new StringBuilder();
@@ -489,6 +576,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     private void activity2(View view){
         Intent intent=new Intent(this,Monthly_Log_Notes.class);
+        intent.putExtra("Month",currMonth);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
 
