@@ -13,9 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CollectionsHub"
+            android:label="@string/title_activity_collections_hub"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Monthly_Log_Hub"
             android:label="@string/title_activity_monthly__log__hub"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Monthly_Log_Calendar"
             android:label="@string/title_activity_monthly__log__calendar"
