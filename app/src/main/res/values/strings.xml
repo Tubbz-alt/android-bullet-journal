@@ -12,5 +12,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_monthly__log__calendar">Monthly_Log_Calendar</string>
     <string name="title_activity_monthly__log__hub">Monthly_Log_Hub</string>
+    <string name="title_activity_daily__log__hub">Daily_Log_Hub</string>
 
 </resources>

@@ -77,12 +77,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent myIntent = new Intent(this, Daily_Log_Hub.class);
+            startActivity(myIntent);
         } else if (id == R.id.nav_gallery) {
             Intent myIntent = new Intent(this, Monthly_Log_Hub.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav_slideshow) {
+
 
         } else if (id == R.id.nav_manage) {
 

@@ -80,7 +80,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Button notes =(Button) findViewById(R.id.notes);
 
         notes.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +99,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+
         currMonth=getIntent().getStringExtra("Month");
         getSupportActionBar().setTitle(currMonth);
         int first_day=1;
@@ -140,6 +136,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             case "June":{
                 month_number=5;
                 last_day=30;
+
                 break;
             }
             case "July":{
@@ -177,13 +174,13 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             }
 
         }
+        Toast.makeText(getBaseContext(),"Ola: "+month_number,Toast.LENGTH_SHORT).show();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE,Calendar.getInstance().getActualMinimum(Calendar.DATE));
-        long date = calendar.getTime().getTime();
+
+        int ola=2;
         cl=(MaterialCalendarView) findViewById(R.id.calendarView);
-        CalendarDay first=CalendarDay.from(2019,month_number,first_day);
-        CalendarDay last=CalendarDay.from(2019,month_number,last_day);
+        CalendarDay first=CalendarDay.from(2019,month_number+1,first_day);
+        CalendarDay last=CalendarDay.from(2019,month_number+1,last_day);
 
         cl.state().edit().setMinimumDate(first).setMaximumDate(last).commit();
 
@@ -460,6 +457,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     public boolean updateAllView(int Dia){
 
+
         String info=load(Dia);
         if (info=="false"){
             return false;
@@ -477,6 +475,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     }
 
     public String saveDB(int Dia){
+
         String filename="Calendar_"+currMonth+"_"+Dia+".txt";
 
         File myDir = getApplicationContext().getFilesDir();
@@ -516,7 +515,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     public String load (int Dia) {
 
-
+        Toast.makeText(getBaseContext(),currMonth  ,
+                Toast.LENGTH_LONG).show();
 
         FileInputStream fis=null;
         File myDir = getApplicationContext().getFilesDir();
@@ -566,12 +566,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
     }
 
     private void activity2(View view){
@@ -591,17 +586,19 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // todo: goto back activity from here
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                Intent intent=new Intent(this,Monthly_Log_Hub.class);
+
+                startActivity(intent);
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
