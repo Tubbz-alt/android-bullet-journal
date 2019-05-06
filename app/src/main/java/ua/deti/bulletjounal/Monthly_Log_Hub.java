@@ -91,12 +91,19 @@ public class Monthly_Log_Hub extends AppCompatActivity
         String path="2019";
         File documentsFolder = new File(myDir,path);
         File[] files = documentsFolder.listFiles();
-        for (File inFile : files) {
-            if (inFile.isDirectory()) {
-                //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
-                createNewTextView(inFile.getName());
+        if (files==null){
+            Toast.makeText(getBaseContext(),"Nada adicionado",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            for (File inFile : files) {
+                if (inFile.isDirectory()) {
+                    //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
+                    createNewTextView(inFile.getName());
+                }
             }
         }
+
+
 
 
 
