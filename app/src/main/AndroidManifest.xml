@@ -15,6 +15,10 @@
         <activity
             android:name=".Daily_Log_Hub"
             android:label="@string/title_activity_daily__log__hub"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
+        <activity
+
             android:name=".CollectionsHub"
             android:label="@string/title_activity_collections_hub"
             android:theme="@style/AppTheme.NoActionBar"></activity>
