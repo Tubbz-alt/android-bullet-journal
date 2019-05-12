@@ -98,4 +98,30 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void changeActivity(View view)
+    {
+        Intent intent = null;
+        int view_id = view.getId();
+        if(view_id == R.id.imageView11 || view_id == R.id.textView3)
+        {
+            intent = new Intent(this, Daily_Log_Hub.class);
+        }
+        else if(view_id == R.id.imageView12 || view_id == R.id.textView4)
+        {
+            intent = new Intent(this, Monthly_Log_Hub.class);
+        }
+        /*
+        else if(view_id == R.id.imageView10 || view_id == R.id.textView5)
+        {
+            intent = new Intent(this, Yearly_Log_Hub.class);
+        }
+        */
+        else if(view_id == R.id.imageView6 || view_id == R.id.textView6)
+        {
+            intent = new Intent(this, CollectionsHub.class);
+        }
+        startActivity(intent);
+
+    }
 }
