@@ -122,8 +122,7 @@ public class Daily_Log_Hub extends AppCompatActivity
         //create a list of items for the spinner.
         String[] items = new String[]{"2019"};
 
-        String[] month=new String[2];
-        String[] day=new String[5];
+        String[] month=new String[5];
         //dicionario com key em numero e value em extenso
 
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
@@ -137,16 +136,36 @@ public class Daily_Log_Hub extends AppCompatActivity
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int currMonth=calendar.get(Calendar.MONTH);
         int currDay=calendar.get(Calendar.DAY_OF_MONTH);
-        int lastDay=months_days.get(currMonth+1);
-        if(lastDay-currDay<5){
-            month[0]=year_months.get(currMonth+1);
-            month[1]=year_months.get(currMonth+2);
-        }
-        else{
-            month[0]=year_months.get(currMonth+1);
-            month[1]="";
+
+        int lastDay=months_days.get(currMonth+1);//
+
+        int temp=currDay-lastDay;
+        /*if(temp<5){
+
+            int indice=0;
+            for(int i=temp;i>=0;i--){
+                month[indice]=currDay+indice+"/"+year_months.get(currMonth+1);
+                indice++;
+
+            }
+            int new_day=1;
+            if(indice<5){
+                month[indice]=new_day+"/"+year_months.get(currMonth+2);
+                indice++;
+                new_day++;
+
+            }
 
         }
+        else{*/
+            month[0]=currDay+"/"+year_months.get(currMonth+1);
+            month[1]=currDay+1+"/"+year_months.get(currMonth+1);
+            month[2]=currDay+2+"/"+year_months.get(currMonth+1);
+            month[3]=currDay+3+"/"+year_months.get(currMonth+1);
+            month[4]=currDay+4+"/"+year_months.get(currMonth+1);
+
+
+        //}
 
 
 
