@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
@@ -40,18 +43,47 @@ import android.widget.Toast;
 public class Monthly_Log_Notes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String filename="example.txt";
-    private LinearLayout mLayout;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    //private LinearLayout mLayout;
     private TextView Text;
     private Dialog myDialog;
     private int button_id=0;
     private String currMonth;
+    private ArrayList<Item> exampleList=new ArrayList<>();
+
     private Map<Integer,String> db=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly__log__notes);
-        mLayout= (LinearLayout) findViewById(R.id.linearLayout);
+
+        exampleList.add(new Item(R.drawable.bjlogo,"teste","ola"));
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+
+        mAdapter = new Adapter(exampleList);
+        recyclerView.setAdapter(mAdapter);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
+
+
+
+
+        //mLayout= (LinearLayout) findViewById(R.id.linearLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -107,8 +139,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
         final int btn_id=more.getId(); //get the button id so I can associate a function
         textView.setLayoutParams(lparams);
         textView.setText(text);
-        mLayout.addView(textView);
-        mLayout.addView(more);
+        //mLayout.addView(textView);
+        ///mLayout.addView(more);
         db.put(btn_id,text);
         Button btn= (Button)findViewById(btn_id);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +264,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 db.remove(more_id);
                 saveDB();
                 db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
-                mLayout.removeAllViews();
+                //mLayout.removeAllViews();
                 boolean check=updateAllView();
                 if(!check){
                     Text.setText("Nada adicionado");
@@ -284,9 +316,25 @@ public class Monthly_Log_Notes extends AppCompatActivity
         }else{
             String []  tokens=info.split("\n");
             for (String b:tokens) {
-                createNewTextView(b);
+                String [] tokens_b=b.split("-");
+                String type=tokens_b[0];
+                String title=tokens_b[1];
+                String description=tokens_b[2];
+                int image=0;
+                switch (type){
+                    case "Task": image=R.drawable.task_icon;
+                                break;
+                    case "Event":image=R.drawable.event_icon;
+                                break;
+                    case "Note":image=R.drawable.note_icon;
+                                break;
+                }
+                //createNewTextView(b);
 
             }
+
+
+
             return true;
 
         }
