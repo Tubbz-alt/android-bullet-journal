@@ -4,10 +4,12 @@ public class Item {
     private int mImageType;
     private String description;
     private String title;
-    public Item(int type, String description, String title){
+    private  String type;
+    public Item(int type, String description, String title,String type_str){
         this.description=description;
         this.mImageType=type;
         this.title=title;
+        this.type=type_str;
     }
 
     public int getType() {
@@ -22,5 +24,12 @@ public class Item {
         return title;
     }
 
+    public String getStringType() {
+        return type;
+    }
 
+    @Override
+    public String toString() {
+        return getStringType()+"-"+getTitle()+"-"+getDescription()+"\n";
+    }
 }
