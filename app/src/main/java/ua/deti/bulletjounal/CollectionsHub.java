@@ -1,10 +1,7 @@
 package ua.deti.bulletjounal;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
@@ -18,11 +15,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class CollectionsHub extends AppCompatActivity
@@ -130,15 +124,7 @@ public class CollectionsHub extends AppCompatActivity
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                final TextView textView = new TextView(CollectionsHub.this);
-                final Button more = new Button(CollectionsHub.this);
-                more.setText("Olá");
-                int ibt = 123123;
-                more.setId(ibt);
-                LinearLayout mLayout = findViewById(R.id.myLinearLayout);
-                mLayout.addView(more);
+
             }
         });
 
