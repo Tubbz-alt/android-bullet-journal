@@ -1,11 +1,13 @@
 package ua.deti.bulletjounal;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +15,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 public class CollectionsHub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +37,6 @@ public class CollectionsHub extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Collections Hub");
-        FloatingActionButton fab = findViewById(R.id.fab);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -33,6 +45,9 @@ public class CollectionsHub extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
@@ -91,4 +106,44 @@ public class CollectionsHub extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void callAndDialog(View view)
+    {
+        int btn_id = R.id.addCollectionBtn;
+        final Dialog addDialog = new Dialog(this);
+        addDialog.setContentView(R.layout.pop_window_add_collection);
+        addDialog.setCancelable(true);
+        addDialog.setTitle("New collection");
+
+        ImageView saveBtn = addDialog.findViewById(R.id.saveBtn);
+        ImageView cancelBtn = addDialog.findViewById(R.id.cancelBtn);
+
+        // dismiss modal
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDialog.dismiss();
+            }
+        });
+
+        // save
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                final TextView textView = new TextView(CollectionsHub.this);
+                final Button more = new Button(CollectionsHub.this);
+                more.setText("Olá");
+                int ibt = 123123;
+                more.setId(ibt);
+                LinearLayout mLayout = findViewById(R.id.myLinearLayout);
+                mLayout.addView(more);
+            }
+        });
+
+        addDialog.show();
+    }
+
+
 }
