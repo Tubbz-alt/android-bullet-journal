@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Spinner;
@@ -29,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
@@ -40,27 +44,69 @@ import android.widget.Toast;
 public class Monthly_Log_Notes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String filename="example.txt";
-    private LinearLayout mLayout;
+    private RecyclerView recyclerView;
+    private Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    //private LinearLayout mLayout;
+    private ImageView addInfo;
     private TextView Text;
     private Dialog myDialog;
     private int button_id=0;
     private String currMonth;
+    private ArrayList<Item> exampleList=new ArrayList<>();
+
     private Map<Integer,String> db=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly__log__notes);
-        mLayout= (LinearLayout) findViewById(R.id.linearLayout);
+
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new Adapter(exampleList);
+        recyclerView.setAdapter(mAdapter);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
+            @Override
+            public void OnDelete(int position) {
+                removeItem(position);
+                saveDB();
+            }
+
+            @Override
+            public void OnInfo(int position) {
+                callMoreDialog(position);
+            }
+        });
+
+
+
+
+
+
+        //mLayout= (LinearLayout) findViewById(R.id.linearLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button add_line = (Button) findViewById(R.id.Add_info);
         Button Calendar= (Button) findViewById(R.id.Calendar);
+        addInfo=findViewById(R.id.Add_Info);
 
 
-        add_line.setOnClickListener(new View.OnClickListener() {
+        addInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callLoginDialog();
@@ -107,8 +153,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
         final int btn_id=more.getId(); //get the button id so I can associate a function
         textView.setLayoutParams(lparams);
         textView.setText(text);
-        mLayout.addView(textView);
-        mLayout.addView(more);
+        //mLayout.addView(textView);
+        ///mLayout.addView(more);
         db.put(btn_id,text);
         Button btn= (Button)findViewById(btn_id);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -172,10 +218,11 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 Toast.makeText(getBaseContext(),"Done"  ,
                         Toast.LENGTH_LONG).show();
 
-                createNewTextView(to_display);
+                //createNewTextView(to_display);
 
+
+                insertItem(0,to_display);
                 saveDB();
-
                 myDialog.dismiss();
 
 
@@ -207,11 +254,11 @@ public class Monthly_Log_Notes extends AppCompatActivity
         myDialog.setTitle("Details");
 
 
-        String text_disp=db.get(more_id);
-        String [] tokens=text_disp.split("-");
-        String type=tokens[0];
-        String title=tokens[1];
-        String description=tokens[2];
+        Item text_disp=exampleList.get(more_id);
+
+        String type=text_disp.getStringType();
+        String title=text_disp.getTitle();
+        String description= text_disp.getDescription();
 
         TextView title_text=(TextView)myDialog.findViewById(R.id.TitleText);
         title_text.setText(title);
@@ -232,7 +279,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 db.remove(more_id);
                 saveDB();
                 db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
-                mLayout.removeAllViews();
+                //mLayout.removeAllViews();
                 boolean check=updateAllView();
                 if(!check){
                     Text.setText("Nada adicionado");
@@ -271,6 +318,30 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     }
 
+    public void insertItem(int position,String b){
+        String [] tokens_b=b.split("-");
+        String type=tokens_b[0];
+        String title=tokens_b[1];
+        String description=tokens_b[2];
+        int image=0;
+        switch (type){
+            case "Task": image=R.drawable.task_icon;
+                break;
+            case "Event":image=R.drawable.event_icon;
+                break;
+            case "Note":image=R.drawable.note_icon;
+                break;
+        }
+        exampleList.add(position,new Item(image,description,title,type));
+        mAdapter.notifyItemInserted(position);
+    }
+
+    public void removeItem(int position){
+
+        exampleList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+
 
 
     public boolean updateAllView(){
@@ -284,9 +355,14 @@ public class Monthly_Log_Notes extends AppCompatActivity
         }else{
             String []  tokens=info.split("\n");
             for (String b:tokens) {
-                createNewTextView(b);
+                insertItem(0,b);
+
+                //createNewTextView(b);
 
             }
+
+
+
             return true;
 
         }
@@ -347,7 +423,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
-        Iterator it = db.entrySet().iterator();
+        Iterator it = exampleList.iterator();
 
 
         try{
@@ -356,9 +432,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
             FileOutputStream fos=new FileOutputStream(myfile);
             while(it.hasNext()){
 
-                Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                String to_save=(String)pair.getValue()+db.size()+"\n";
+
+                String to_save=(String)it.next().toString();
 
                 fos.write(to_save.getBytes());
 

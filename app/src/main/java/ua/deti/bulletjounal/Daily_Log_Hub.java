@@ -139,8 +139,8 @@ public class Daily_Log_Hub extends AppCompatActivity
 
         int lastDay=months_days.get(currMonth+1);//
 
-        int temp=currDay-lastDay;
-        /*if(temp<5){
+        int temp=lastDay-currDay;
+        if(temp<5){
 
             int indice=0;
             for(int i=temp;i>=0;i--){
@@ -157,7 +157,7 @@ public class Daily_Log_Hub extends AppCompatActivity
             }
 
         }
-        else{*/
+        else{
             month[0]=currDay+"/"+year_months.get(currMonth+1);
             month[1]=currDay+1+"/"+year_months.get(currMonth+1);
             month[2]=currDay+2+"/"+year_months.get(currMonth+1);
@@ -165,7 +165,7 @@ public class Daily_Log_Hub extends AppCompatActivity
             month[4]=currDay+4+"/"+year_months.get(currMonth+1);
 
 
-        //}
+        }
 
 
 
