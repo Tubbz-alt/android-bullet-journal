@@ -22,5 +22,6 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="title_activity_yearly__log">Yearly_Log</string>
+    <string name="title_activity_edit_collection">EditCollection</string>
 
 </resources>

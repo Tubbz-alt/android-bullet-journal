@@ -1,10 +1,12 @@
 package ua.deti.bulletjounal;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -13,15 +15,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class CollectionsHub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "CollectionsHub";
+    private RecyclerView collectionsRecyclerView;
+    private HubAdapter collectionsAdapter;
+    private RecyclerView.LayoutManager collectionsLayoutManager;
+    private ArrayList<HubItem> collections;
+
+    private ImageView saveBtn;
+    private ImageView cancelBtn;
+    private ImageView deleteBtn;
+    private EditText editText;
+    private String inputText;
+
+    private View thisView;
+    private Context thisContext;
 
 
     @Override
@@ -40,7 +59,24 @@ public class CollectionsHub extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        ImageView addCollectionBtn = findViewById(R.id.addCollectionBtn);
 
+        thisContext = getBaseContext();
+        thisView = getCurrentFocus();
+        addCollectionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thisView = view;
+                callAndDialog(view);
+            }
+        });
+
+        // recycle view
+        createCollectionsList();
+        buildRecyclerView();
+
+        // load collections
+        loadCollections();
 
     }
 
@@ -103,14 +139,14 @@ public class CollectionsHub extends AppCompatActivity
 
     public void callAndDialog(View view)
     {
-        int btn_id = R.id.addCollectionBtn;
         final Dialog addDialog = new Dialog(this);
+        thisContext = this;
         addDialog.setContentView(R.layout.pop_window_add_collection);
         addDialog.setCancelable(true);
         addDialog.setTitle("New collection");
 
-        ImageView saveBtn = addDialog.findViewById(R.id.saveBtn);
-        ImageView cancelBtn = addDialog.findViewById(R.id.cancelBtn);
+        saveBtn = addDialog.findViewById(R.id.saveBtn);
+        cancelBtn = addDialog.findViewById(R.id.cancelBtn);
 
         // dismiss modal
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,12 +160,157 @@ public class CollectionsHub extends AppCompatActivity
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editText = addDialog.findViewById(R.id.editText2);
+                inputText = editText.getText().toString();
+                if(inputText.length() == 0)
+                {
+                    Toast.makeText(addDialog.getContext(), "Please, add a name to the collection.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    insertItem(inputText);
+                    saveCollections();
+                    addDialog.dismiss();
+                }
 
             }
         });
 
         addDialog.show();
     }
+
+    public void createCollectionsList()
+    {
+        collections = new ArrayList<>();
+    }
+
+    public void  buildRecyclerView()
+    {
+        collectionsRecyclerView = findViewById(R.id.collectionsRecyclerView);
+        collectionsRecyclerView.setHasFixedSize(true);
+        collectionsLayoutManager = new LinearLayoutManager(this);
+        collectionsAdapter = new HubAdapter(collections);
+
+        collectionsRecyclerView.setLayoutManager(collectionsLayoutManager);
+        collectionsRecyclerView.setAdapter(collectionsAdapter);
+
+        collectionsAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                changeItem(position, "Clicked.");
+            }
+        });
+
+        collectionsAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                removeItem(position);
+                saveCollections();
+            }
+        });
+    }
+
+    public void insertItem(String inputText)
+    {
+        collections.add(new HubItem(inputText));
+        collectionsAdapter.notifyItemInserted(collections.size()-1);
+    }
+
+    public void removeItem(int position)
+    {
+        collections.remove(position);
+        collectionsAdapter.notifyItemRemoved(position);
+    }
+
+    public void changeItem(int position, String s)
+    {
+        collections.get(position).changeName(s);
+        collectionsAdapter.notifyItemChanged(position);
+    }
+
+    public void loadCollections()
+    {
+        File myDir = getApplicationContext().getFilesDir();
+        File documentsFolder = new File(myDir, "Collections");
+        if(!documentsFolder.exists())
+            documentsFolder.mkdirs();
+        File[] files = documentsFolder.listFiles();
+        if (files == null)
+        {
+            Toast.makeText(getBaseContext(),"There are no collections", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            for (File inFile : files) {
+                insertItem(inFile.getName());
+            }
+        }
+    }
+
+    public void saveCollections()
+    {
+        File myDir = getApplicationContext().getFilesDir();
+        File documentsFolder = new File(myDir,"Collections");
+        File[] files = documentsFolder.listFiles();
+        if (files == null)
+        {
+            Toast.makeText(getBaseContext(),"There are no collections", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            for(File inFile: files)
+                inFile.delete();
+        }
+        for(HubItem hi : collections)
+        {
+            File myFile = new File(documentsFolder, hi.getItemName());
+            if(!myFile.exists())
+            {
+                try
+                {
+                    myFile.createNewFile();
+                }
+                catch (IOException e){}
+                //
+            }
+
+        }
+    }
+    /*
+    public void deleteDialog(Context context, View v, String collectionName, int position)
+    {
+        final Dialog deleteDialog = new Dialog(context);
+        deleteDialog.setContentView(R.layout.pop_window_delete);
+        deleteDialog.setCancelable(true);
+        deleteDialog.setTitle("New collection");
+
+        TextView windowTitle = deleteDialog.findViewById(R.id.windowTitle);
+        windowTitle.setText("Delete Collection");
+
+        TextView deleteQuestion = deleteDialog.findViewById(R.id.deleteQuestion);
+        deleteQuestion.setText("Delete '" + collectionName + "'?");
+
+
+        deleteBtn = deleteDialog.findViewById(R.id.deleteButton);
+        cancelBtn = deleteDialog.findViewById(R.id.deleteCancelBtn);
+
+        // dismiss modal
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteDialog.dismiss();
+            }
+        });
+        final int p = position;
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeItem(p);
+                saveCollections();
+            }
+        });
+
+    }
+    */
 
 
 }

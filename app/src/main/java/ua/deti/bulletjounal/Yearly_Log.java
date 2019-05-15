@@ -124,8 +124,8 @@ public class Yearly_Log extends AppCompatActivity
 
     public void removeItem(int position){
 
-        .remove(position);
-        mAdapter.notifyItemRemoved(position);
+        //.remove(position);
+        //mAdapter.notifyItemRemoved(position);
     }
     private void callAddDialog()
     {
