@@ -142,33 +142,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
     }
 
 
-    private void createNewTextView(String text) {
 
-        LayoutInflater inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        final TextView textView = new TextView(this);
-        final Button more =new Button(this);
-        more.setText("More");
-        more.setId(button_id);
-        final int btn_id=more.getId(); //get the button id so I can associate a function
-        textView.setLayoutParams(lparams);
-        textView.setText(text);
-        //mLayout.addView(textView);
-        ///mLayout.addView(more);
-        db.put(btn_id,text);
-        Button btn= (Button)findViewById(btn_id);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callMoreDialog(btn_id);
-            }
-        });
-
-        if(Text.getText()=="Nada adicionado"){
-            Text.setText("");
-        }
-        button_id+=1;
-    }
 
     private void activity2(View view){
         Intent intent=new Intent(this,Monthly_Log_Calendar.class);

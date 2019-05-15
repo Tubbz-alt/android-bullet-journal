@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
 
+import org.threeten.bp.Year;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -84,13 +86,15 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_slideshow) {
-
+            Intent myIntent = new Intent(this, Yearly_Log.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_manage) {
             Intent myIntent = new Intent(this, CollectionsHub.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav_share) {
+
 
         }
 
