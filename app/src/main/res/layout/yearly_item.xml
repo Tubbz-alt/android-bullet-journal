@@ -8,6 +8,7 @@
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
+        android:id="@+id/layout_to_hide"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_margin="4dp">
@@ -44,7 +45,7 @@
         />
 
         <ImageView
-            android:id="@+id/deleteButton"
+            android:id="@+id/deleteButton_yearly"
             android:layout_width="47dp"
             android:layout_height="41dp"
 

@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +20,25 @@ import java.util.List;
 public class Adapter_yearly extends BaseExpandableListAdapter {
     private Context context;
     private List<String> ListDataHeader;
-    private HashMap<String, List<String>> ListHashMap;
+    public ImageView mDeleteImage;
+    public RelativeLayout layoutHide;
 
 
-    public Adapter_yearly(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
+    private HashMap<String, List<Item_Yearly>> ListHashMap;
+    public interface OnItemClickListener{
+        void OnDelete(int position);
+
+    }
+
+
+
+    public Adapter_yearly(Context context, List<String> listDataHeader, HashMap<String, List<Item_Yearly>> listHashMap) {
         this.context = context;
         ListDataHeader = listDataHeader;
         ListHashMap = listHashMap;
     }
+
+
 
     @Override
     public int getGroupCount() {
@@ -78,15 +91,35 @@ public class Adapter_yearly extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String childText=(String)getChild(groupPosition,childPosition);
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
+        Item_Yearly item=(Item_Yearly) getChild(groupPosition,childPosition);
         if(convertView==null){
             LayoutInflater inflater=(LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(R.layout.yearly_item,null);
+            mDeleteImage=convertView.findViewById(R.id.deleteButton_yearly);
+            layoutHide=convertView.findViewById(R.id.layout_to_hide);
+
+            final View finalConvertView = convertView;
+
         }
 
         TextView txtListChild=(TextView)convertView.findViewById(R.id.line_text);
-        txtListChild.setText(childText);
+        TextView txtListChild_b=(TextView)convertView.findViewById(R.id.line_text_info);
+        mDeleteImage=convertView.findViewById(R.id.deleteButton_yearly);
+        layoutHide=convertView.findViewById(R.id.layout_to_hide);
+
+        txtListChild.setText(item.getDay());
+        txtListChild_b.setText(item.getTitle());
+        Toast.makeText(parent.getContext(),"ola dssa "+item.getShow()  ,
+                Toast.LENGTH_LONG).show();
+
+        if (item.getShow()) {
+
+            layoutHide.setVisibility(View.VISIBLE);
+        } else {
+            layoutHide.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
