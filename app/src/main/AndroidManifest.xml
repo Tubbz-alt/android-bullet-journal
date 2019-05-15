@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Daily_Log"
+            android:label="@string/title_activity_daily__log"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Yearly_Log"
             android:label="@string/title_activity_yearly__log"
             android:theme="@style/AppTheme.NoActionBar" />

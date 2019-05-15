@@ -2,6 +2,7 @@ package ua.deti.bulletjounal;
 
 import android.app.Dialog;
 import android.database.DataSetObserver;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import java.util.Calendar;
 
@@ -19,46 +20,54 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.time.YearMonth;
 
 public class Yearly_Log extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ExpandableListView listView;
     private Adapter_yearly listAdapter;
     private List<String> ListDataHeader;
-    private HashMap<String,List<String>> listHash;
+    private HashMap<String,List<Item_Yearly>> listHash;
     private Dialog myDialog;
+    public ImageView mDeleteImage;
 
 
 
-    private Map<String, ArrayList<Item_Yearly>> year_map=new HashMap()
+
+    private Map<String, ArrayList<Item_Yearly>> year_map=new LinkedHashMap<String, ArrayList<Item_Yearly>>()
     {{
-        put("janeiro",new ArrayList<Item_Yearly>());
-        put("fevereiro",new ArrayList<Item_Yearly>());
-        put("março",new ArrayList<Item_Yearly>());
-        put("abril",new ArrayList<Item_Yearly>());
-        put("maio",new ArrayList<Item_Yearly>());
-        put("junho",new ArrayList<Item_Yearly>());
-        put("julho",new ArrayList<Item_Yearly>());
-        put("augusto",new ArrayList<Item_Yearly>());
-        put("setembro",new ArrayList<Item_Yearly>());
-        put("outubro",new ArrayList<Item_Yearly>());
-        put("novembro",new ArrayList<Item_Yearly>());
-        put("dezembro",new ArrayList<Item_Yearly>());
+        put("Janeiro",new ArrayList<Item_Yearly>());
+        put("Fevereiro",new ArrayList<Item_Yearly>());
+        put("Março",new ArrayList<Item_Yearly>());
+        put("Abril",new ArrayList<Item_Yearly>());
+        put("Maio",new ArrayList<Item_Yearly>());
+        put("Junho",new ArrayList<Item_Yearly>());
+        put("Julho",new ArrayList<Item_Yearly>());
+        put("Augusto",new ArrayList<Item_Yearly>());
+        put("Setembro",new ArrayList<Item_Yearly>());
+        put("Outubro",new ArrayList<Item_Yearly>());
+        put("Novembro",new ArrayList<Item_Yearly>());
+        put("Dezembro",new ArrayList<Item_Yearly>());
     }};
 
 
@@ -94,19 +103,19 @@ public class Yearly_Log extends AppCompatActivity
         ListDataHeader=new ArrayList<>();
         listHash=new HashMap<>();
 
-        ListDataHeader.add("Janeiro");
-        ListDataHeader.add("Fevereiro");
+        for (String b:year_map.keySet()
+             ) {
+            ListDataHeader.add(b);
+            List<Item_Yearly> list=new ArrayList<>();
+            listHash.put(b,list);
 
-        List<String>  Janeiro=new ArrayList<>();
-        Janeiro.add("ola");
+        }
 
 
-        List<String>  Fevereiro=new ArrayList<>();
-        Janeiro.add("ola");
-        Janeiro.add("adeus");
 
-        listHash.put(ListDataHeader.get(0),Janeiro);
-        listHash.put(ListDataHeader.get(1),Janeiro);
+
+
+
 
 
 
@@ -119,14 +128,32 @@ public class Yearly_Log extends AppCompatActivity
 
 
 
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition, final int childPosition, long id) {
+                mDeleteImage=v.findViewById(R.id.deleteButton_yearly);
+                mDeleteImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listHash.get(ListDataHeader.get(groupPosition)).get(childPosition).setShow(false);
+
+                        listAdapter.notifyDataSetChanged();
+                    }
+                });
+                return false;
+            }
+        });
+
+
+
+
 
     }
 
-    public void removeItem(int position){
-
-        //.remove(position);
-        //mAdapter.notifyItemRemoved(position);
-    }
+    /*public void removeItem(int position){
+        .remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }*/
     private void callAddDialog()
     {
         myDialog = new Dialog(this);
@@ -135,10 +162,11 @@ public class Yearly_Log extends AppCompatActivity
         myDialog.setTitle("Add new Line");
 
         //get the spinner from the xml.
-        final Spinner dropdown = myDialog.findViewById(R.id.year_spinner);
+        final Spinner dropdown = myDialog.findViewById(R.id.month_spinner);
+        final Spinner dropdown_2 = myDialog.findViewById(R.id.day_spinner);
         //create a list of items for the spinner.
         Set<String> keys = year_map.keySet();
-        String[] array = keys.toArray(new String[keys.size()]);
+        final String[] array = keys.toArray(new String[keys.size()]);
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,array);;
@@ -146,21 +174,36 @@ public class Yearly_Log extends AppCompatActivity
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
-        final Spinner dropdown_2 = myDialog.findViewById(R.id.day_spinner);
-        //create a list of items for the spinner.
-        //int
-        //String[] array_2 = new String[Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)];
-        //for(int i=0;i<)
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                Calendar mycal = new GregorianCalendar(2019, position, 1);
+                int daysMonth=mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                Toast.makeText(getBaseContext(),"Done"+daysMonth  ,
+                        Toast.LENGTH_LONG).show();
+
+                String [] days=new String[daysMonth];
+
+                for(int i=0;i<daysMonth;i++){
+                    days[i]=Integer.toString(i+1);
+                }
+
+                ArrayAdapter<String> adapter_b = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item,days);;
+                dropdown_2.setAdapter(adapter_b);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
-
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,array);;
-
-        //set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
 
         Button save = (Button) myDialog.findViewById(R.id.Save);
         Button cancel = (Button) myDialog.findViewById(R.id.Cancel);
@@ -170,23 +213,25 @@ public class Yearly_Log extends AppCompatActivity
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText Description = (EditText) myDialog.findViewById(R.id.description);
-                final  EditText Title = (EditText) myDialog.findViewById(R.id.title);
 
-                String spinner_save = dropdown.getSelectedItem().toString();
-                String description_save= (String) Description.getText().toString();
-                String title_save= (String) Title.getText().toString();
+                final  EditText Title = (EditText) myDialog.findViewById(R.id.editText_Year);
 
-                String to_display=spinner_save+"-"+title_save+"-"+description_save;
+                String spinner_month = dropdown.getSelectedItem().toString();
+                String spinner_day = dropdown_2.getSelectedItem().toString();
+                String Title_text=Title.getText().toString();
 
 
-                Toast.makeText(getBaseContext(),"Done"  ,
-                        Toast.LENGTH_LONG).show();
-
-                //createNewTextView(to_display);
 
 
-                //insertItem(0,to_display);
+
+                //String to_display=spinner_save+"-"+title_save+"-"+description_save;
+
+
+
+
+
+
+                insertItem(spinner_month,spinner_day,Title_text);
                 //saveDB();
                 myDialog.dismiss();
 
@@ -221,6 +266,13 @@ public class Yearly_Log extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void insertItem(String Month,String day,String title){
+        listHash.get(Month).add(new Item_Yearly(day,title,true));
+        listAdapter.notifyDataSetChanged();
+
+        listView.expandGroup(ListDataHeader.indexOf(Month));
     }
 
     @Override

@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent myIntent = new Intent(this, Daily_Log_Hub.class);
+            Intent myIntent = new Intent(this, Daily_Log.class);
             startActivity(myIntent);
         } else if (id == R.id.nav_gallery) {
             Intent myIntent = new Intent(this, Monthly_Log_Hub.class);
