@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Monthly_Log_Notes"
@@ -17,6 +17,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_centerInParent="true"
+        android:text="dasdasd"
+        android:gravity="center"
+        android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +50,11 @@
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/plus" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

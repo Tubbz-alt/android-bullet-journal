@@ -3,6 +3,7 @@ package ua.deti.bulletjounal;
 import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -42,6 +44,7 @@ public class Daily_Log extends AppCompatActivity
 
     private static final String filename="example.txt";
     private RecyclerView recyclerView;
+    private TextView cross;
     private Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
@@ -83,9 +86,40 @@ public class Daily_Log extends AppCompatActivity
                 //saveDB();
             }
 
+
+
             @Override
-            public void OnInfo(int position) {
+            public void onItemclick(int position) {
                 callMoreDialog(position);
+
+            }
+
+            @Override
+            public void onCheckbox(int position, TextView cross, ImageView change, CheckBox check) {
+                if(check.isChecked()){
+                    cross.setPaintFlags(cross.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                    change.setImageResource(R.drawable.done_icon);
+
+                }
+                else{
+                    cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
+                    Toast.makeText(getBaseContext(),exampleList.get(position).getStringType() ,
+                            Toast.LENGTH_LONG).show();
+                    switch (exampleList.get(position).getStringType()){
+                        case "Task":
+
+                            change.setImageResource(R.drawable.task_icon);
+                            break;
+                        case "Event":
+                            change.setImageResource(R.drawable.event_icon);
+                            break;
+                        case "Note":
+                            change.setImageResource(R.drawable.note_icon);
+                            break;
+
+                    }
+
+                }
             }
         });
 
@@ -118,7 +152,7 @@ public class Daily_Log extends AppCompatActivity
         boolean check=updateAllView();
 
         if(!check){
-            Text.setText("Nada adicionado");
+            Text.setText("Empty! Add something :)");
         }
         else{
             Text.setText("");
@@ -297,6 +331,10 @@ public class Daily_Log extends AppCompatActivity
 
         exampleList.remove(position);
         mAdapter.notifyItemRemoved(position);
+        if(exampleList.size()==0){
+            Text.setText("Empty! Add something :)");
+
+        }
     }
 
 

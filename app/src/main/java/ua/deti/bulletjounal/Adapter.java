@@ -1,10 +1,12 @@
 package ua.deti.bulletjounal;
 
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,24 +18,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public interface OnItemClickListener{
         void OnDelete(int position);
-        void OnInfo(int position);
+
+        void onItemclick(int position);
+        void onCheckbox(int position, TextView cross,ImageView change,CheckBox check);
     }
+
+
+
 
 
     public static class ViewHolder extends  RecyclerView.ViewHolder{
         public ImageView mImagevIew;
         public ImageView mDeleteImage;
-        public ImageView mInfoImage;
+        public CheckBox mCheckbox;
 
 
         public TextView mTextView;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImagevIew=itemView.findViewById(R.id.line_image);
             mTextView=itemView.findViewById(R.id.line_text);
             mDeleteImage= itemView.findViewById(R.id.deleteButton);
-            mInfoImage=itemView.findViewById(R.id.InfoButton);
+            mCheckbox=itemView.findViewById(R.id.checkBox);
 
             mDeleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -47,21 +54,41 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
                 }
             });
-            mInfoImage.setOnClickListener(new View.OnClickListener() {
+            mCheckbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener!=null){
                         int position= getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            listener.OnInfo(position);
+                            listener.onCheckbox(position,mTextView,mImagevIew,mCheckbox);
                         }
                     }
 
+
+
+
+
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener!=null){
+                        int position= getAdapterPosition();
+                        if(position!=RecyclerView.NO_POSITION){
+                            listener.onItemclick(position);
+                        }
+                    }
                 }
             });
 
 
         }
+    }
+
+    public String getItemtype(int position){
+        return  mList.get(position).getStringType();
     }
 
     public Adapter(ArrayList<Item> list){

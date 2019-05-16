@@ -2,6 +2,7 @@ package ua.deti.bulletjounal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,9 +88,40 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 saveDB();
             }
 
+
+
             @Override
-            public void OnInfo(int position) {
+            public void onItemclick(int position) {
                 callMoreDialog(position);
+            }
+
+            @Override
+            public void onCheckbox(int position, TextView cross, ImageView change, CheckBox check) {
+                if(check.isChecked()){
+                    cross.setPaintFlags(cross.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                    change.setImageResource(R.drawable.done_icon);
+
+                }
+                else{
+                    cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
+                    Toast.makeText(getBaseContext(),exampleList.get(position).getStringType() ,
+                            Toast.LENGTH_LONG).show();
+                    switch (exampleList.get(position).getStringType()){
+                        case "Task":
+
+                            change.setImageResource(R.drawable.task_icon);
+                            break;
+                        case "Event":
+                            change.setImageResource(R.drawable.event_icon);
+                            break;
+                        case "Note":
+                            change.setImageResource(R.drawable.note_icon);
+                            break;
+                    }
+
+
+
+                }
             }
         });
 
