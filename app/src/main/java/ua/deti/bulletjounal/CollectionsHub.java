@@ -2,6 +2,7 @@ package ua.deti.bulletjounal;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -201,7 +202,10 @@ public class CollectionsHub extends AppCompatActivity
         collectionsAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                changeItem(position, "Clicked.");
+                Intent intent = new Intent(getBaseContext(), CollectionPage.class);
+                intent.putExtra("CollectionName", collections.get(position).getItemName());
+                startActivity(intent);
+
             }
         });
 
