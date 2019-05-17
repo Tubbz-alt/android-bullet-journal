@@ -1,21 +1,17 @@
 package ua.deti.bulletjounal;
 
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.*;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
+public class Adapter_Calendar extends RecyclerView.Adapter<Adapter_Calendar.ViewHolder> {
     private ArrayList<Item> mList;
     private OnItemClickListener mListener;
 
@@ -23,7 +19,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         void OnDelete(int position);
 
         void onItemclick(int position);
-        void onCheckbox(int position, TextView cross,ImageView change,CheckBox check);
+        void onCheckbox(int position, TextView cross, ImageView change, CheckBox check);
     }
 
 
@@ -34,10 +30,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         public ImageView mImagevIew;
         public ImageView mDeleteImage;
         public CheckBox mCheckbox;
-        public RelativeLayout layoutHide;
-        public CardView cardViewHide;
-        public int height;
-
 
 
         public TextView mTextView;
@@ -48,11 +40,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             mTextView=itemView.findViewById(R.id.line_text);
             mDeleteImage= itemView.findViewById(R.id.deleteButton);
             mCheckbox=itemView.findViewById(R.id.checkBox);
-            layoutHide=itemView.findViewById(R.id.main_line_hide);
-            cardViewHide=itemView.findViewById(R.id.main_line);
-            android.view.ViewGroup.LayoutParams params= cardViewHide.getLayoutParams();
-            if(params.height!=0)
-                height=params.height;
 
             mDeleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,7 +90,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return  mList.get(position).getStringType();
     }
 
-    public Adapter(ArrayList<Item> list){
+    public Adapter_Calendar(ArrayList<Item> list){
         this.mList=list;
     }
 
@@ -113,7 +100,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_line,viewGroup,false);
+        View v= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.main_line_calendar,viewGroup,false);
         ViewHolder mvh=new ViewHolder(v,mListener);
         return mvh;
     }
@@ -123,24 +110,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         Item currentItem=mList.get(i);
         viewHolder.mImagevIew.setImageResource(currentItem.getType());
         viewHolder.mTextView.setText(currentItem.getTitle());
-
-        if(currentItem.getShow()==false){
-
-            viewHolder.cardViewHide.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
-            viewHolder.layoutHide.setVisibility(View.GONE);
-        }
-
-
-
-        else{
-
-            viewHolder.cardViewHide.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, viewHolder.height));
-
-            viewHolder.layoutHide.setVisibility(View.VISIBLE);
-
-
-        }
-
 
     }
 

@@ -339,7 +339,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
             case "Note":image=R.drawable.note_icon;
                 break;
         }
-        exampleList.add(position,new Item(image,description,title,type));
+        exampleList.add(position,new Item(image,description,title,type,true));
         mAdapter.notifyItemInserted(position);
     }
 

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -130,6 +131,51 @@ public class Daily_Log extends AppCompatActivity
 
         //mLayout= (LinearLayout) findViewById(R.id.linearLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Spinner filter=toolbar.findViewById(R.id.filter_spinner);
+        final String[] items = new String[]{"Todos","Task","Event","Note"};
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        //set the spinners adapter to the previously created one.
+        filter.setAdapter(adapter);
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String op=items[position];
+                Iterator it = exampleList.iterator();
+
+                while (it.hasNext()){
+                    Item item=(Item)it.next();
+                    int pos=exampleList.indexOf(item);
+
+                    if(op=="Todos" & item.getShow()==true)
+                        break;
+                    else if(op=="Todos" & item.getShow()==false){
+                        Toast.makeText(getBaseContext(),"hidden", Toast.LENGTH_SHORT).show();
+                        item.setShow(true);
+                    }
+                    else if(!item.getStringType().equals(op)){
+                        Toast.makeText(getBaseContext(),"diff"+item.getStringType()+"-"+op, Toast.LENGTH_SHORT).show();
+
+                        item.setShow(false);
+
+                    }
+                    else{
+                        item.setShow(true);
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -323,7 +369,7 @@ public class Daily_Log extends AppCompatActivity
             case "Note":image=R.drawable.note_icon;
                 break;
         }
-        exampleList.add(position,new Item(image,description,title,type));
+        exampleList.add(position,new Item(image,description,title,type,true));
         mAdapter.notifyItemInserted(position);
     }
 

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -55,16 +57,18 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     private Dialog DetailsDialog;
     private Dialog AddDialog;
     private Dialog MoreDialog;
-    private LinearLayout mLayout;
+    private RecyclerView mLayout;
     private int button_id=0;
 
     private TextView infoDisp;
-    private Map<Integer,Map<Integer,String>> db=new HashMap<>();
+    private Map<Integer,ArrayList<Item>> db=new HashMap<>();
     private MaterialCalendarView cl;
     private EventDecorator eventDec;
     private EventDecorator taskDec;
     private EventDecorator noteDec;
     private String currMonth;
+    private Adapter_Calendar mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
 
 
@@ -202,6 +206,12 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         taskDec =new EventDecorator(Color.GREEN,dates);
         noteDec =new EventDecorator(Color.RED,dates);
 
+        for(int i=first_day;i<=last_day;i++)
+        {
+            ArrayList<Item> arr=new ArrayList<>();
+
+            db.put(i,arr);
+        }
 
 
 
@@ -213,19 +223,46 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    public void callMoreDialog(final int more_id,final int dia){
+    public void insertItem(int position,String b,int dia){
+        Toast.makeText(getBaseContext(),b,Toast.LENGTH_SHORT).show();
+        String [] tokens_b=b.split("-");
+        String type=tokens_b[0];
+        String title=tokens_b[1];
+
+        String description=tokens_b[2];
+        int image=0;
+        switch (type){
+            case "Task": image=R.drawable.task_icon;
+                break;
+            case "Event":image=R.drawable.event_icon;
+                break;
+            case "Note":image=R.drawable.note_icon;
+                break;
+        }
+        db.get(dia).add(position,new Item(image,description,title,type,true));
+
+
+        mAdapter.notifyItemInserted(position);
+    }
+
+    public void removeItem(int position,int dia){
+
+        db.get(dia).remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+
+    /*public void callMoreDialog(final int more_id,final int dia){
         MoreDialog = new Dialog(this);
         MoreDialog.setContentView(R.layout.pop_window_more);
         MoreDialog.setCancelable(false);
         MoreDialog.setTitle("Details");
 
 
-        final Map tempMap =db.get(dia);
-        final String text_disp=(String) tempMap.get(more_id);
-        String [] tokens=text_disp.split("-");
-        String type=tokens[0];
-        String title=tokens[1];
-        String description=tokens[2];
+        final Item temp =db.get(dia);
+
+        String type= temp.getStringType();
+        String title= temp.getTitle();
+        String description=temp.getDescription();
 
         TextView title_text=(TextView)MoreDialog.findViewById(R.id.TitleText);
         title_text.setText(title);
@@ -240,7 +277,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         Button Delete= (Button) MoreDialog.findViewById(R.id.Delete);
         Button cancel = (Button) MoreDialog.findViewById(R.id.Exit);
 
-        Delete.setOnClickListener(new View.OnClickListener() {
+        /*Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tempMap.remove(more_id);
@@ -284,7 +321,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-    }
+    }*/
 
     public void createDialogDetails(CalendarDay day){
 
@@ -292,14 +329,38 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         DetailsDialog.setContentView(R.layout.pop_window_details);
         DetailsDialog.setCancelable(false);
         DetailsDialog.setTitle("Details");
-        mLayout= (LinearLayout) DetailsDialog.findViewById(R.id.linearLayout2);
-
+        mLayout= (RecyclerView) DetailsDialog.findViewById(R.id.RecyclerViewCalendar);
         final int dia=day.getDay();
+        if(db.get(dia)==null){
+            ArrayList<Item> arr=new ArrayList<>();
+            db.put(dia,arr);
+        }
+
+        Toast.makeText(getBaseContext(),"ola",Toast.LENGTH_SHORT).show();
+
+
+
+
+        mLayout.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        mLayout.setLayoutManager(layoutManager);
+
+        mAdapter = new Adapter_Calendar(db.get(dia));
+
+        mLayout.setAdapter(mAdapter);
+
+        mLayout.setLayoutManager(layoutManager);
+        mLayout.setAdapter(mAdapter);
         boolean check=updateAllView(dia);
+
+
+
         infoDisp=DetailsDialog.findViewById(R.id.infoDisp);
 
 
-        if(!check){
+       if(!check){
             infoDisp.setText("Nada adicionado");
         }else{
             infoDisp.setText("");
@@ -342,7 +403,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    private void createNewTextView(String text, final int Dia,String type) {
+    /*private void createNewTextView(String text, final int Dia,String type) {
 
         final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final TextView textView = new TextView(this);
@@ -386,7 +447,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-    }
+    }*/
 
     private void callLoginDialog(int Day)
     {
@@ -427,9 +488,9 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 Toast.makeText(getBaseContext(),"Done"  ,
                         Toast.LENGTH_LONG).show();
 
-                createNewTextView(to_display,dia,spinner_save);
+                insertItem(0,to_display,dia);
 
-                saveDB(dia);
+                //saveDB(dia);
 
                 AddDialog.dismiss();
 
@@ -455,26 +516,34 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    public boolean updateAllView(int Dia){
+    public boolean updateAllView(int dia){
 
 
-        String info=load(Dia);
+
+
+        String info=load(dia);
         if (info=="false"){
+
+
             return false;
         }else{
             String []  tokens=info.split("\n");
             for (String b:tokens) {
-                String [] tokens_a=b.split("-");
-                createNewTextView(b,Dia,tokens_a[0]);
+                insertItem(0,b,dia);
+
+                //createNewTextView(b);
 
             }
+
+
+
             return true;
 
         }
 
     }
 
-    public String saveDB(int Dia){
+    /*public String saveDB(int Dia){
 
         String filename="Calendar_"+currMonth+"_"+Dia+".txt";
 
@@ -484,8 +553,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
 
         File myfile=new File(documentsFolder,filename);
-        Map tempMap=db.get(Dia);
-        Iterator it = tempMap.entrySet().iterator();
+        ArrayList<Item> item=db.get(Dia);
+        Iterator it = item.iterator();
         try{
 
             myfile.createNewFile();
@@ -511,7 +580,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             return e.toString();
         }
         return myfile.getAbsolutePath();
-    };
+    };*/
 
     public String load (int Dia) {
 

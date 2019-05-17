@@ -5,11 +5,13 @@ public class Item {
     private String description;
     private String title;
     private  String type;
-    public Item(int type, String description, String title,String type_str){
+    private boolean show;
+    public Item(int type, String description, String title,String type_str,boolean show){
         this.description=description;
         this.mImageType=type;
         this.title=title;
         this.type=type_str;
+        this.show=show;
     }
 
     public int getType() {
@@ -26,6 +28,14 @@ public class Item {
 
     public String getStringType() {
         return type;
+    }
+
+    public boolean getShow() {
+        return show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
     }
 
     @Override
