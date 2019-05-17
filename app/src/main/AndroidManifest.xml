@@ -13,9 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CollectionPage"
+            android:label="@string/title_activity_collection_page"
+            android:parentActivityName=".CollectionsHub"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ua.deti.bulletjounal.CollectionsHub" />
+        </activity>
+        <activity
             android:name=".Daily_Log"
             android:label="@string/title_activity_daily__log"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Yearly_Log"
             android:label="@string/title_activity_yearly__log"

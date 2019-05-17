@@ -24,4 +24,5 @@
     <string name="title_activity_yearly__log">Yearly_Log</string>
     <string name="title_activity_edit_collection">EditCollection</string>
     <string name="title_activity_daily__log">Daily_Log</string>
+    <string name="title_activity_collection_page">CollectionPage</string>
 </resources>

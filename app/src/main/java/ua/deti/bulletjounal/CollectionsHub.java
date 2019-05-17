@@ -2,12 +2,14 @@ package ua.deti.bulletjounal;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -192,16 +194,18 @@ public class CollectionsHub extends AppCompatActivity
     {
         collectionsRecyclerView = findViewById(R.id.collectionsRecyclerView);
         collectionsRecyclerView.setHasFixedSize(true);
-        collectionsLayoutManager = new GridLayoutManager(this, 3);
+        collectionsLayoutManager = new GridLayoutManager(this, 2);
         collectionsAdapter = new HubAdapter(collections);
-
         collectionsRecyclerView.setLayoutManager(collectionsLayoutManager);
         collectionsRecyclerView.setAdapter(collectionsAdapter);
 
         collectionsAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                changeItem(position, "Clicked.");
+                Intent intent = new Intent(getBaseContext(), CollectionPage.class);
+                intent.putExtra("CollectionName", collections.get(position).getItemName());
+                startActivity(intent);
+
             }
         });
 
