@@ -8,43 +8,58 @@
     tools:context=".Monthly_Log_Calendar"
     tools:showIn="@layout/app_bar_monthly__log__calendar">
 
-    <Button
-        android:id="@+id/notes"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimary"
-        android:text="Monthly Notes"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+    <RelativeLayout
+        android:id="@+id/calendarViewSlide"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
-
-    <Button
-        android:id="@+id/calendar"
-        android:layout_width="153dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorPrimary"
-        android:text="Monthly Calendar"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.583" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar"
-        app:mcv_selectionColor="#00F"
-        app:mcv_showOtherDates="all"
-        tools:layout_editor_absoluteX="0dp" />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            style="@style/CustomTabLayout"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="left"
+            android:layout_alignParentTop="true"
+            android:background="@color/BluePrimary"
+            app:tabGravity="fill"
+            app:tabMode="fixed">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly Calendar"/>
+
+
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tabItem2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monthly Notes"/>
+
+
+        </android.support.design.widget.TabLayout>
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendarView"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/tab_layout"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:mcv_selectionColor="#00F"
+            app:mcv_showOtherDates="all"
+            tools:layout_editor_absoluteX="0dp" />
+
+    </RelativeLayout>
+
+
 </android.support.constraint.ConstraintLayout>

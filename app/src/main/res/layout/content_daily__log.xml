@@ -22,7 +22,7 @@
         android:background="@drawable/header_gradient"
         android:text="Wednesday"
         android:gravity="center"
-        
+
         android:textColor="@color/White"
 
         android:textSize="40sp"

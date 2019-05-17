@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
@@ -52,11 +56,16 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     //private LinearLayout mLayout;
     private ImageView addInfo;
+    private RelativeLayout slide;
     private TextView Text;
     private Dialog myDialog;
     private int button_id=0;
+    private TabLayout tablay;
+    private TabItem tab1;
+    private  TabItem tab2;
     private String currMonth;
     private ArrayList<Item> exampleList=new ArrayList<>();
+    private float x1,x2,y1,y2;
 
     private Map<Integer,String> db=new HashMap<>();
 
@@ -135,7 +144,6 @@ public class Monthly_Log_Notes extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button Calendar= (Button) findViewById(R.id.Calendar);
         addInfo=findViewById(R.id.Add_Info);
 
 
@@ -143,12 +151,6 @@ public class Monthly_Log_Notes extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 callLoginDialog();
-            }
-        });
-        Calendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity2(v);
             }
         });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -168,10 +170,79 @@ public class Monthly_Log_Notes extends AppCompatActivity
         }
 
 
+        slide=(RelativeLayout)findViewById(R.id.slide_notes);
+        tablay=(TabLayout)findViewById(R.id.tab_layout);
+
+        TabLayout.Tab tab = tablay.getTabAt(1);
+        tab.select();
+        tablay.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()){
+                    case 0:{
+                        Intent intent=new Intent(getBaseContext(),Monthly_Log_Calendar.class);
+                        intent.putExtra("Month",currMonth);
+
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+
+        recyclerView.setOnTouchListener(new OnTouchSwipeListener(this){
+
+
+            @Override
+            public void onSwipeRight() {
+                Intent intent=new Intent(getBaseContext(),Monthly_Log_Calendar.class);
+                intent.putExtra("Month",currMonth);
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
+            }
+        });
 
 
 
 
+
+
+
+    }
+
+    public boolean OnTouchEvent(MotionEvent touchEvent){
+        switch (touchEvent.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                x1=touchEvent.getX();
+                y1=touchEvent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2=touchEvent.getX();
+                y2=touchEvent.getY();
+                if(x1<x2){
+                    Intent i=new Intent(this,Monthly_Log_Calendar.class);
+                    i.putExtra("Month",currMonth);
+
+                    startActivity(i);
+                }
+                break;
+        }
+        return false;
     }
 
 
