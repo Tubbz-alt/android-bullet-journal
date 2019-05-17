@@ -3,25 +3,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="20dp"
     android:orientation="horizontal"
     android:layout_gravity="center">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         android:layout_gravity="center"
         android:gravity="center">
         <TextView
             android:id="@+id/collectionName"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:background="@color/BluePrimary"
             android:text="Collection name"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/montserrat"
-            android:textSize="16dp"
+            android:textSize="20dp"
             android:textAlignment="center"
             android:gravity="center"
             android:textStyle="bold"

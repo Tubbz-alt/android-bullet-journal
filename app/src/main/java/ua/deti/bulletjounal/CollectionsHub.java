@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -192,9 +193,8 @@ public class CollectionsHub extends AppCompatActivity
     {
         collectionsRecyclerView = findViewById(R.id.collectionsRecyclerView);
         collectionsRecyclerView.setHasFixedSize(true);
-        collectionsLayoutManager = new GridLayoutManager(this, 3);
+        collectionsLayoutManager = new GridLayoutManager(this, 2);
         collectionsAdapter = new HubAdapter(collections);
-
         collectionsRecyclerView.setLayoutManager(collectionsLayoutManager);
         collectionsRecyclerView.setAdapter(collectionsAdapter);
 
