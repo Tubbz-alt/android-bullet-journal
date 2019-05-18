@@ -15,5 +15,8 @@ public class HubItem {
         itemName = s;
     }
 
+    @Override
+    public String toString() { return itemName + "\n"; }
+
 
 }

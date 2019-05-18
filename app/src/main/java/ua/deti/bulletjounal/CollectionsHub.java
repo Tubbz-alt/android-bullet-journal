@@ -175,7 +175,7 @@ public class CollectionsHub extends AppCompatActivity
                 else
                 {
                     insertItem(inputText);
-                    saveCollections();
+                    saveCollections(-1);
                     addDialog.dismiss();
                 }
 
@@ -213,7 +213,7 @@ public class CollectionsHub extends AppCompatActivity
             @Override
             public void onItemLongClick(int position) {
                 removeItem(position);
-                saveCollections();
+                saveCollections(position);
             }
         });
     }
@@ -249,12 +249,13 @@ public class CollectionsHub extends AppCompatActivity
         }
         else {
             for (File inFile : files) {
-                insertItem(inFile.getName());
+                String[] name = inFile.getName().split("\\.");
+                insertItem(name[0]);
             }
         }
     }
 
-    public void saveCollections()
+    public void saveCollections(int mode)
     {
         File myDir = getApplicationContext().getFilesDir();
         File documentsFolder = new File(myDir,"Collections");
@@ -263,40 +264,37 @@ public class CollectionsHub extends AppCompatActivity
         {
             Toast.makeText(getBaseContext(),"There are no collections", Toast.LENGTH_SHORT).show();
         }
+        if (mode == -1)
+        {
+            for(HubItem hi : collections)
+            {
+                File myFile = new File(documentsFolder, hi.getItemName() + ".txt");
+                if(!myFile.exists())
+                    try
+                    {
+                        myFile.createNewFile();
+                    } catch (IOException e){}
+            }
+        }
         else
         {
-            for(File inFile: files)
-                inFile.delete();
-        }
-        for(HubItem hi : collections)
-        {
-            File myFile = new File(documentsFolder, hi.getItemName());
-            if(!myFile.exists())
-            {
-                try
-                {
-                    myFile.createNewFile();
-                }
-                catch (IOException e){}
-                //
-            }
-
+            files[mode].delete();
         }
     }
-    /*
+
     public void deleteDialog(Context context, View v, String collectionName, int position)
     {
         final Dialog deleteDialog = new Dialog(context);
         deleteDialog.setContentView(R.layout.pop_window_delete);
         deleteDialog.setCancelable(true);
         deleteDialog.setTitle("New collection");
-
+        /*
         TextView windowTitle = deleteDialog.findViewById(R.id.windowTitle);
         windowTitle.setText("Delete Collection");
 
         TextView deleteQuestion = deleteDialog.findViewById(R.id.deleteQuestion);
         deleteQuestion.setText("Delete '" + collectionName + "'?");
-
+        */
 
         deleteBtn = deleteDialog.findViewById(R.id.deleteButton);
         cancelBtn = deleteDialog.findViewById(R.id.deleteCancelBtn);
@@ -313,12 +311,12 @@ public class CollectionsHub extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 removeItem(p);
-                saveCollections();
+                saveCollections(1);
             }
         });
 
     }
-    */
+
 
 
 }
