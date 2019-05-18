@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_slideshow) {
-            Intent myIntent = new Intent(this, Yearly_Log.class);
+            Intent myIntent = new Intent(this, Yearly_Log_Hub.class);
             startActivity(myIntent);
 
         } else if (id == R.id.nav_manage) {

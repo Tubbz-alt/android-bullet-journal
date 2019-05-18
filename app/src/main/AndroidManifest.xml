@@ -13,6 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Yearly_Log_Hub"
+            android:label="@string/title_activity_yearly__log__hub"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".CollectionPage"
             android:label="@string/title_activity_collection_page"
             android:parentActivityName=".CollectionsHub"

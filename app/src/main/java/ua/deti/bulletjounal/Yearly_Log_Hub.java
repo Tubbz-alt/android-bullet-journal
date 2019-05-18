@@ -3,12 +3,8 @@ package ua.deti.bulletjounal;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,66 +13,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Context;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Calendar;
-import java.util.TimeZone;
-
-
 import java.io.File;
+import java.util.ArrayList;
 
-
-public class Monthly_Log_Hub extends AppCompatActivity
+public class Yearly_Log_Hub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Dialog AddDialog;
     private Dialog Check;
-
-    private static final String TAG = "CollectionsHub";
     private ArrayList<HubItem> collections;
-    private RecyclerView MonthlyHubRecyclerView;
-    private HubAdapter MonthlyHubAdapter;
+    private RecyclerView YearlyRecyclerView;
+    private HubAdapter YearlyAdapter;
     private RecyclerView.LayoutManager collectionsLayoutManager;
-
-
-    private int button_id=0;
-    private final Map<Integer,String> year_months=new HashMap()
-    {{
-        put(1, "January");
-        put(2,"February");
-        put(3, "March");
-        put(4, "April");
-        put(5, "May");
-        put(6, "June");
-        put(7, "July");
-        put(8, "August");
-        put(9, "September");
-        put(10, "October");
-        put(11, "November");
-        put(12, "December");
-    }};
-    private LinearLayout mLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monthly__log__hub);
+        setContentView(R.layout.activity_yearly__log__hub);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Monthly Log Hub");
+
+
 
 
 
@@ -93,40 +54,24 @@ public class Monthly_Log_Hub extends AppCompatActivity
         buildRecyclerView();
 
         File myDir = getApplicationContext().getFilesDir();
-        String path="2019";
+        String path="";
         File documentsFolder = new File(myDir,path);
         File[] files = documentsFolder.listFiles();
+
+
         if (files==null){
             Toast.makeText(getBaseContext(),"Nada adicionado",Toast.LENGTH_SHORT).show();
         }
         else{
             for (File inFile : files) {
                 if (inFile.isDirectory()) {
-                    //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
-                    insertItem(inFile.getName());
+                    if(inFile.getName().matches("([0-9]{4})"))
+                        insertItem(inFile.getName());
                 }
             }
         }
 
-        ImageView addMonthBtn = findViewById(R.id.addMonth);
-
-        addMonthBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callAddDialog();
-            }
-        });
-
-
-        // recycle view
-
-
-
-
-
-
-
-
+        getSupportActionBar().setTitle("Yearly Hub");
     }
 
     public void createCollectionsList()
@@ -136,25 +81,25 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
     public void  buildRecyclerView()
     {
-        MonthlyHubRecyclerView = findViewById(R.id.MonthlyHubRecyclerView);
-        MonthlyHubRecyclerView.setHasFixedSize(true);
+        YearlyRecyclerView = findViewById(R.id.YearlyRecyclerView);
+        YearlyRecyclerView.setHasFixedSize(true);
         collectionsLayoutManager = new GridLayoutManager(this, 2);
-        MonthlyHubAdapter = new HubAdapter(collections);
-        MonthlyHubRecyclerView.setLayoutManager(collectionsLayoutManager);
-        MonthlyHubRecyclerView.setAdapter(MonthlyHubAdapter);
+        YearlyAdapter = new HubAdapter(collections);
+        YearlyRecyclerView.setLayoutManager(collectionsLayoutManager);
+        YearlyRecyclerView.setAdapter(YearlyAdapter);
 
-        MonthlyHubAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
+        YearlyAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 
-                Intent myIntent = new Intent(getBaseContext(),Monthly_Log_Notes.class);
+                Intent myIntent = new Intent(getBaseContext(),Yearly_Log.class);
                 myIntent.putExtra("Month",collections.get(position).getItemName());
                 startActivity(myIntent);
 
             }
         });
 
-        MonthlyHubAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
+        YearlyAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(int position) {
                 callCheckDialog(position);
@@ -162,6 +107,8 @@ public class Monthly_Log_Hub extends AppCompatActivity
             }
         });
     }
+
+
     public static void deleteFolder(File folder) {
         File[] files = folder.listFiles();
         if(files!=null) { //some JVMs return null for empty dirs
@@ -216,113 +163,16 @@ public class Monthly_Log_Hub extends AppCompatActivity
         Check.show();
     }
 
-
-
-
     public void insertItem(String inputText)
     {
         collections.add(new HubItem(inputText));
-        MonthlyHubAdapter.notifyItemInserted(collections.size()-1);
+        YearlyAdapter.notifyItemInserted(collections.size()-1);
     }
 
     public void removeItem(int position)
     {
         collections.remove(position);
-        MonthlyHubAdapter.notifyItemRemoved(position);
-    }
-
-    private void callAddDialog()
-    {
-        AddDialog = new Dialog(this);
-        AddDialog.setContentView(R.layout.pop_window_add_month);
-        AddDialog.setCancelable(false);
-        AddDialog.setTitle("Add new Line");
-
-        //get the spinner from the xml.
-        final Spinner dropdown = AddDialog.findViewById(R.id.spinner1);
-        final Spinner dropdown2 = AddDialog.findViewById(R.id.spinner2);
-
-        //create a list of items for the spinner.
-        String[] items = new String[]{"2019"};
-        String[] month=new String[3];
-        //dicionario com key em numero e value em extenso
-
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
-
-
-
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        int currMonth=calendar.get(Calendar.MONTH);
-        month[0]=year_months.get(currMonth+1);
-        month[1]=year_months.get(currMonth+2);
-        month[2]=year_months.get(currMonth+3);
-
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, month);
-        //set the spinners adapter to the previously created one.
-        dropdown2.setAdapter(adapter2);
-
-
-
-
-
-        Button save = (Button) AddDialog.findViewById(R.id.Save);
-        Button cancel = (Button) AddDialog.findViewById(R.id.Cancel);
-
-
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                String spinner_1 = dropdown.getSelectedItem().toString();
-                String spinner_2 = dropdown2.getSelectedItem().toString();
-
-
-
-
-
-                File myDir = getApplicationContext().getFilesDir();
-                String path=spinner_1+"/"+spinner_2;
-                File documentsFolder = new File(myDir,path);
-
-                if(!documentsFolder.exists()){
-                    documentsFolder.mkdirs();
-                    insertItem(spinner_2);
-                    AddDialog.dismiss();
-
-
-                }
-                else{
-                    Toast.makeText(getBaseContext(),"Monthly Log for that month already exists choose another month or year"  ,
-                            Toast.LENGTH_LONG).show();
-                }
-
-
-
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddDialog.dismiss();
-
-            }
-        });
-
-
-
-        AddDialog.show();
-
-
-
-
-
+        YearlyAdapter.notifyItemRemoved(position);
     }
 
     @Override
@@ -338,7 +188,7 @@ public class Monthly_Log_Hub extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.monthly__log__hub, menu);
+        getMenuInflater().inflate(R.menu.yearly__log__hub, menu);
         return true;
     }
 

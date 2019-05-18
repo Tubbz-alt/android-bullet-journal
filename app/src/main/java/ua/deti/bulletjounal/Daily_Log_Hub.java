@@ -3,8 +3,8 @@ package ua.deti.bulletjounal;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,16 +24,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 public class Daily_Log_Hub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Dialog AddDialog;
+    private Dialog Check;
+    private ArrayList<HubItem> collections;
+    private RecyclerView DailyRecyclerView;
+    private HubAdapter DailyAdapter;
+    private RecyclerView.LayoutManager collectionsLayoutManager;
     private int button_id=0;
+    private String [] days;
+    private Set<String> month_display=new HashSet<>();
     private final Map<Integer,Integer> months_days=new HashMap()
     {{
         put(1, 31);
@@ -75,18 +86,7 @@ public class Daily_Log_Hub extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                callAddDialog();
-
-
-            }
-        });
+        populate_month();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -96,6 +96,137 @@ public class Daily_Log_Hub extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        createCollectionsList();
+        buildRecyclerView();
+
+        for(String b: days){
+            String [] tokens=b.split("/");
+            month_display.add(tokens[1]);
+
+        }
+
+        File myDir = getApplicationContext().getFilesDir();
+
+        Iterator it=month_display.iterator();
+        while (it.hasNext()){
+
+            String path="2019/"+it.next();
+            File documentsFolder = new File(myDir,path);
+            File[] files = documentsFolder.listFiles();
+
+            if (files==null){
+                Toast.makeText(getBaseContext(),"Nada adicionado",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                for (File inFile : files) {
+                    if (inFile.getName().startsWith("Calendar")){
+                        //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
+                        String fileName=inFile.getName();
+                        if (fileName.indexOf(".") > 0)
+                            fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                        insertItem(fileName);
+                    }
+
+
+                }
+            }
+
+        }
+
+
+        getSupportActionBar().setTitle("Daily Hub");
+
+
+
+
+    }
+
+    public void createCollectionsList()
+    {
+        collections = new ArrayList<>();
+    }
+
+    public void  buildRecyclerView()
+    {
+        DailyRecyclerView = findViewById(R.id.DailyRecyclerView);
+        DailyRecyclerView.setHasFixedSize(true);
+        collectionsLayoutManager = new GridLayoutManager(this, 2);
+        DailyAdapter = new HubAdapter(collections);
+        DailyRecyclerView.setLayoutManager(collectionsLayoutManager);
+        DailyRecyclerView.setAdapter(DailyAdapter);
+
+        DailyAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+                Intent myIntent = new Intent(getBaseContext(),Daily_Log.class);
+                myIntent.putExtra("Day",collections.get(position).getItemName());
+                startActivity(myIntent);
+
+            }
+        });
+
+        DailyAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                callCheckDialog(position);
+
+            }
+        });
+    }
+
+    public void insertItem(String inputText)
+    {
+        String [] tokens=inputText.split("_");
+
+        collections.add(new HubItem(tokens[2]+" "+tokens[1]));
+        DailyAdapter.notifyItemInserted(collections.size()-1);
+    }
+
+    public void removeItem(int position)
+    {
+        collections.remove(position);
+        DailyAdapter.notifyItemRemoved(position);
+    }
+
+    private void callCheckDialog(final int position){
+        Check = new Dialog(this);
+        Check.setContentView(R.layout.pop_window_delete);
+        Check.setCancelable(false);
+        Check.setTitle("Add new Line");
+
+        Button save = (Button) Check.findViewById(R.id.Yes);
+        Button cancel = (Button) Check.findViewById(R.id.No);
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File myDir = getApplicationContext().getFilesDir();
+                String path="2019";
+                File documentsFolder = new File(myDir,path);
+                File[] files = documentsFolder.listFiles();
+
+                removeItem(position);
+
+                Toast.makeText(getBaseContext(),"fdfd"+files[position], Toast.LENGTH_SHORT).show();
+                //deleteFolder(files[position]);
+                Check.dismiss();
+
+            }
+        });
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Check.dismiss();
+
+            }
+        });
+
+
+        Check.show();
     }
 
     @Override
@@ -105,6 +236,44 @@ public class Daily_Log_Hub extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void populate_month(){
+        days=new String[5];
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int currMonth=calendar.get(Calendar.MONTH);
+        int currDay=calendar.get(Calendar.DAY_OF_MONTH);
+
+        int lastDay=months_days.get(currMonth+1);//
+
+        int temp=lastDay-currDay;
+        if(temp<5){
+
+            int indice=0;
+            for(int i=temp;i>=0;i--){
+                days[indice]=currDay+indice+"/"+year_months.get(currMonth+1);
+                indice++;
+
+            }
+            int new_day=1;
+            if(indice<5){
+                days[indice]=new_day+"/"+year_months.get(currMonth+2);
+                indice++;
+                new_day++;
+
+            }
+
+        }
+        else{
+            days[0]=currDay+"/"+year_months.get(currMonth+1);
+            days[1]=currDay+1+"/"+year_months.get(currMonth+1);
+            days[2]=currDay+2+"/"+year_months.get(currMonth+1);
+            days[3]=currDay+3+"/"+year_months.get(currMonth+1);
+            days[4]=currDay+4+"/"+year_months.get(currMonth+1);
+
+
         }
     }
 
@@ -122,7 +291,6 @@ public class Daily_Log_Hub extends AppCompatActivity
         //create a list of items for the spinner.
         String[] items = new String[]{"2019"};
 
-        String[] month=new String[5];
         //dicionario com key em numero e value em extenso
 
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
@@ -133,43 +301,11 @@ public class Daily_Log_Hub extends AppCompatActivity
 
 
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        int currMonth=calendar.get(Calendar.MONTH);
-        int currDay=calendar.get(Calendar.DAY_OF_MONTH);
-
-        int lastDay=months_days.get(currMonth+1);//
-
-        int temp=lastDay-currDay;
-        if(temp<5){
-
-            int indice=0;
-            for(int i=temp;i>=0;i--){
-                month[indice]=currDay+indice+"/"+year_months.get(currMonth+1);
-                indice++;
-
-            }
-            int new_day=1;
-            if(indice<5){
-                month[indice]=new_day+"/"+year_months.get(currMonth+2);
-                indice++;
-                new_day++;
-
-            }
-
-        }
-        else{
-            month[0]=currDay+"/"+year_months.get(currMonth+1);
-            month[1]=currDay+1+"/"+year_months.get(currMonth+1);
-            month[2]=currDay+2+"/"+year_months.get(currMonth+1);
-            month[3]=currDay+3+"/"+year_months.get(currMonth+1);
-            month[4]=currDay+4+"/"+year_months.get(currMonth+1);
-
-
-        }
 
 
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, month);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, days);
         //set the spinners adapter to the previously created one.
         dropdown2.setAdapter(adapter2);
 
