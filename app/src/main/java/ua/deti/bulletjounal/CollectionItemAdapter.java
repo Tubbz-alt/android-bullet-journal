@@ -38,7 +38,8 @@ public class CollectionItemAdapter extends RecyclerView.Adapter<CollectionItemAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         HubItem hb = items.get(i);
-        viewHolder.textView.setText(hb.getItemName());
+        String itemName = hb.getItemName();
+        viewHolder.textView.setText(itemName.length() <= 26 ? itemName : itemName.substring(0,23) + "...");
     }
 
     @Override
@@ -54,6 +55,18 @@ public class CollectionItemAdapter extends RecyclerView.Adapter<CollectionItemAd
             super(itemView);
             textView = itemView.findViewById(R.id.collectionItemName);
             imageView = itemView.findViewById(R.id.deleteCollectionItem);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener1 != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION)
+                            listener1.onItemClick(position);
+                    }
+                }
+            });
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

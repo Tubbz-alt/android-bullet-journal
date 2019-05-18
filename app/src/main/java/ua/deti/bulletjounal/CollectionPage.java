@@ -89,7 +89,7 @@ public class CollectionPage extends AppCompatActivity {
         itemAdapter.setOnItemClickListener(new CollectionItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
+                collectionInfoDialog(position);
             }
 
             @Override
@@ -207,9 +207,29 @@ public class CollectionPage extends AppCompatActivity {
         }
         catch (Exception IOException) { }
 
+    }
+
+    private void collectionInfoDialog(int position)
+    {
+        final Dialog infoDialog = new Dialog(this);
+        infoDialog.setContentView(R.layout.collection_info);
+        infoDialog.setCancelable(true);
+        infoDialog.setTitle("Collection info");
+
+        ImageView CloseBtn = infoDialog.findViewById(R.id.closeItemDialog);
+        TextView infoFullName = infoDialog.findViewById(R.id.itemFullName);
+        infoFullName.setText("" + items.get(position).getItemName());
+
+        CloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoDialog.dismiss();
+            }
+        });
 
 
 
+        infoDialog.show();
     }
 
 
