@@ -8,19 +8,35 @@
     tools:context=".Monthly_Log_Hub"
     tools:showIn="@layout/app_bar_monthly__log__hub">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_hub"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="395dp"
-        android:layout_height="566dp"
+        android:layout_height="578dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/MonthlyHubRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:layout_gravity="center_horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/addMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.236"></LinearLayout>
+        app:srcCompat="@drawable/add_icon" />
 </android.support.constraint.ConstraintLayout>

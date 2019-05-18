@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,11 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
@@ -38,6 +42,15 @@ public class Monthly_Log_Hub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Dialog AddDialog;
+    private Dialog Check;
+
+    private static final String TAG = "CollectionsHub";
+    private ArrayList<HubItem> collections;
+    private RecyclerView MonthlyHubRecyclerView;
+    private HubAdapter MonthlyHubAdapter;
+    private RecyclerView.LayoutManager collectionsLayoutManager;
+
+
     private int button_id=0;
     private final Map<Integer,String> year_months=new HashMap()
     {{
@@ -63,19 +76,10 @@ public class Monthly_Log_Hub extends AppCompatActivity
         setContentView(R.layout.activity_monthly__log__hub);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                callAddDialog();
+        getSupportActionBar().setTitle("Monthly Log Hub");
 
 
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -85,7 +89,8 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        mLayout= (LinearLayout) findViewById(R.id.linearLayout_hub);
+        createCollectionsList();
+        buildRecyclerView();
 
         File myDir = getApplicationContext().getFilesDir();
         String path="2019";
@@ -98,16 +103,119 @@ public class Monthly_Log_Hub extends AppCompatActivity
             for (File inFile : files) {
                 if (inFile.isDirectory()) {
                     //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
-                    createNewTextView(inFile.getName());
+                    insertItem(inFile.getName());
                 }
             }
         }
+
+        ImageView addMonthBtn = findViewById(R.id.addMonth);
+
+        addMonthBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callAddDialog();
+            }
+        });
+
+
+        // recycle view
+
+
+
 
 
 
 
 
     }
+
+    public void createCollectionsList()
+    {
+        collections = new ArrayList<>();
+    }
+
+    public void  buildRecyclerView()
+    {
+        MonthlyHubRecyclerView = findViewById(R.id.MonthlyHubRecyclerView);
+        MonthlyHubRecyclerView.setHasFixedSize(true);
+        collectionsLayoutManager = new GridLayoutManager(this, 2);
+        MonthlyHubAdapter = new HubAdapter(collections);
+        MonthlyHubRecyclerView.setLayoutManager(collectionsLayoutManager);
+        MonthlyHubRecyclerView.setAdapter(MonthlyHubAdapter);
+
+        MonthlyHubAdapter.setOnItemClickListener(new HubAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+                Intent myIntent = new Intent(getBaseContext(),Monthly_Log_Notes.class);
+                myIntent.putExtra("Month",collections.get(position).getItemName());
+                startActivity(myIntent);
+
+            }
+        });
+
+        MonthlyHubAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                callCheckDialog(position);
+
+            }
+        });
+    }
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+        if(files!=null) { //some JVMs return null for empty dirs
+            for(File f: files) {
+                if(f.isDirectory()) {
+                    deleteFolder(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
+        folder.delete();
+    }
+
+    private void callCheckDialog(final int position){
+        Check = new Dialog(this);
+        Check.setContentView(R.layout.pop_window_delete);
+        Check.setCancelable(false);
+        Check.setTitle("Add new Line");
+
+        Button save = (Button) Check.findViewById(R.id.Yes);
+        Button cancel = (Button) Check.findViewById(R.id.No);
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File myDir = getApplicationContext().getFilesDir();
+                String path="2019";
+                File documentsFolder = new File(myDir,path);
+                File[] files = documentsFolder.listFiles();
+
+                removeItem(position);
+
+                Toast.makeText(getBaseContext(),"fdfd"+files[position], Toast.LENGTH_SHORT).show();
+                deleteFolder(files[position]);
+                Check.dismiss();
+
+            }
+        });
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Check.dismiss();
+
+            }
+        });
+
+
+        Check.show();
+    }
+
 
     private void createNewTextView(final String text) {
 
@@ -132,6 +240,18 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
 
         button_id+=1;
+    }
+
+    public void insertItem(String inputText)
+    {
+        collections.add(new HubItem(inputText));
+        MonthlyHubAdapter.notifyItemInserted(collections.size()-1);
+    }
+
+    public void removeItem(int position)
+    {
+        collections.remove(position);
+        MonthlyHubAdapter.notifyItemRemoved(position);
     }
 
     private void callAddDialog()
@@ -195,7 +315,7 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
                 if(!documentsFolder.exists()){
                     documentsFolder.mkdirs();
-                    createNewTextView(spinner_2);
+                    insertItem(spinner_2);
                     AddDialog.dismiss();
 
 

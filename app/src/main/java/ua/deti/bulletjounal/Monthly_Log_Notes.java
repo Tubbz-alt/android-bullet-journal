@@ -47,6 +47,7 @@ import java.util.zip.Inflater;
 import android.app.Dialog;
 import android.widget.Toast;
 
+
 public class Monthly_Log_Notes extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String filename="example.txt";
@@ -204,7 +205,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
 
 
-        recyclerView.setOnTouchListener(new OnTouchSwipeListener(this){
+        slide.setOnTouchListener(new OnTouchSwipeListener(this){
 
 
             @Override
