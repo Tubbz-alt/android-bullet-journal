@@ -2,24 +2,28 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="400dp"
+    android:layout_gravity="center"
     android:layout_height="300dp">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="233dp"
 
         android:layout_marginTop="69dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="157dp"
             android:layout_height="21dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="196dp"
             android:layout_toEndOf="@+id/textView10" />
@@ -30,8 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="16dp"
+
             android:layout_marginEnd="8dp"
             android:text="Type:" />
 
@@ -40,9 +45,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/textView12"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
+
             android:layout_marginTop="36dp"
-            android:layout_marginEnd="8dp"
             android:text="Description: " />
 
         <TextView
@@ -50,9 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView10"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
             android:text="Title:" />
 
         <EditText
@@ -81,22 +85,25 @@
 
         <Button
             android:id="@+id/Save"
-            android:layout_width="66dp"
-            android:layout_height="37dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="73dp"
+            android:layout_height="31dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="68dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/BluePrimary"
             android:text="Save" />
 
         <Button
             android:id="@+id/Cancel"
-            style="@style/Widget.AppCompat.Button.Small"
+            style="@style/Widget.AppCompat.Button.Colored"
+
             android:layout_width="81dp"
             android:layout_height="39dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="64dp"
+            android:layout_marginEnd="68dp"
             android:layout_marginBottom="8dp"
             android:text="Cancel" />
 
@@ -106,24 +113,24 @@
         android:id="@+id/textView8"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/White"
+        android:background="@color/BluePrimary"
         android:text="April"
         android:textAlignment="center"
+        android:textColor="@color/White"
         android:textSize="20sp"
-        android:background="@color/BluePrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
-        android:background="@color/BluePrimary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/White"
-
+        android:background="@color/BluePrimary"
         android:text="New Line"
+
         android:textAlignment="center"
+        android:textColor="@color/White"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

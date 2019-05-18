@@ -291,6 +291,8 @@ public class Daily_Log extends AppCompatActivity
 
         Button save = (Button) myDialog.findViewById(R.id.Save);
         Button cancel = (Button) myDialog.findViewById(R.id.Cancel);
+        TextView title=(TextView)myDialog.findViewById(R.id.textView8);
+        title.setText(currMonth);
 
 
 
