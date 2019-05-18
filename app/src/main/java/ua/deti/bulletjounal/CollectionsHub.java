@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -212,14 +213,24 @@ public class CollectionsHub extends AppCompatActivity
         collectionsAdapter.setOnItemLongClickListener(new HubAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(int position) {
-                removeItem(position);
-                saveCollections(position);
+                deleteDialog(position);
+                //removeItem(position);
+                //saveCollections(position);
             }
         });
     }
 
     public void insertItem(String inputText)
     {
+        HubItem itemToInsert = new HubItem(inputText);
+        for(HubItem hi : collections)
+        {
+            if(hi.getItemName().equals(inputText))
+            {
+                Toast.makeText(getBaseContext(), "There is already a collection named '" + inputText + "'", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         collections.add(new HubItem(inputText));
         collectionsAdapter.notifyItemInserted(collections.size()-1);
     }
@@ -282,40 +293,38 @@ public class CollectionsHub extends AppCompatActivity
         }
     }
 
-    /*public void deleteDialog(Context context, View v, String collectionName, int position)
+    public void deleteDialog(int position)
     {
-        final Dialog deleteDialog = new Dialog(context);
-        deleteDialog.setContentView(R.layout.pop_window_delete);
+        final Dialog deleteDialog = new Dialog(this);
+        deleteDialog.setContentView(R.layout.pop_window_delete_collection);
         deleteDialog.setCancelable(true);
-        deleteDialog.setTitle("New collection");
+        deleteDialog.setTitle("Delete collection");
 
-        TextView windowTitle = deleteDialog.findViewById(R.id.windowTitle);
-        windowTitle.setText("Delete Collection");
+        TextView question = deleteDialog.findViewById(R.id.deleteCollection);
+        question.setText("Do you want to delete '" + collections.get(position).getItemName() + "'?");
 
-        TextView deleteQuestion = deleteDialog.findViewById(R.id.deleteQuestion);
-        deleteQuestion.setText("Delete '" + collectionName + "'?");
-
-
-        deleteBtn = deleteDialog.findViewById(R.id.deleteButton);
-        cancelBtn = deleteDialog.findViewById(R.id.deleteCancelBtn);
+        Button noButton = deleteDialog.findViewById(R.id.noDeleteCollection);
+        Button yesButton = deleteDialog.findViewById(R.id.yesDeleteCollection);
 
         // dismiss modal
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteDialog.dismiss();
             }
         });
+
         final int p = position;
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 removeItem(p);
-                saveCollections(1);
+                saveCollections(p);
+                deleteDialog.dismiss();
             }
         });
-
-    }*/
+        deleteDialog.show();
+    }
 
 
 
