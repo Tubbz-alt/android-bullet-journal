@@ -16,14 +16,16 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/BluePrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <Spinner
                 android:id="@+id/filter_spinner"
                 android:layout_width="110dp"
-                android:gravity="center"
-                android:layout_alignParentEnd="@+id/appBar"
+                android:background="@android:color/transparent"
+
+                android:gravity="end
+"
                 android:layout_height="wrap_content" />
        </android.support.v7.widget.Toolbar>
 

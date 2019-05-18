@@ -16,16 +16,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/header_gradient"
+
+        android:background="@color/BluePrimary"
         android:text="Wednesday"
         android:gravity="center"
 
         android:textColor="@color/White"
 
-        android:textSize="40sp"
+        android:textSize="30sp"
+        />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView8"
+
+        android:background="@color/BluePrimary"
+        android:text="12 May"
+        android:gravity="center"
+
+        android:textColor="@color/White"
+
+        android:textSize="20sp"
         />
 
     <TextView
@@ -56,7 +69,7 @@
         android:layout_width="395dp"
         android:layout_height="490dp"
         android:layout_marginStart="8dp"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/textView9"
         android:layout_marginEnd="8dp"
 
         android:layout_alignParentBottom="true"
@@ -74,7 +87,7 @@
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus" />
+        app:srcCompat="@drawable/add_icon" />
 
 
 </RelativeLayout>

@@ -35,7 +35,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -52,12 +58,31 @@ public class Daily_Log extends AppCompatActivity
     //private LinearLayout mLayout;
     private ImageView addInfo;
     private TextView Text;
+    private TextView Text_Day_Week;
+    private TextView Text_Day_Month;
     private Dialog myDialog;
     private int button_id=0;
+    private String currDay;
     private String currMonth;
     private ArrayList<Item> exampleList=new ArrayList<>();
 
     private Map<Integer,String> db=new HashMap<>();
+
+    private final Map<Integer,String> year_months=new HashMap()
+    {{
+        put(1, "January");
+        put(2,"February");
+        put(3, "March");
+        put(4, "April");
+        put(5, "May");
+        put(6, "June");
+        put(7, "July");
+        put(8, "August");
+        put(9, "September");
+        put(10, "October");
+        put(11, "November");
+        put(12, "December");
+    }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +104,42 @@ public class Daily_Log extends AppCompatActivity
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
+        String temp=getIntent().getStringExtra("Day");
+        String [] tokens=temp.split(" ");
+        currDay=tokens[0];
+        currMonth=tokens[1];
+        Date date=null;
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            date = dateFormat.parse("2019-05-"+currDay+" 13:45:20");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            Calendar c = Calendar.getInstance();
+
+            DateFormatSymbols dfs = new DateFormatSymbols();
+
+
+
+            Text_Day_Week=(TextView)findViewById(R.id.textView8);
+            Text_Day_Week.setText(dfs.getWeekdays()[calendar.get(Calendar.DAY_OF_WEEK)]);
+            Text_Day_Month=(TextView)findViewById(R.id.textView9);
+            Text_Day_Month.setText(temp);
+
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+
+
+
 
         mAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void OnDelete(int position) {
                 removeItem(position);
-                //saveDB();
+                saveDB();
             }
 
 
@@ -255,11 +310,10 @@ public class Daily_Log extends AppCompatActivity
                 Toast.makeText(getBaseContext(),"Done"  ,
                         Toast.LENGTH_LONG).show();
 
-                //createNewTextView(to_display);
 
 
                 insertItem(0,to_display);
-               // saveDB();
+                saveDB();
                 myDialog.dismiss();
 
 
@@ -313,7 +367,7 @@ public class Daily_Log extends AppCompatActivity
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.remove(more_id);
+                //removeItem();
                 //saveDB();
                 db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
                 //mLayout.removeAllViews();
@@ -388,7 +442,7 @@ public class Daily_Log extends AppCompatActivity
     public boolean updateAllView(){
 
 
-        String info="false";
+        String info=load();
         if (info=="false"){
 
 
@@ -398,7 +452,6 @@ public class Daily_Log extends AppCompatActivity
             for (String b:tokens) {
                 insertItem(0,b);
 
-                //createNewTextView(b);
 
             }
 
@@ -410,14 +463,14 @@ public class Daily_Log extends AppCompatActivity
 
     }
 
-    /*public String load () {
+    public String load () {
         FileInputStream fis=null;
         File myDir = getApplicationContext().getFilesDir();
         String path="2019/"+currMonth;
         File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         FileOutputStream fos=null;
-        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
+        File myfile=new File(documentsFolder,"Calendar_"+currMonth+"_"+currDay+".txt");
 
         try{
             fis=new FileInputStream(myfile);
@@ -431,6 +484,7 @@ public class Daily_Log extends AppCompatActivity
 
                 sb.append(text).append("\n");
             }
+            Toast.makeText(getBaseContext(),sb.toString(),Toast.LENGTH_SHORT).show();
 
             if(sb.toString()==""){
                 return "false";
@@ -463,7 +517,8 @@ public class Daily_Log extends AppCompatActivity
         String path="2019/"+currMonth;
         File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
-        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
+        File myfile=new File(documentsFolder,"Calendar_"+currMonth+"_"+currDay+".txt");
+        Toast.makeText(getBaseContext(),myfile.getName(),Toast.LENGTH_SHORT).show();
         Iterator it = exampleList.iterator();
 
 
@@ -491,7 +546,7 @@ public class Daily_Log extends AppCompatActivity
             return e.toString();
         }
         return myfile.getAbsolutePath();
-    };*/
+    }
 
     @Override
     public void onBackPressed() {
@@ -516,14 +571,18 @@ public class Daily_Log extends AppCompatActivity
             case android.R.id.home:
                 // todo: goto back activity from here
 
-                Intent intent=new Intent(this,Monthly_Log_Hub.class);
+                Intent intent=new Intent(this,Daily_Log_Hub.class);
 
                 startActivity(intent);
                 finish();
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+                Intent intentb=new Intent(this,Daily_Log_Hub.class);
+
+                startActivity(intentb);
+                finish();
+                return true;
         }
     }
 

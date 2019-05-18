@@ -18,12 +18,14 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.zip.InflaterOutputStream;
 
 public class Daily_Log_Hub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -135,6 +138,14 @@ public class Daily_Log_Hub extends AppCompatActivity
 
 
         getSupportActionBar().setTitle("Daily Hub");
+        ImageView addDay = findViewById(R.id.addDayBtn);
+
+        addDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callAddDialog();
+            }
+        });
 
 
 
@@ -326,23 +337,37 @@ public class Daily_Log_Hub extends AppCompatActivity
                 String spinner_1 = dropdown.getSelectedItem().toString();
                 String spinner_2 = dropdown2.getSelectedItem().toString();
 
+                String [] tokens=spinner_2.split("/");
+                String day=tokens[0];
+                String month=tokens[1];
+
 
 
 
 
                 File myDir = getApplicationContext().getFilesDir();
-                String path=spinner_1+"/"+spinner_2;
+                String filename="Calendar_"+month+"_"+day+".txt";
+                String path=spinner_1+"/"+month;
                 File documentsFolder = new File(myDir,path);
+                File myfile=new File(documentsFolder,filename);
 
-                if(!documentsFolder.exists()){
-                    documentsFolder.mkdirs();
-                    createNewTextView(spinner_2);
-                    AddDialog.dismiss();
+
+                if(!myfile.exists()){
+                    try{
+                        myfile.createNewFile();
+                        if (filename.indexOf(".") > 0)
+                            filename = filename.substring(0, filename.lastIndexOf("."));
+                        insertItem(filename);
+                        AddDialog.dismiss();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
 
 
                 }
                 else{
-                    Toast.makeText(getBaseContext(),"Monthly Log for that month already exists choose another month or year"  ,
+                    Toast.makeText(getBaseContext(),"Daily Log for that day already exists choose another day or year"  ,
                             Toast.LENGTH_LONG).show();
                 }
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="414dp"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="233dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
+
+        android:layout_marginTop="69dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,112 +22,106 @@
             android:layout_height="21dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="196dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_toEndOf="@+id/textView10" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:text="Type:"
-            app:layout_constraintEnd_toStartOf="@+id/spinner1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Type:" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/textView12"
             android:layout_marginStart="8dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="8dp"
-            android:text="Description: "
-            app:layout_constraintEnd_toStartOf="@+id/description"
-            app:layout_constraintHorizontal_bias="0.102"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            android:text="Description: " />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView10"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Title:"
-            app:layout_constraintEnd_toStartOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:text="Title:" />
 
         <EditText
             android:id="@+id/title"
-            android:layout_width="188dp"
-            android:layout_height="35dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="60dp"
             android:layout_marginEnd="160dp"
+            android:layout_toRightOf="@id/textView12"
             android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/description"
-            android:layout_width="233dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="28dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
             android:layout_marginEnd="88dp"
+            android:layout_toEndOf="@id/textView11"
             android:ems="10"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/Save"
             android:layout_width="66dp"
             android:layout_height="37dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginStart="68dp"
             android:layout_marginBottom="8dp"
-            android:text="Save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Save" />
 
         <Button
             android:id="@+id/Cancel"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="81dp"
             android:layout_height="39dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginEnd="64dp"
             android:layout_marginBottom="8dp"
-            android:text="Cancel"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:text="Cancel" />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:textColor="@color/White"
         android:text="April"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:background="@color/BluePrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+        android:background="@color/BluePrimary"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
+        android:textColor="@color/White"
+
         android:text="New Line"
         android:textAlignment="center"
         android:textSize="16sp"
