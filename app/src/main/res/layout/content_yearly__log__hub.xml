@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Daily_Log_Hub"
-    tools:showIn="@layout/app_bar_daily__log__hub">
+    tools:context=".Yearly_Log_Hub"
+    tools:showIn="@layout/app_bar_yearly__log__hub">
 
 
     <ScrollView
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/DailyRecyclerView"
+            android:id="@+id/YearlyRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"

@@ -164,7 +164,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         boolean check=updateAllView();
 
         if(!check){
-            Text.setText("Nada adicionado");
+            Text.setText("Empty! Add Something :)");
         }
         else{
             Text.setText("");
@@ -361,7 +361,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 //mLayout.removeAllViews();
                 boolean check=updateAllView();
                 if(!check){
-                    Text.setText("Nada adicionado");
+                    Text.setText("Empty! Add something :)");
                 }
                 else{
                     Text.setText("");
@@ -413,11 +413,17 @@ public class Monthly_Log_Notes extends AppCompatActivity
         }
         exampleList.add(position,new Item(image,description,title,type,true));
         mAdapter.notifyItemInserted(position);
+        if(exampleList.size()!=0){
+            Text.setText("");
+        }
     }
 
     public void removeItem(int position){
 
         exampleList.remove(position);
+        if(exampleList.size()==0){
+            Text.setText("Empty! Add something :)");
+        }
         mAdapter.notifyItemRemoved(position);
     }
 
