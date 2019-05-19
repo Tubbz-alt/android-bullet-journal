@@ -5,27 +5,36 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/homeIcon"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home"
+            />
+        <item
+            android:id="@+id/dailyIcon"
             android:icon="@drawable/mini_daily"
-            android:title="Daily Logs"
+            android:title="Daily Hub"
             android:visible="true" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/monthlyIcon"
             android:icon="@drawable/mini_monthly"
-            android:title="Monthly Logs" />
+            android:title="Monthly Hub" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/yearlyIcon"
             android:icon="@drawable/mini_yearly"
-            android:title="Yearly Logs" />
+            android:title="Yearly Hub" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/collectionIcon"
             android:icon="@drawable/mini_collections"
-            android:title="Collections" />
+            android:title="Collections Hub" />
 
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/helpIcon"
             android:icon="@drawable/ic_menu_manage"
             android:title="Help and Documentation" />
+        <item
+            android:id="@+id/leaveIcon"
+            android:icon="@drawable/ic_arrow_back_black_24dp"
+            android:title="Sign out"/>
     </group>
 
 

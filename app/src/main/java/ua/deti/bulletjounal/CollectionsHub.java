@@ -65,6 +65,7 @@ public class CollectionsHub extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(4).setChecked(true);
 
         ImageView addCollectionBtn = findViewById(R.id.addCollectionBtn);
 
@@ -125,21 +126,24 @@ public class CollectionsHub extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        Intent myIntent = null;
+        if (id == R.id.dailyIcon) {
+            myIntent = new Intent(this, Daily_Log_Hub.class);;
+        } else if (id == R.id.monthlyIcon) {
+            myIntent = new Intent(this, Monthly_Log_Hub.class);
+        } else if (id == R.id.yearlyIcon) {
+            myIntent = new Intent(this, Yearly_Log_Hub.class);
+        } else if (id == R.id.collectionIcon) {
+            myIntent = new Intent(this, CollectionsHub.class);
+        } else if(id == R.id.homeIcon) {
+            myIntent = new Intent(this, MainActivity.class);
+        } else if(id == R.id.helpIcon) {
 
         }
+        if(id != R.id.collectionIcon)
+            startActivity(myIntent);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

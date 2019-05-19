@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.getMenu().getItem(0).setChecked(true);
 
     }
 
@@ -78,25 +78,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            Intent myIntent = new Intent(this, Daily_Log.class);
-            startActivity(myIntent);
-        } else if (id == R.id.nav_gallery) {
-            Intent myIntent = new Intent(this, Monthly_Log_Hub.class);
-            startActivity(myIntent);
-
-        } else if (id == R.id.nav_slideshow) {
-            Intent myIntent = new Intent(this, Yearly_Log_Hub.class);
-            startActivity(myIntent);
-
-        } else if (id == R.id.nav_manage) {
-            Intent myIntent = new Intent(this, CollectionsHub.class);
-            startActivity(myIntent);
-
-        } else if (id == R.id.nav_share) {
-
+        Intent myIntent = null;
+        if (id == R.id.dailyIcon) {
+            myIntent = new Intent(this, Daily_Log_Hub.class);;
+        } else if (id == R.id.monthlyIcon) {
+            myIntent = new Intent(this, Monthly_Log_Hub.class);
+        } else if (id == R.id.yearlyIcon) {
+            myIntent = new Intent(this, Yearly_Log_Hub.class);
+        } else if (id == R.id.collectionIcon) {
+            myIntent = new Intent(this, CollectionsHub.class);
+        } else if(id == R.id.homeIcon) {
+            myIntent = new Intent(this, MainActivity.class);
+        } else if(id == R.id.helpIcon) {
 
         }
+        if(id != R.id.homeIcon)
+            startActivity(myIntent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -115,12 +112,10 @@ public class MainActivity extends AppCompatActivity
         {
             intent = new Intent(this, Monthly_Log_Hub.class);
         }
-        /*
         else if(view_id == R.id.imageView10 || view_id == R.id.textView5)
         {
             intent = new Intent(this, Yearly_Log_Hub.class);
         }
-        */
         else if(view_id == R.id.imageView6 || view_id == R.id.textView6)
         {
             intent = new Intent(this, CollectionsHub.class);

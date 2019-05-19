@@ -50,6 +50,7 @@ public class Yearly_Log_Hub extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(2).setChecked(true);
         createCollectionsList();
         buildRecyclerView();
 
@@ -213,19 +214,22 @@ public class Yearly_Log_Hub extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        Intent myIntent = null;
+        if (id == R.id.dailyIcon) {
+            myIntent = new Intent(this, Daily_Log_Hub.class);;
+        } else if (id == R.id.monthlyIcon) {
+            myIntent = new Intent(this, Monthly_Log_Hub.class);
+        } else if (id == R.id.yearlyIcon) {
+            myIntent = new Intent(this, Yearly_Log_Hub.class);
+        } else if (id == R.id.collectionIcon) {
+            myIntent = new Intent(this, CollectionsHub.class);
+        } else if(id == R.id.homeIcon) {
+            myIntent = new Intent(this, MainActivity.class);
+        } else if(id == R.id.helpIcon) {
 
         }
+        if(id != R.id.yearlyIcon)
+            startActivity(myIntent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
