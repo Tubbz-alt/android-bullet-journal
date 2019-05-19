@@ -19,14 +19,7 @@
             android:background="@color/BluePrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
-            <Spinner
-                android:id="@+id/filter_spinner"
-                android:layout_width="110dp"
-                android:background="@android:color/transparent"
 
-                android:gravity="end
-"
-                android:layout_height="wrap_content" />
        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -155,12 +157,14 @@ public class Daily_Log extends AppCompatActivity
                 if(check.isChecked()){
                     cross.setPaintFlags(cross.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
                     change.setImageResource(R.drawable.done_icon);
+                    Toast.makeText(getBaseContext(),"Item undone!" ,
+                            Toast.LENGTH_SHORT).show();
 
                 }
                 else{
                     cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
-                    Toast.makeText(getBaseContext(),exampleList.get(position).getStringType() ,
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),"Item done!" ,
+                            Toast.LENGTH_SHORT).show();
                     switch (exampleList.get(position).getStringType()){
                         case "Task":
 
@@ -187,49 +191,8 @@ public class Daily_Log extends AppCompatActivity
         //mLayout= (LinearLayout) findViewById(R.id.linearLayout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        Spinner filter=toolbar.findViewById(R.id.filter_spinner);
-        final String[] items = new String[]{"Todos","Task","Event","Note"};
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        filter.setAdapter(adapter);
-
-        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String op=items[position];
-                Iterator it = exampleList.iterator();
-
-                while (it.hasNext()){
-                    Item item=(Item)it.next();
-                    int pos=exampleList.indexOf(item);
-
-                    if(op=="Todos" & item.getShow()==true)
-                        break;
-                    else if(op=="Todos" & item.getShow()==false){
-                        Toast.makeText(getBaseContext(),"hidden", Toast.LENGTH_SHORT).show();
-                        item.setShow(true);
-                    }
-                    else if(!item.getStringType().equals(op)){
-                        Toast.makeText(getBaseContext(),"diff"+item.getStringType()+"-"+op, Toast.LENGTH_SHORT).show();
-
-                        item.setShow(false);
-
-                    }
-                    else{
-                        item.setShow(true);
-
-                    }
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -309,7 +272,7 @@ public class Daily_Log extends AppCompatActivity
                 String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
 
-                Toast.makeText(getBaseContext(),"Done"  ,
+                Toast.makeText(getBaseContext(),"Item added"  ,
                         Toast.LENGTH_LONG).show();
 
 
@@ -366,26 +329,7 @@ public class Daily_Log extends AppCompatActivity
         Button Delete= (Button) myDialog.findViewById(R.id.Delete);
         Button cancel = (Button) myDialog.findViewById(R.id.Exit);
 
-        Delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //removeItem();
-                //saveDB();
-                db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
-                //mLayout.removeAllViews();
-                boolean check=updateAllView();
-                if(!check){
-                    Text.setText("Nada adicionado");
-                }
-                else{
-                    Text.setText("");
-                }
-
-                myDialog.dismiss();
-
-
-            }
-        });
+        
 
 
 
@@ -427,16 +371,21 @@ public class Daily_Log extends AppCompatActivity
         }
         exampleList.add(position,new Item(image,description,title,type,true));
         mAdapter.notifyItemInserted(position);
+
+        if(exampleList.size()==0)
+            Text.setText("Empty! Add something :)");
+        else
+            Text.setText("");
     }
 
     public void removeItem(int position){
 
         exampleList.remove(position);
         mAdapter.notifyItemRemoved(position);
-        if(exampleList.size()==0){
+        if(exampleList.size()==0)
             Text.setText("Empty! Add something :)");
-
-        }
+        else
+            Text.setText("");
     }
 
 
@@ -486,7 +435,6 @@ public class Daily_Log extends AppCompatActivity
 
                 sb.append(text).append("\n");
             }
-            Toast.makeText(getBaseContext(),sb.toString(),Toast.LENGTH_SHORT).show();
 
             if(sb.toString()==""){
                 return "false";
@@ -520,7 +468,6 @@ public class Daily_Log extends AppCompatActivity
         File documentsFolder = new File(myDir,path);
         ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
         File myfile=new File(documentsFolder,"Calendar_"+currMonth+"_"+currDay+".txt");
-        Toast.makeText(getBaseContext(),myfile.getName(),Toast.LENGTH_SHORT).show();
         Iterator it = exampleList.iterator();
 
 
@@ -563,13 +510,65 @@ public class Daily_Log extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.monthly__log__notes, menu);
+        getMenuInflater().inflate(R.menu.daily__log, menu);
+
+        final String[] items = new String[]{"Todos","Task","Event","Note"};
+        MenuItem item=menu.findItem(R.id.spinner);
+        Spinner filter = (Spinner) item.getActionView();
+        //filter.setBackgroundResource(R.drawable.icon_filter);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,items){
+
+
+        };
+        //set the spinners adapter to the previously created one.
+        filter.setAdapter(adapter);
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String op=items[position];
+                Iterator it = exampleList.iterator();
+
+                while (it.hasNext()){
+                    Item item=(Item)it.next();
+                    int pos=exampleList.indexOf(item);
+
+                    if(op=="Todos" & item.getShow()==true)
+                        break;
+                    else if(op=="Todos" & item.getShow()==false){
+                        item.setShow(true);
+                    }
+                    else if(!item.getStringType().equals(op)){
+
+                        item.setShow(false);
+
+                    }
+                    else{
+                        item.setShow(true);
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
+           // case R.id.action_filter:
+             //   Toast.makeText(getBaseContext(),"ola",Toast.LENGTH_SHORT).show();
+              //  return true;
             case android.R.id.home:
                 // todo: goto back activity from here
 
@@ -586,6 +585,7 @@ public class Daily_Log extends AppCompatActivity
                 finish();
                 return true;
         }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

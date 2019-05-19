@@ -172,7 +172,6 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             }
 
         }
-        Toast.makeText(getBaseContext(),"Ola: "+month_number,Toast.LENGTH_SHORT).show();
 
 
         int ola=2;
@@ -263,7 +262,6 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     }
 
     public void insertItem(int position,String b,int dia){
-        Toast.makeText(getBaseContext(),b,Toast.LENGTH_SHORT).show();
         String [] tokens_b=b.split("-");
         String type=tokens_b[0];
         String title=tokens_b[1];
@@ -378,7 +376,6 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             db.put(dia,arr);
         }
 
-        Toast.makeText(getBaseContext(),"ola",Toast.LENGTH_SHORT).show();
 
 
 
@@ -526,7 +523,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
 
-                Toast.makeText(getBaseContext(),"Done"  ,
+                Toast.makeText(getBaseContext(),"Item added!"  ,
                         Toast.LENGTH_LONG).show();
 
                 insertItem(0,to_display,dia);
@@ -625,8 +622,6 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     public String load (int Dia) {
 
-        Toast.makeText(getBaseContext(),currMonth  ,
-                Toast.LENGTH_LONG).show();
 
         FileInputStream fis=null;
         File myDir = getApplicationContext().getFilesDir();

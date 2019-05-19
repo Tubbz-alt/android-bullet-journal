@@ -42,6 +42,7 @@ public class CollectionPage extends AppCompatActivity {
     private ImageView deleteBtn;
     private EditText editText;
     private String inputText;
+    private TextView show;
 
     private String collectionName;
 
@@ -57,7 +58,7 @@ public class CollectionPage extends AppCompatActivity {
         collectionName = getIntent().getStringExtra("CollectionName");
         getSupportActionBar().setTitle(collectionName);
 
-
+        show=(TextView)findViewById(R.id.textView7);
         ImageView addItemBtn = findViewById(R.id.addCollectionItem);
 
 
@@ -144,14 +145,27 @@ public class CollectionPage extends AppCompatActivity {
 
     public void insertItem(String inputText)
     {
+
+
+
         items.add(new HubItem(inputText));
         itemAdapter.notifyItemInserted(items.size()-1);
+        if(items.size()==0)
+            show.setText("Empty! Add something :)");
+        else
+            show.setText("");
     }
 
     public void removeItem(int position)
     {
+
+
         items.remove(position);
         itemAdapter.notifyItemRemoved(position);
+        if(items.size()==0)
+            show.setText("Empty! Add something :)");
+        else
+            show.setText("");
     }
 
     private void loadCollection()
@@ -166,6 +180,12 @@ public class CollectionPage extends AppCompatActivity {
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             String text;
+            if (br.readLine()==null){
+                show.setText("Empty! Add something :)");
+            }
+            else {
+                show.setText("");
+            }
             while ((text=br.readLine()) != null)
                 if(text != "")
                     insertItem(text);
