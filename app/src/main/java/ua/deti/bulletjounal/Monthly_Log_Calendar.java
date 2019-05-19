@@ -369,7 +369,10 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         DetailsDialog.setCancelable(false);
         DetailsDialog.setTitle("Details");
         mLayout= (RecyclerView) DetailsDialog.findViewById(R.id.RecyclerViewCalendar);
+        TextView masterTitle=(TextView)DetailsDialog.findViewById(R.id.masterTitle);
         final int dia=day.getDay();
+        masterTitle.setText(dia+" of "+currMonth);
+
         if(db.get(dia)==null){
             ArrayList<Item> arr=new ArrayList<>();
             db.put(dia,arr);
@@ -411,8 +414,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-        TextView title=(TextView)DetailsDialog.findViewById(R.id.masterTitle);
-        title.setText(day.getDay()+" de "+day.getMonth()+" de "+day.getYear());
+
         Button Add= (Button) DetailsDialog.findViewById(R.id.Add_info_calendar);
         Button Exit = (Button) DetailsDialog.findViewById(R.id.Exit_info_calendar);
 
