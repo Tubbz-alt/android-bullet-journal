@@ -10,12 +10,6 @@
     tools:context=".Yearly_Log"
     tools:showIn="@layout/app_bar_yearly__log">
 
-
-
-
-
-
-
     <ExpandableListView
         android:id="@+id/Expandable_List"
         android:layout_width="match_parent"

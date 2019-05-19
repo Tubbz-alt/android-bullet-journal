@@ -4,13 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="300dp"
+    android:background="@color/BluePrimary">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="414dp"
         android:layout_height="233dp"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
+        android:background="@color/White"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,10 +20,10 @@
 
         <Spinner
             android:id="@+id/month_spinner"
-            android:layout_width="157dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="196dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="195dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,10 +31,12 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Type:"
+            android:textSize="18dp"
+            android:textColor="@color/BluePrimary"
+            android:text="Month:"
             app:layout_constraintEnd_toStartOf="@+id/spinner1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,8 +45,10 @@
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="42dp"
+            android:textSize="18dp"
+            android:textColor="@color/BluePrimary"
             android:text="Title: "
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -51,48 +57,49 @@
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:textColor="@color/BluePrimary"
+            android:layout_marginStart="24dp"
+            android:textSize="18dp"
+            android:layout_marginTop="32dp"
             android:text="Day:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-        <Button
+        <ImageView
             android:id="@+id/Save"
-            android:layout_width="66dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="68dp"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="110dp"
             android:layout_marginBottom="8dp"
-            android:text="Save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/Cancel"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:layout_width="81dp"
-            android:layout_height="39dp"
-            android:layout_marginEnd="64dp"
-            android:layout_marginBottom="8dp"
-            android:text="Cancel"
+            android:background="@drawable/save_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageView
+            android:id="@+id/Cancel"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="110dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/cancel_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Spinner
             android:id="@+id/day_spinner"
-            android:layout_width="238dp"
-            android:layout_height="22dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="112dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="195dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/month_spinner" />
 
         <EditText
             android:id="@+id/editText_Year"
-            android:layout_width="315dp"
-            android:layout_height="49dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="75dp"
             android:ems="10"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,8 +113,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:textColor="@color/White"
+        android:fontFamily="@font/montserrat"
         android:layout_marginEnd="8dp"
-        android:text="April"
+        android:text="Add note"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,13 +128,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
+        android:fontFamily="@font/montserrat"
         android:text="New Line"
         android:textAlignment="center"
+        android:textColor="@color/White"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.icu.text.UnicodeSetSpanner;
+import android.media.Image;
 import android.os.Bundle;
 import java.util.Calendar;
 
@@ -113,21 +114,8 @@ public class Yearly_Log extends AppCompatActivity
 
         }
 
-
-
-
-
-
-
-
-
-
-
         listAdapter=new Adapter_yearly(this,ListDataHeader,listHash);
         listView.setAdapter(listAdapter);
-
-
-
 
 
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -207,8 +195,8 @@ public class Yearly_Log extends AppCompatActivity
 
 
 
-        Button save = (Button) myDialog.findViewById(R.id.Save);
-        Button cancel = (Button) myDialog.findViewById(R.id.Cancel);
+        ImageView save = myDialog.findViewById(R.id.Save);
+        ImageView cancel = myDialog.findViewById(R.id.Cancel);
 
 
 

@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:background="@color/BluePrimary"
-            android:text="Do you want to Delete?"
+            android:text="Do you want to delete?"
             android:fontFamily="@font/montserrat"
 
             android:gravity="center"
