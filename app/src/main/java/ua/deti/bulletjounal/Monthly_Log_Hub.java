@@ -270,8 +270,8 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
 
 
-        Button save = (Button) AddDialog.findViewById(R.id.Save);
-        Button cancel = (Button) AddDialog.findViewById(R.id.Cancel);
+        ImageView save = AddDialog.findViewById(R.id.Save);
+        ImageView cancel = AddDialog.findViewById(R.id.Cancel);
 
 
 

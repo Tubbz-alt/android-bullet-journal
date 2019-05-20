@@ -3,6 +3,7 @@ package ua.deti.bulletjounal;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.media.Image;
 import android.os.Bundle;
 
 import android.support.design.widget.TabItem;
@@ -349,8 +350,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
 
 
-        Button Delete= (Button) myDialog.findViewById(R.id.Delete);
-        Button cancel = (Button) myDialog.findViewById(R.id.Exit);
+        ImageView Delete = myDialog.findViewById(R.id.Delete);
+        ImageView cancel = myDialog.findViewById(R.id.Exit);
 
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
