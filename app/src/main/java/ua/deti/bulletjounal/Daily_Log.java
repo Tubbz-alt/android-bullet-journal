@@ -329,7 +329,7 @@ public class Daily_Log extends AppCompatActivity
         Button Delete= (Button) myDialog.findViewById(R.id.Delete);
         Button cancel = (Button) myDialog.findViewById(R.id.Exit);
 
-        
+
 
 
 
