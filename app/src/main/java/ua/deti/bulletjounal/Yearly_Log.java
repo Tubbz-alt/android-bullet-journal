@@ -55,7 +55,7 @@ import java.util.TreeMap;
 import java.time.YearMonth;
 
 public class Yearly_Log extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+       {
     private ExpandableListView listView;
     private Adapter_yearly listAdapter;
     private List<String> ListDataHeader;
@@ -101,14 +101,11 @@ public class Yearly_Log extends AppCompatActivity
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(4).setChecked(true);
+        drawer.closeDrawer(GravityCompat.START);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         listView=(ExpandableListView)findViewById(R.id.Expandable_List);
@@ -456,42 +453,33 @@ public class Yearly_Log extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
 
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getItemId()) {
 
-        return super.onOptionsItemSelected(item);
-    }
+           // case R.id.action_filter:
+           //   Toast.makeText(getBaseContext(),"ola",Toast.LENGTH_SHORT).show();
+           //  return true;
+           case android.R.id.home:
+               // todo: goto back activity from here
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+               Intent intent=new Intent(this,Yearly_Log_Hub.class);
 
-        Intent myIntent = null;
-        if (id == R.id.dailyIcon) {
-            myIntent = new Intent(this, Daily_Log_Hub.class);;
-        } else if (id == R.id.monthlyIcon) {
-            myIntent = new Intent(this, Monthly_Log_Hub.class);
-        } else if (id == R.id.yearlyIcon) {
-            myIntent = new Intent(this, Yearly_Log_Hub.class);
-        } else if (id == R.id.collectionIcon) {
-            myIntent = new Intent(this, CollectionsHub.class);
-        } else if(id == R.id.homeIcon) {
-            myIntent = new Intent(this, MainActivity.class);
-        } else if(id == R.id.helpIcon) {
+               startActivity(intent);
+               finish();
+               return true;
 
-        }
-        startActivity(myIntent);
+           default:
+               Intent intentb=new Intent(this,Yearly_Log_Hub.class);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+               startActivity(intentb);
+               finish();
+               return true;
+       }
+
+   }
+
+
 }

@@ -482,6 +482,7 @@ public class Daily_Log_Hub extends AppCompatActivity
         } else if(id == R.id.homeIcon) {
             myIntent = new Intent(this, MainActivity.class);
         } else if(id == R.id.helpIcon) {
+            myIntent = new Intent(this, Intro.class);
 
         }
         if(id != R.id.dailyIcon)

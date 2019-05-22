@@ -43,14 +43,21 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        /*SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
         if (!sp.getBoolean("first", false)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("first", true);
+<<<<<<< HEAD
             editor.apply();*/
             //Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
             //startActivity(intent);
        // }
+=======
+            editor.apply();
+            Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
+            startActivity(intent);
+       }
+>>>>>>> c6c80647219adae418ab2447c9d95420138ae963
 
     }
 
@@ -102,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.homeIcon) {
             myIntent = new Intent(this, MainActivity.class);
         } else if(id == R.id.helpIcon) {
+            myIntent = new Intent(this, Intro.class);
 
         }
         if(id != R.id.homeIcon)
