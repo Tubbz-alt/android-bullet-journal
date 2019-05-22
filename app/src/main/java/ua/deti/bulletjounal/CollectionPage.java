@@ -147,11 +147,9 @@ public class CollectionPage extends AppCompatActivity {
     public void insertItem(String inputText)
     {
 
-
-
         items.add(new HubItem(inputText));
         itemAdapter.notifyItemInserted(items.size()-1);
-        if(items.size()==0)
+        if(items.size() == 0)
             show.setText("Empty! Add something :)");
         else
             show.setText("");
@@ -181,15 +179,18 @@ public class CollectionPage extends AppCompatActivity {
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             String text;
-            if (br.readLine()==null){
-                show.setText("Empty! Add something :)");
-            }
-            else {
-                show.setText("");
-            }
+            boolean empty = true;
             while ((text=br.readLine()) != null)
                 if(text != "")
+                {
                     insertItem(text);
+                    empty = false;
+                }
+            if(empty)
+                show.setText("Empty! Add something :)");
+            else
+                show.setText("");
+
             fis.close();
         }
         catch (IOException e){ e.printStackTrace(); }
