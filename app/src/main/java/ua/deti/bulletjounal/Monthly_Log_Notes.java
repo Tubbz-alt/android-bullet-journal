@@ -50,7 +50,7 @@ import android.widget.Toast;
 
 
 public class Monthly_Log_Notes extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+         {
     private static final String filename="example.txt";
     private RecyclerView recyclerView;
     private Adapter mAdapter;
@@ -156,7 +156,9 @@ public class Monthly_Log_Notes extends AppCompatActivity
             }
         });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         currMonth=getIntent().getStringExtra("Month");
         getSupportActionBar().setTitle(currMonth);
 
@@ -550,30 +552,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
 
 }

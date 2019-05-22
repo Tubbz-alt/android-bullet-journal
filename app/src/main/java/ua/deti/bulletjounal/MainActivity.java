@@ -43,14 +43,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        /*SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
         if (!sp.getBoolean("first", false)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("first", true);
-            editor.apply();*/
+            editor.apply();
             Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
             startActivity(intent);
-       // }
+       }
 
     }
 
@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.homeIcon) {
             myIntent = new Intent(this, MainActivity.class);
         } else if(id == R.id.helpIcon) {
+            myIntent = new Intent(this, Intro.class);
 
         }
         if(id != R.id.homeIcon)
