@@ -15,14 +15,11 @@
 
         <ImageView
             android:id="@+id/line_image"
-            android:layout_width="67dp"
-            android:layout_height="67dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginBottom="14dp"
             android:padding="2dp" />
 
         <TextView
@@ -36,7 +33,7 @@
             android:layout_marginTop="32dp"
             android:layout_toEndOf="@+id/line_image"
             android:gravity="center"
-            android:text="Nothinh"
+            android:text="Nothing"
             android:textSize="20sp" />
 
         <ImageView

@@ -29,16 +29,14 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/textView8"
-
         android:background="@color/BluePrimary"
         android:text="12 May"
         android:gravity="center"
-
         android:textColor="@color/White"
-
         android:textSize="20sp"
+        android:layout_marginBottom="30dp"
         />
 
     <TextView

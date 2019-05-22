@@ -199,7 +199,6 @@ public class Daily_Log_Hub extends AppCompatActivity
     public void insertItem(String inputText)
     {
         String [] tokens=inputText.split("_");
-
         collections.add(new HubItem(tokens[2]+" "+tokens[1]));
         DailyAdapter.notifyItemInserted(collections.size()-1);
         if(collections.size()==0){
@@ -227,8 +226,8 @@ public class Daily_Log_Hub extends AppCompatActivity
         Check.setCancelable(false);
         Check.setTitle("Add new Line");
 
-        Button save = (Button) Check.findViewById(R.id.Yes);
-        Button cancel = (Button) Check.findViewById(R.id.No);
+        ImageView save = Check.findViewById(R.id.Yes);
+        ImageView cancel = Check.findViewById(R.id.No);
 
 
         save.setOnClickListener(new View.OnClickListener() {

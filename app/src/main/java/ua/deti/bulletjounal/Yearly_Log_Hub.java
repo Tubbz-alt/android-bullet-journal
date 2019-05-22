@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -130,8 +131,8 @@ public class Yearly_Log_Hub extends AppCompatActivity
         Check.setCancelable(false);
         Check.setTitle("Add new Line");
 
-        Button save = (Button) Check.findViewById(R.id.Yes);
-        Button cancel = (Button) Check.findViewById(R.id.No);
+        ImageView save = Check.findViewById(R.id.Yes);
+        ImageView cancel = Check.findViewById(R.id.No);
 
 
         save.setOnClickListener(new View.OnClickListener() {
