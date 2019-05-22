@@ -227,37 +227,12 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
     }
 
-    public boolean OnTouchEvent(MotionEvent touchEvent){
-        switch (touchEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1=touchEvent.getX();
-                y1=touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2=touchEvent.getX();
-                y2=touchEvent.getY();
-                if(x1<x2){
-                    Intent i=new Intent(this,Monthly_Log_Calendar.class);
-                    i.putExtra("Month",currMonth);
-
-                    startActivity(i);
-                }
-                break;
-        }
-        return false;
-    }
 
 
 
 
-    private void activity2(View view){
-        Intent intent=new Intent(this,Monthly_Log_Calendar.class);
-        intent.putExtra("Month",currMonth);
 
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
 
-    }
 
     private void callLoginDialog()
     {
@@ -340,7 +315,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         String title=text_disp.getTitle();
         String description= text_disp.getDescription();
 
-        TextView title_text=(TextView)myDialog.findViewById(R.id.TitleText);
+        final TextView title_text=(TextView)myDialog.findViewById(R.id.TitleText);
         title_text.setText(title);
         TextView description_text=(TextView)myDialog.findViewById(R.id.DescriptionText);
         description_text.setText(description);
@@ -350,13 +325,16 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
 
 
-        ImageView Delete = myDialog.findViewById(R.id.Delete);
+        ImageView Delete = myDialog.findViewById(R.id.Edit);
         ImageView cancel = myDialog.findViewById(R.id.Exit);
 
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.remove(more_id);
+                EditText TitleEdit=(EditText)myDialog.findViewById(R.id.TitleTextEdit);
+                title_text.setVisibility(View.GONE);
+                TitleEdit.setVisibility(View.VISIBLE);
+                /*db.remove(more_id);
                 saveDB();
                 db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
                 //mLayout.removeAllViews();
@@ -368,7 +346,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                     Text.setText("");
                 }
 
-                myDialog.dismiss();
+                myDialog.dismiss();*/
 
 
             }

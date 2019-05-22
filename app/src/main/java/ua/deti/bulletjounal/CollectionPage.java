@@ -3,6 +3,7 @@ package ua.deti.bulletjounal;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -222,6 +223,7 @@ public class CollectionPage extends AppCompatActivity {
             myFile.createNewFile();
             fos = new FileOutputStream(myFile);
             while (it.hasNext())
+                Toast.makeText(getBaseContext(),it.next().toString(),Toast.LENGTH_SHORT).show();
                 fos.write(it.next().toString().getBytes());
             fos.close();
         }

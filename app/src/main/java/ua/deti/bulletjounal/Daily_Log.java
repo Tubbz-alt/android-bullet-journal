@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -326,8 +327,8 @@ public class Daily_Log extends AppCompatActivity
 
 
 
-        Button Delete= (Button) myDialog.findViewById(R.id.Delete);
-        Button cancel = (Button) myDialog.findViewById(R.id.Exit);
+        ImageView Delete= (ImageView) myDialog.findViewById(R.id.Edit);
+        ImageView cancel = (ImageView) myDialog.findViewById(R.id.Exit);
 
 
 

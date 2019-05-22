@@ -15,6 +15,9 @@ public class Adapter_Calendar extends RecyclerView.Adapter<Adapter_Calendar.View
     private ArrayList<Item> mList;
     private OnItemClickListener mListener;
 
+
+
+
     public interface OnItemClickListener{
         void OnDelete(int position);
 
@@ -94,7 +97,8 @@ public class Adapter_Calendar extends RecyclerView.Adapter<Adapter_Calendar.View
         this.mList=list;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){mListener=listener;}
+    public void setOnItemClickListener(OnItemClickListener listener) {mListener=listener;
+    }
 
 
     @NonNull

@@ -1,11 +1,20 @@
 package ua.deti.bulletjounal;
 
 import android.app.Dialog;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.icu.text.UnicodeSetSpanner;
 import android.media.Image;
 import android.os.Bundle;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +46,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,6 +257,160 @@ public class Yearly_Log extends AppCompatActivity
 
     }
 
+    /*public void updateAllView (String month) {
+        FileInputStream fis=null;
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+month;
+        File documentsFolder = new File(myDir,path);
+        File[] files = documentsFolder.listFiles();
+        if (files==null){
+
+
+        }
+        else{
+
+
+            for (File inFile : files) {
+                if (inFile.getName().startsWith("Calendar")){
+                    //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
+                    String fileName=inFile.getName();
+                    if (fileName.indexOf(".") > 0)
+                        fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                    String info=load(fileName,month);
+                    String
+
+                    String []  tokens=info.split("\n");
+                    for (String b:tokens) {
+                        insertItemFile(0,month,b,);
+
+                        //createNewTextView(b);
+
+                    }
+                }
+
+
+            }
+        }
+    };*/
+
+    public String load (String filename,String currMonth) {
+        FileInputStream fis=null;
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        FileOutputStream fos=null;
+        File myfile=new File(documentsFolder,filename);
+
+        try{
+            fis=new FileInputStream(myfile);
+            InputStreamReader isr=new InputStreamReader(fis);
+            BufferedReader br= new BufferedReader(isr);
+            StringBuilder sb=new StringBuilder();
+            String text;
+
+            while((text=br.readLine())!=null){
+
+
+                sb.append(text).append("\n");
+            }
+
+            if(sb.toString()==""){
+                return "false";
+            }
+
+            return sb.toString();
+
+
+        }catch (FileNotFoundException e){
+
+            e.printStackTrace();
+            return "false";
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            if (fis !=null){
+                try{
+                    fis.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    };
+
+   /* public String saveDB(){
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
+        Iterator it = exampleList.iterator();
+
+
+        try{
+
+            myfile.createNewFile();
+            FileOutputStream fos=new FileOutputStream(myfile);
+            while(it.hasNext()){
+
+
+                String to_save=(String)it.next().toString();
+
+                fos.write(to_save.getBytes());
+
+            }
+
+
+
+        }catch (FileNotFoundException e){
+
+            e.printStackTrace();
+            return "filenotfound";
+        }catch (IOException e){
+
+            return e.toString();
+        }
+        return myfile.getAbsolutePath();
+    };
+
+    public String saveDB(){
+        File myDir = getApplicationContext().getFilesDir();
+        String path="2019/"+currMonth;
+        File documentsFolder = new File(myDir,path);
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File myfile=new File(documentsFolder,"Notes_"+currMonth+".txt");
+        Iterator it = exampleList.iterator();
+
+
+        try{
+
+            myfile.createNewFile();
+            FileOutputStream fos=new FileOutputStream(myfile);
+            while(it.hasNext()){
+
+
+                String to_save=(String)it.next().toString();
+
+                fos.write(to_save.getBytes());
+
+            }
+
+
+
+        }catch (FileNotFoundException e){
+
+            e.printStackTrace();
+            return "filenotfound";
+        }catch (IOException e){
+
+            return e.toString();
+        }
+        return myfile.getAbsolutePath();
+    };*/
+
 
     @Override
     public void onBackPressed() {
@@ -257,6 +421,26 @@ public class Yearly_Log extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    /*public void insertItemFile(String month,String day){
+        String [] tokens_b=b.split("-");
+        String type=tokens_b[0];
+        String title=tokens_b[1];
+        String description=tokens_b[2];
+        if(type=="Event"){
+            int image=0;
+
+            image=R.drawable.event_icon;
+
+            exampleList.add(position,new Item(image,description,title,type,true));
+            mAdapter.notifyItemInserted(position);
+            if(exampleList.size()!=0){
+                Text.setText("");
+            }
+        }
+        listHash.get(Month).add(new Item_Yearly(day,title,true));
+
+    }*/
 
     public void insertItem(String Month,String day,String title){
         listHash.get(Month).add(new Item_Yearly(day,title,true));

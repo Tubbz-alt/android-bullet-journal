@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +29,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -288,14 +292,14 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         mAdapter.notifyItemRemoved(position);
     }
 
-    /*public void callMoreDialog(final int more_id,final int dia){
+    public void callMoreDialog(int position,final int dia){
         MoreDialog = new Dialog(this);
         MoreDialog.setContentView(R.layout.pop_window_more);
         MoreDialog.setCancelable(false);
         MoreDialog.setTitle("Details");
 
 
-        final Item temp =db.get(dia);
+        final Item temp =db.get(dia).get(position);
 
         String type= temp.getStringType();
         String title= temp.getTitle();
@@ -311,8 +315,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-        Button Delete= (Button) MoreDialog.findViewById(R.id.Delete);
-        Button cancel = (Button) MoreDialog.findViewById(R.id.Exit);
+        ImageView Delete= (ImageView) MoreDialog.findViewById(R.id.Edit);
+        ImageView cancel = (ImageView) MoreDialog.findViewById(R.id.Exit);
 
         /*Delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,7 +339,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
             }
-        });
+        });*/
 
 
 
@@ -358,7 +362,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-    }*/
+    }
 
     public void createDialogDetails(CalendarDay day){
 
@@ -393,6 +397,49 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         mLayout.setLayoutManager(layoutManager);
         mLayout.setAdapter(mAdapter);
         boolean check=updateAllView(dia);
+
+        mAdapter.setOnItemClickListener(new Adapter_Calendar.OnItemClickListener() {
+            @Override
+            public void OnDelete(int position) {
+                removeItem(position,dia);
+                saveDB(dia);
+            }
+
+
+
+            @Override
+            public void onItemclick(int position) {
+               callMoreDialog(position,dia);
+            }
+
+            @Override
+            public void onCheckbox(int position, TextView cross, ImageView change, CheckBox check) {
+                if(check.isChecked()){
+                    cross.setPaintFlags(cross.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
+                    change.setImageResource(R.drawable.done_icon);
+
+                }
+                else{
+                    cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
+
+                    switch (db.get(dia).get(position).getStringType()){
+                        case "Task":
+
+                            change.setImageResource(R.drawable.task_icon);
+                            break;
+                        case "Event":
+                            change.setImageResource(R.drawable.event_icon);
+                            break;
+                        case "Note":
+                            change.setImageResource(R.drawable.note_icon);
+                            break;
+                    }
+
+
+
+                }
+            }
+        });
 
 
 
@@ -430,6 +477,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                db.get(dia).clear();
                 DetailsDialog.dismiss();
 
             }
@@ -523,12 +571,11 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
 
-                Toast.makeText(getBaseContext(),"Item added!"  ,
-                        Toast.LENGTH_LONG).show();
+
 
                 insertItem(0,to_display,dia);
 
-                //saveDB(dia);
+                saveDB(dia);
 
                 AddDialog.dismiss();
 
@@ -581,7 +628,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    /*public String saveDB(int Dia){
+    public String saveDB(int Dia){
 
         String filename="Calendar_"+currMonth+"_"+Dia+".txt";
 
@@ -600,8 +647,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
             while(it.hasNext()){
 
-                Map.Entry pair = (Map.Entry)it.next();
-                String to_save=(String)pair.getValue()+"\n";
+                String to_save=(String)it.next().toString();
 
                 fos.write(to_save.getBytes());
 
@@ -618,7 +664,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             return e.toString();
         }
         return myfile.getAbsolutePath();
-    };*/
+    }
 
     public String load (int Dia) {
 

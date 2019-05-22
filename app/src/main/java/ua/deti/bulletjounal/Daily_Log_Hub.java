@@ -47,6 +47,7 @@ public class Daily_Log_Hub extends AppCompatActivity
     private RecyclerView.LayoutManager collectionsLayoutManager;
     private int button_id=0;
     private String [] days;
+    private TextView show;
     private Set<String> month_display=new HashSet<>();
     private final Map<Integer,Integer> months_days=new HashMap()
     {{
@@ -110,7 +111,7 @@ public class Daily_Log_Hub extends AppCompatActivity
         }
 
         File myDir = getApplicationContext().getFilesDir();
-
+        show=(TextView)findViewById(R.id.textView7) ;
         Iterator it=month_display.iterator();
         while (it.hasNext()){
 
@@ -119,9 +120,12 @@ public class Daily_Log_Hub extends AppCompatActivity
             File[] files = documentsFolder.listFiles();
 
             if (files==null){
-                Toast.makeText(getBaseContext(),"Nada adicionado",Toast.LENGTH_SHORT).show();
+
+
             }
             else{
+
+
                 for (File inFile : files) {
                     if (inFile.getName().startsWith("Calendar")){
                         //Toast.makeText(getBaseContext(),inFile.getName(),Toast.LENGTH_SHORT).show();
@@ -136,6 +140,11 @@ public class Daily_Log_Hub extends AppCompatActivity
             }
 
         }
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
 
 
         getSupportActionBar().setTitle("Daily Hub");
@@ -193,12 +202,23 @@ public class Daily_Log_Hub extends AppCompatActivity
 
         collections.add(new HubItem(tokens[2]+" "+tokens[1]));
         DailyAdapter.notifyItemInserted(collections.size()-1);
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     public void removeItem(int position)
     {
+
         collections.remove(position);
         DailyAdapter.notifyItemRemoved(position);
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     private void callCheckDialog(final int position){
@@ -215,14 +235,18 @@ public class Daily_Log_Hub extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 File myDir = getApplicationContext().getFilesDir();
-                String path="2019";
+                String [] tokens=collections.get(position).getItemName().split(" ");
+                String day=tokens[0];
+                String month=tokens[1];
+                String filename="Calendar_"+month+"_"+day+".txt";
+                String path=2019+"/"+month;
                 File documentsFolder = new File(myDir,path);
-                File[] files = documentsFolder.listFiles();
+                File myfile=new File(documentsFolder,filename);
+                myfile.delete();
 
                 removeItem(position);
 
-                Toast.makeText(getBaseContext(),"fdfd"+files[position], Toast.LENGTH_SHORT).show();
-                //deleteFolder(files[position]);
+
                 Check.dismiss();
 
             }
@@ -350,6 +374,8 @@ public class Daily_Log_Hub extends AppCompatActivity
                 String filename="Calendar_"+month+"_"+day+".txt";
                 String path=spinner_1+"/"+month;
                 File documentsFolder = new File(myDir,path);
+                if(!documentsFolder.exists())
+                    documentsFolder.mkdir();
                 File myfile=new File(documentsFolder,filename);
 
 
