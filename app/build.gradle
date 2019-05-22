@@ -30,7 +30,7 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation project(':swipeback')
+    implementation 'com.github.AppIntro:AppIntro:4.2.3'
 
 
 }
