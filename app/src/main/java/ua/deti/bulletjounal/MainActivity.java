@@ -1,5 +1,7 @@
 package ua.deti.bulletjounal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +21,9 @@ import org.threeten.bp.Year;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    private  String MyPrefs ="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        /*SharedPreferences sp = getSharedPreferences(MyPrefs, Context.MODE_PRIVATE);
+        if (!sp.getBoolean("first", false)) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("first", true);
+            editor.apply();*/
+            Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
+            startActivity(intent);
+       // }
 
     }
 
