@@ -14,8 +14,8 @@
         android:gravity="center">
         <TextView
             android:id="@+id/collectionName"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:background="@color/BluePrimary"
             android:text="Collection name"
             android:textColor="#FFFFFF"

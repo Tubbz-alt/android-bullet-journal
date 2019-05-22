@@ -302,10 +302,10 @@ public class CollectionsHub extends AppCompatActivity
         deleteDialog.setTitle("Delete collection");
 
         TextView question = deleteDialog.findViewById(R.id.deleteCollection);
-        question.setText("Do you want to delete '" + collections.get(position).getItemName() + "'?");
+        question.setText("Do you want to delete \n'" + collections.get(position).getItemName() + "'?");
 
-        Button noButton = deleteDialog.findViewById(R.id.noDeleteCollection);
-        Button yesButton = deleteDialog.findViewById(R.id.yesDeleteCollection);
+        ImageView noButton = deleteDialog.findViewById(R.id.noDeleteCollection);
+        ImageView yesButton = deleteDialog.findViewById(R.id.yesDeleteCollection);
 
         // dismiss modal
         noButton.setOnClickListener(new View.OnClickListener() {
