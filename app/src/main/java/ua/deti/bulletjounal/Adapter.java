@@ -122,8 +122,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Item currentItem=mList.get(i);
         viewHolder.mImagevIew.setImageResource(currentItem.getType());
-        viewHolder.mTextView.setText(currentItem.getTitle());
-
+        String name = currentItem.getTitle();
+        viewHolder.mTextView.setText(name.length() <= 20 ? name : name.substring(0,17) + "...");
         if(currentItem.getShow()==false){
 
             viewHolder.cardViewHide.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
