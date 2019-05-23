@@ -285,12 +285,27 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
         mAdapter.notifyItemInserted(position);
+
+        if(db.get(dia).size()==0){
+            infoDisp.setText("Empty! Add something :)");
+        }
+        else
+            infoDisp.setText("");
+
     }
 
     public void removeItem(int position,int dia){
 
         db.get(dia).remove(position);
         mAdapter.notifyItemRemoved(position);
+
+        if(db.get(dia).size()==0){
+            infoDisp.setText("Empty! Add something :)");
+        }
+        else
+            infoDisp.setText("");
+
+
     }
 
     public void callMoreDialog(int position,final int dia){
@@ -375,7 +390,16 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
         mLayout.setLayoutManager(layoutManager);
         mLayout.setAdapter(mAdapter);
+        infoDisp=DetailsDialog.findViewById(R.id.infoDisp);
+
         boolean check=updateAllView(dia);
+
+
+        if(db.get(dia).size()==0){
+            infoDisp.setText("Empty! Add something :)");
+        }
+        else
+            infoDisp.setText("");
 
         mAdapter.setOnItemClickListener(new Adapter_Calendar.OnItemClickListener() {
             @Override
@@ -422,16 +446,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-        infoDisp=DetailsDialog.findViewById(R.id.infoDisp);
 
-
-       if(!check){
-            infoDisp.setText("Nada adicionado");
-        }else{
-            infoDisp.setText("");
-
-
-        }
 
 
 
@@ -477,9 +492,9 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         AddDialog.setCancelable(false);
         AddDialog.setTitle("Add new Line");
         final int dia=Day;
+        TextView titleView=(TextView)AddDialog.findViewById(R.id.textView8);
 
-        TextView title=(TextView)AddDialog.findViewById(R.id.textView8);
-        title.setText(currMonth);
+        titleView.setText(currMonth);
 
         //get the spinner from the xml.
         final Spinner dropdown = AddDialog.findViewById(R.id.spinner1);
