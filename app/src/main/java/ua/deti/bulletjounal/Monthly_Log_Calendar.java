@@ -311,7 +311,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     public void callMoreDialog(int position,final int dia){
         MoreDialog = new Dialog(this);
         MoreDialog.setContentView(R.layout.pop_window_more);
-        MoreDialog.setCancelable(false);
+        MoreDialog.setCancelable(true);
         MoreDialog.setTitle("Details");
 
 
@@ -362,7 +362,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
         DetailsDialog = new Dialog(this);
         DetailsDialog.setContentView(R.layout.pop_window_details);
-        DetailsDialog.setCancelable(false);
+        DetailsDialog.setCancelable(true);
         DetailsDialog.setTitle("Details");
         mLayout= (RecyclerView) DetailsDialog.findViewById(R.id.RecyclerViewCalendar);
         TextView masterTitle=(TextView)DetailsDialog.findViewById(R.id.masterTitle);
@@ -489,7 +489,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
     {
         AddDialog = new Dialog(this);
         AddDialog.setContentView(R.layout.pop_window_add_line);
-        AddDialog.setCancelable(false);
+        AddDialog.setCancelable(true);
         AddDialog.setTitle("Add new Line");
         final int dia=Day;
         TextView titleView=(TextView)AddDialog.findViewById(R.id.textView8);

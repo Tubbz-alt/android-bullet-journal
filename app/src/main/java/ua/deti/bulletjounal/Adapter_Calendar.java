@@ -113,7 +113,8 @@ public class Adapter_Calendar extends RecyclerView.Adapter<Adapter_Calendar.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Item currentItem=mList.get(i);
         viewHolder.mImagevIew.setImageResource(currentItem.getType());
-        viewHolder.mTextView.setText(currentItem.getTitle());
+        String itemName = currentItem.getTitle();
+        viewHolder.mTextView.setText(itemName.length() <= 20 ? itemName : itemName.substring(0,17) + "...");
 
     }
 

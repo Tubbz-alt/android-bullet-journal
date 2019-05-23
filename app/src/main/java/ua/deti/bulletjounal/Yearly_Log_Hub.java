@@ -104,7 +104,7 @@ public class Yearly_Log_Hub extends AppCompatActivity
     {
         AddDialog = new Dialog(this);
         AddDialog.setContentView(R.layout.pop_window_add_year);
-        AddDialog.setCancelable(false);
+        AddDialog.setCancelable(true);
         AddDialog.setTitle("Add new Line");
 
         //get the spinner from the xml.
@@ -232,7 +232,7 @@ public class Yearly_Log_Hub extends AppCompatActivity
     private void callCheckDialog(final int position){
         Check = new Dialog(this);
         Check.setContentView(R.layout.pop_window_delete);
-        Check.setCancelable(false);
+        Check.setCancelable(true);
         Check.setTitle("Add new Line");
 
         ImageView save = Check.findViewById(R.id.Yes);

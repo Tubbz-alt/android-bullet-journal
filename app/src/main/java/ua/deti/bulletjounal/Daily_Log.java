@@ -234,7 +234,7 @@ public class Daily_Log extends AppCompatActivity
     {
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.pop_window_add_line);
-        myDialog.setCancelable(false);
+        myDialog.setCancelable(true);
         myDialog.setTitle("Add new Line");
 
         TextView titleView=(TextView)myDialog.findViewById(R.id.textView8);
@@ -303,7 +303,7 @@ public class Daily_Log extends AppCompatActivity
     public void callMoreDialog(final int more_id){
         myDialog = new Dialog(this);
         myDialog.setContentView(R.layout.pop_window_more);
-        myDialog.setCancelable(false);
+        myDialog.setCancelable(true);
         myDialog.setTitle("Details");
 
 
@@ -588,7 +588,7 @@ public class Daily_Log extends AppCompatActivity
     {
         final Dialog deleteDialog = new Dialog(this);
         deleteDialog.setContentView(R.layout.pop_window_delete);
-        deleteDialog.setCancelable(false);
+        deleteDialog.setCancelable(true);
         deleteDialog.setTitle("Delete item");
 
         ImageView yes = deleteDialog.findViewById(R.id.Yes);
