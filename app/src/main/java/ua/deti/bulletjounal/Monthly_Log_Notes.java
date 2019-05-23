@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -240,7 +241,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
         myDialog.setContentView(R.layout.pop_window_add_line);
         myDialog.setCancelable(false);
         myDialog.setTitle("Add new Line");
-
+        TextView title=(TextView)myDialog.findViewById(R.id.textView8);
+        title.setText(currMonth);
         //get the spinner from the xml.
         final Spinner dropdown = myDialog.findViewById(R.id.spinner1);
         //create a list of items for the spinner.
@@ -280,7 +282,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
                     myDialog.dismiss();
 
                 }
-                Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
                 //createNewTextView(to_display);
             }
         });
@@ -326,32 +329,10 @@ public class Monthly_Log_Notes extends AppCompatActivity
 
 
 
-        ImageView Delete = myDialog.findViewById(R.id.Edit);
+
         ImageView cancel = myDialog.findViewById(R.id.Exit);
 
-        Delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText TitleEdit=(EditText)myDialog.findViewById(R.id.TitleTextEdit);
-                title_text.setVisibility(View.GONE);
-                TitleEdit.setVisibility(View.VISIBLE);
-                /*db.remove(more_id);
-                saveDB();
-                db.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
-                //mLayout.removeAllViews();
-                boolean check=updateAllView();
-                if(!check){
-                    Text.setText("Empty! Add something :)");
-                }
-                else{
-                    Text.setText("");
-                }
 
-                myDialog.dismiss();*/
-
-
-            }
-        });
 
 
 
@@ -531,6 +512,54 @@ public class Monthly_Log_Notes extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.monthly__log__notes, menu);
+
+
+        final String[] items = new String[]{"Todos","Task","Event","Note"};
+        MenuItem item=menu.findItem(R.id.spinner);
+        Spinner filter = (Spinner) item.getActionView();
+        //filter.setBackgroundResource(R.drawable.icon_filter);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,items){
+
+
+        };
+        //set the spinners adapter to the previously created one.
+        filter.setAdapter(adapter);
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String op=items[position];
+                Iterator it = exampleList.iterator();
+
+                while (it.hasNext()){
+                    Item item=(Item)it.next();
+                    int pos=exampleList.indexOf(item);
+
+                    if(op=="Todos" & item.getShow()==true)
+                        break;
+                    else if(op=="Todos" & item.getShow()==false){
+                        item.setShow(true);
+                    }
+                    else if(!item.getStringType().equals(op)){
+
+                        item.setShow(false);
+
+                    }
+                    else{
+                        item.setShow(true);
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return true;
     }
 

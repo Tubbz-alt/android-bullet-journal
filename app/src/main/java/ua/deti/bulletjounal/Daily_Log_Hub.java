@@ -201,7 +201,7 @@ public class Daily_Log_Hub extends AppCompatActivity
     {
         String [] tokens=inputText.split("_");
         collections.add(new HubItem(tokens[2]+" "+tokens[1]));
-        DailyAdapter.notifyItemInserted(collections.size()-1);
+        DailyAdapter.notifyDataSetChanged();
         if(collections.size()==0){
             show.setText("Empty! Add something :)");
         }
@@ -374,8 +374,11 @@ public class Daily_Log_Hub extends AppCompatActivity
                 String filename="Calendar_"+month+"_"+day+".txt";
                 String path=spinner_1+"/"+month;
                 File documentsFolder = new File(myDir,path);
-                if(!documentsFolder.exists())
-                    documentsFolder.mkdir();
+                if(!documentsFolder.exists()){
+                    Toast.makeText(getBaseContext(),"ola"+documentsFolder,Toast.LENGTH_LONG).show();
+                    documentsFolder.mkdirs();
+
+                }
                 File myfile=new File(documentsFolder,filename);
 
 
@@ -421,30 +424,7 @@ public class Daily_Log_Hub extends AppCompatActivity
 
     }
 
-    private void createNewTextView(final String text) {
 
-        LayoutInflater inflater=(LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final TextView textView = new TextView(this);
-        final Button more =new Button(this);
-        more.setText(text);
-        more.setId(button_id);
-        final int btn_id=more.getId(); //get the button id so I can associate a function
-
-        mLayout.addView(more);
-        Button btn= (Button)findViewById(btn_id);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(getBaseContext(),Monthly_Log_Notes.class);
-                myIntent.putExtra("Month",text);
-                startActivity(myIntent);
-            }
-        });
-
-
-        button_id+=1;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

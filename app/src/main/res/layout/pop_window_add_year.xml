@@ -22,7 +22,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="52dp"
             android:layout_toRightOf="@id/textView10"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="52dp"
             android:fontFamily="@font/montserrat"
             android:text="Year:"
             android:textColor="@color/BluePrimary"

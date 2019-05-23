@@ -156,14 +156,12 @@ public class Daily_Log extends AppCompatActivity
                 if(check.isChecked()){
                     cross.setPaintFlags(cross.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
                     change.setImageResource(R.drawable.done_icon);
-                    Toast.makeText(getBaseContext(),"Item undone!" ,
-                            Toast.LENGTH_SHORT).show();
+
 
                 }
                 else{
                     cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
-                    Toast.makeText(getBaseContext(),"Item done!" ,
-                            Toast.LENGTH_SHORT).show();
+
                     switch (exampleList.get(position).getStringType()){
                         case "Task":
 
@@ -238,6 +236,9 @@ public class Daily_Log extends AppCompatActivity
         myDialog.setContentView(R.layout.pop_window_add_line);
         myDialog.setCancelable(false);
         myDialog.setTitle("Add new Line");
+
+        TextView titleView=(TextView)myDialog.findViewById(R.id.textView8);
+        titleView.setText(currMonth);
 
         //get the spinner from the xml.
         final Spinner dropdown = myDialog.findViewById(R.id.spinner1);
@@ -322,7 +323,6 @@ public class Daily_Log extends AppCompatActivity
 
 
 
-        ImageView Delete= (ImageView) myDialog.findViewById(R.id.Edit);
         ImageView cancel = (ImageView) myDialog.findViewById(R.id.Exit);
 
 

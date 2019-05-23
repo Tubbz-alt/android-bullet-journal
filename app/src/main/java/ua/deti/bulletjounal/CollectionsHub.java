@@ -48,6 +48,8 @@ public class CollectionsHub extends AppCompatActivity
 
     private View thisView;
     private Context thisContext;
+    private TextView show;
+
 
 
     @Override
@@ -57,6 +59,8 @@ public class CollectionsHub extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Collections Hub");
+        show=(TextView)findViewById(R.id.textView7) ;
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -85,6 +89,12 @@ public class CollectionsHub extends AppCompatActivity
 
         // load collections
         loadCollections();
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
 
     }
 
@@ -235,19 +245,27 @@ public class CollectionsHub extends AppCompatActivity
         }
         collections.add(new HubItem(inputText));
         collectionsAdapter.notifyItemInserted(collections.size()-1);
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     public void removeItem(int position)
     {
         collections.remove(position);
         collectionsAdapter.notifyItemRemoved(position);
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
-    public void changeItem(int position, String s)
-    {
-        collections.get(position).changeName(s);
-        collectionsAdapter.notifyItemChanged(position);
-    }
+
 
     public void loadCollections()
     {

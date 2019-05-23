@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -34,6 +35,7 @@ public class Yearly_Log_Hub extends AppCompatActivity
     private RecyclerView YearlyRecyclerView;
     private HubAdapter YearlyAdapter;
     private RecyclerView.LayoutManager collectionsLayoutManager;
+    private TextView show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class Yearly_Log_Hub extends AppCompatActivity
         navigationView.getMenu().getItem(3).setChecked(true);
         createCollectionsList();
         buildRecyclerView();
+        show=(TextView)findViewById(R.id.textView7) ;
+
 
         File myDir = getApplicationContext().getFilesDir();
         String path="";
@@ -87,6 +91,14 @@ public class Yearly_Log_Hub extends AppCompatActivity
         });
 
         getSupportActionBar().setTitle("Yearly Hub");
+
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
+
     }
     private void callAddDialog()
     {
@@ -116,6 +128,9 @@ public class Yearly_Log_Hub extends AppCompatActivity
 
 
 
+
+
+
         ImageView save = AddDialog.findViewById(R.id.Save);
         ImageView cancel = AddDialog.findViewById(R.id.Cancel);
 
@@ -125,8 +140,23 @@ public class Yearly_Log_Hub extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+                String spinner1Text = dropdown.getSelectedItem().toString();
+                File myDir = getApplicationContext().getFilesDir();
 
-                AddDialog.dismiss();
+                File documentsFolder = new File(myDir,spinner1Text);
+
+                if(!documentsFolder.exists()){
+                    documentsFolder.mkdir();
+                    insertItem(spinner1Text);
+                    AddDialog.dismiss();
+
+
+                }
+                else{
+                    Toast.makeText(getBaseContext(),"Yearly Log for that year already exists"  ,
+                            Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -219,8 +249,7 @@ public class Yearly_Log_Hub extends AppCompatActivity
 
                 removeItem(position);
 
-                Toast.makeText(getBaseContext(),"fdfd"+files[position], Toast.LENGTH_SHORT).show();
-                deleteFolder(files[position]);
+                deleteFolder(documentsFolder);
                 Check.dismiss();
 
             }
@@ -242,13 +271,25 @@ public class Yearly_Log_Hub extends AppCompatActivity
     public void insertItem(String inputText)
     {
         collections.add(new HubItem(inputText));
-        YearlyAdapter.notifyItemInserted(collections.size()-1);
+        YearlyAdapter.notifyDataSetChanged();
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     public void removeItem(int position)
     {
         collections.remove(position);
         YearlyAdapter.notifyItemRemoved(position);
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     @Override

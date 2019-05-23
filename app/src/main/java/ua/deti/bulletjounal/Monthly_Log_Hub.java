@@ -68,6 +68,8 @@ public class Monthly_Log_Hub extends AppCompatActivity
         put(12, "December");
     }};
     private LinearLayout mLayout;
+    private TextView show;
+
 
 
     @Override
@@ -80,6 +82,7 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
 
 
+        show=(TextView)findViewById(R.id.textView7) ;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -119,7 +122,11 @@ public class Monthly_Log_Hub extends AppCompatActivity
         });
 
 
-        // recycle view
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
 
 
 
@@ -197,9 +204,10 @@ public class Monthly_Log_Hub extends AppCompatActivity
 
                 removeItem(position);
 
-                Toast.makeText(getBaseContext(),"fdfd"+files[position], Toast.LENGTH_SHORT).show();
                 deleteFolder(files[position]);
                 Check.dismiss();
+                Toast.makeText(getBaseContext(),files[position].getName()+" removed.", Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -223,13 +231,25 @@ public class Monthly_Log_Hub extends AppCompatActivity
     public void insertItem(String inputText)
     {
         collections.add(new HubItem(inputText));
-        MonthlyHubAdapter.notifyItemInserted(collections.size()-1);
+        MonthlyHubAdapter.notifyDataSetChanged();
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     public void removeItem(int position)
     {
         collections.remove(position);
         MonthlyHubAdapter.notifyItemRemoved(position);
+
+        if(collections.size()==0){
+            show.setText("Empty! Add something :)");
+        }
+        else
+            show.setText("");
     }
 
     private void callAddDialog()
@@ -295,6 +315,9 @@ public class Monthly_Log_Hub extends AppCompatActivity
                     documentsFolder.mkdirs();
                     insertItem(spinner_2);
                     AddDialog.dismiss();
+                    Toast.makeText(getBaseContext(),spinner_2+" added." ,
+                            Toast.LENGTH_LONG).show();
+
 
 
                 }

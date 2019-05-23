@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/BluePrimary">
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="414dp"
         android:layout_height="350dp"
         android:layout_marginTop="68dp"
@@ -30,9 +30,8 @@
             android:textColor="@color/BluePrimary"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DescriptionText" />
+            android:layout_centerInParent="true"
+            android:layout_below="@id/DescriptionText"/>
 
         <TextView
             android:id="@+id/textView11"
@@ -47,9 +46,8 @@
             android:textColor="@color/BluePrimary"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TitleText" />
+            android:layout_centerInParent="true"
+            android:layout_below="@id/TitleText"/>
 
         <TextView
             android:id="@+id/textView12"
@@ -64,31 +62,21 @@
             android:textColor="@color/BluePrimary"
             android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            />
 
-
-        <ImageView
-            android:id="@+id/Edit"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="110dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/delete_btn"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/Exit"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_marginStart="110dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+
+            android:layout_marginLeft="94dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/exit_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:background="@drawable/exit_btn" />
 
 
 
@@ -104,23 +92,8 @@
             android:textAlignment="center"
             android:fontFamily="@font/montserrat"
             android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-        <EditText
-            android:id="@+id/TitleTextEdit"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textAlignment="center"
-            android:fontFamily="@font/montserrat"
-            android:textSize="16dp"
+            android:layout_below="@id/textView12"
+            android:layout_centerInParent="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -137,9 +110,8 @@
             android:textAlignment="center"
             android:fontFamily="@font/montserrat"
             android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            android:layout_centerInParent="true"
+            android:layout_below="@id/textView11"/>
 
         <TextView
             android:id="@+id/TypeText"
@@ -153,11 +125,10 @@
             android:textAlignment="center"
             android:fontFamily="@font/montserrat"
             android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:layout_below="@id/textView10"
+            android:layout_centerInParent="true"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView8"

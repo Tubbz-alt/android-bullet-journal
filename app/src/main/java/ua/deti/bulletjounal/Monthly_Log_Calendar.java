@@ -189,7 +189,6 @@ public class Monthly_Log_Calendar extends AppCompatActivity
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
                 createDialogDetails(calendarDay);
-                Toast.makeText(getBaseContext(),calendarDay.toString(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -317,31 +316,9 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
 
 
-        ImageView Delete= (ImageView) MoreDialog.findViewById(R.id.Edit);
         ImageView cancel = (ImageView) MoreDialog.findViewById(R.id.Exit);
 
-        /*Delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tempMap.remove(more_id);
 
-                saveDB(dia);
-                tempMap.clear(); //removes all entries in map, so we can fill it again when we cal upadateAllView
-                db.put(dia,tempMap);
-                mLayout.removeAllViews();
-                boolean check=updateAllView(dia);
-                if(!check){
-                    infoDisp.setText("Nada adicionado");
-                }
-                else{
-                    infoDisp.setText("");
-                }
-
-                MoreDialog.dismiss();
-
-
-            }
-        });*/
 
 
 
@@ -491,51 +468,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
 
     }
 
-    /*private void createNewTextView(String text, final int Dia,String type) {
 
-        final ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final TextView textView = new TextView(this);
-        final Button more =new Button(this);
-        more.setText("More");
-        more.setId(button_id);
-        final int btn_id=more.getId(); //get the button id so I can associate a function
-        textView.setLayoutParams(lparams);
-        textView.setText(text);
-        mLayout.addView(textView);
-        mLayout.addView(more);
-        if(db.containsKey(Dia)){
-            Map tempMap=db.get(Dia);
-            tempMap.put(btn_id,text);
-            db.put(Dia,tempMap);
-        }else{
-            Map tempMap=new HashMap<Integer,String>();
-            tempMap.put(btn_id,text);
-            db.put(Dia,tempMap);
-        }
-
-        Button btn= (Button)DetailsDialog.findViewById(btn_id);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callMoreDialog(btn_id,Dia);
-            }
-        });
-
-        button_id+=1;
-        if(type=="Task"){
-            taskDec.addDay(CalendarDay.from(2019,04,Dia));
-            cl.addDecorator(taskDec);
-        }else if(type=="Event"){
-            eventDec.addDay(CalendarDay.from(2019,04,Dia));
-            cl.addDecorator(eventDec);
-        }else{
-            noteDec.addDay(CalendarDay.from(2019,04,Dia));
-            cl.addDecorator(noteDec);
-        }
-
-
-
-    }*/
 
     private void callLoginDialog(int Day)
     {
@@ -544,6 +477,9 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         AddDialog.setCancelable(false);
         AddDialog.setTitle("Add new Line");
         final int dia=Day;
+
+        TextView title=(TextView)AddDialog.findViewById(R.id.textView8);
+        title.setText(currMonth);
 
         //get the spinner from the xml.
         final Spinner dropdown = AddDialog.findViewById(R.id.spinner1);
@@ -555,8 +491,8 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
-        Button save = (Button) AddDialog.findViewById(R.id.Save);
-        Button cancel = (Button) AddDialog.findViewById(R.id.Cancel);
+        ImageView save = (ImageView) AddDialog.findViewById(R.id.Save);
+        ImageView cancel = (ImageView) AddDialog.findViewById(R.id.Cancel);
 
 
 
@@ -570,16 +506,25 @@ public class Monthly_Log_Calendar extends AppCompatActivity
                 String description_save= (String) Description.getText().toString();
                 String title_save= (String) Title.getText().toString();
 
-                String to_display=spinner_save+"-"+title_save+"-"+description_save;
+
+                if(description_save.equals(""))
+                    description_save = "No description";
+
+                if(!title_save.equals(""))
+                {
+                    String to_display=spinner_save+"-"+title_save+"-"+description_save;
+
+                    insertItem(0,to_display,dia);
+
+                    saveDB(dia);
+
+                    AddDialog.dismiss();
+                }
+                else
+                    Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
 
 
 
-
-                insertItem(0,to_display,dia);
-
-                saveDB(dia);
-
-                AddDialog.dismiss();
 
 
             }
