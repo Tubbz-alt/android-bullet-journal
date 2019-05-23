@@ -46,7 +46,7 @@ public class Intro extends AppIntro2 {
 
         sliderPage3.setTitle(title2);
         sliderPage3.setDescription(description2);
-        sliderPage3.setImageDrawable(R.drawable.daily_icon);
+        sliderPage3.setImageDrawable(R.drawable.daily);
         sliderPage3.setBgColor(getResources().getColor(R.color.BluePrimary));
         addSlide(AppIntroFragment.newInstance(sliderPage3));
 
@@ -71,7 +71,7 @@ public class Intro extends AppIntro2 {
 
         sliderPage5.setTitle(title4);
         sliderPage5.setDescription(description4);
-        sliderPage5.setImageDrawable(R.drawable.yearly_icon);
+        sliderPage5.setImageDrawable(R.drawable.yearly);
         sliderPage5.setBgColor(getResources().getColor(R.color.BluePrimary));
         addSlide(AppIntroFragment.newInstance(sliderPage5));
 
@@ -82,7 +82,7 @@ public class Intro extends AppIntro2 {
 
         sliderPage6.setTitle(title5);
         sliderPage6.setDescription(description5);
-        sliderPage6.setImageDrawable(R.drawable.collections_icon);
+        sliderPage6.setImageDrawable(R.drawable.collections);
         sliderPage6.setBgColor(getResources().getColor(R.color.BluePrimary));
         addSlide(AppIntroFragment.newInstance(sliderPage6));
 
