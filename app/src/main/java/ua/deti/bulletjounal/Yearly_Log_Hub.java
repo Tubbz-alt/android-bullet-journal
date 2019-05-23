@@ -14,12 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class Yearly_Log_Hub extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -73,8 +77,78 @@ public class Yearly_Log_Hub extends AppCompatActivity
             }
         }
 
+        ImageView addYearBtn= findViewById(R.id.addYearBtn);
+
+        addYearBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callAddDialog();
+            }
+        });
+
         getSupportActionBar().setTitle("Yearly Hub");
     }
+    private void callAddDialog()
+    {
+        AddDialog = new Dialog(this);
+        AddDialog.setContentView(R.layout.pop_window_add_year);
+        AddDialog.setCancelable(false);
+        AddDialog.setTitle("Add new Line");
+
+        //get the spinner from the xml.
+        final Spinner dropdown = AddDialog.findViewById(R.id.spinner1);
+
+        //create a list of items for the spinner.
+        String[] items = new String[]{"2019"};
+        //dicionario com key em numero e value em extenso
+
+        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+        //There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        //set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
+
+
+
+
+
+
+
+
+
+        ImageView save = AddDialog.findViewById(R.id.Save);
+        ImageView cancel = AddDialog.findViewById(R.id.Cancel);
+
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                AddDialog.dismiss();
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddDialog.dismiss();
+
+            }
+        });
+
+
+
+        AddDialog.show();
+
+
+
+
+
+    }
+
 
     public void createCollectionsList()
     {

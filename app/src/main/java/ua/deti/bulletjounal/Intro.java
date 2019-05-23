@@ -30,23 +30,25 @@ public class Intro extends AppIntro2 {
 
         String title8="Hub's";
         String description8="In your Hub's you add new Logs. If you click on the square you can go to the log, if you long press it you can delete it.";
+        SliderPage sliderPage2 = new SliderPage();
 
-        sliderPage.setTitle(title8);
-        sliderPage.setDescription(description8);
-        sliderPage.setImageDrawable(R.drawable.hub);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage2.setTitle(title8);
+        sliderPage2.setDescription(description8);
+        sliderPage2.setImageDrawable(R.drawable.hub);
+        sliderPage2.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage2));
 
 
 
         String title2="Daily Log";
         String description2="In your Daily Log you can organize from the present day to the next 4 days by adding Tasks,Events and Notes through the + button. Keep track of your Daily life!";
+        SliderPage sliderPage3 = new SliderPage();
 
-        sliderPage.setTitle(title2);
-        sliderPage.setDescription(description2);
-        sliderPage.setImageDrawable(R.drawable.daily_log);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage3.setTitle(title2);
+        sliderPage3.setDescription(description2);
+        sliderPage3.setImageDrawable(R.drawable.daily_icon);
+        sliderPage3.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage3));
 
 
 
@@ -54,52 +56,57 @@ public class Intro extends AppIntro2 {
         String title3="Monthly Log";
         String description3="In your Monthly Log Log you can organize from the present month to the next 2 months adding items refering to a specific day or to the all month. " +
                 "Keep track of your Monthly life!";
+        SliderPage sliderPage4 = new SliderPage();
 
-        sliderPage.setTitle(title3);
-        sliderPage.setDescription(description3);
-        sliderPage.setImageDrawable(R.drawable.monthly_notes);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage4.setTitle(title3);
+        sliderPage4.setDescription(description3);
+        sliderPage4.setImageDrawable(R.drawable.monthly_notes);
+        sliderPage4.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage4));
 
         String title4="Yearly Log";
         String description4="In your Yearly Log Log you can organize your present year, by adding for example the date of your next trip or the birthday of your friend. " +
                 "Keep track of your Yearly life!";
+        SliderPage sliderPage5 = new SliderPage();
 
-        sliderPage.setTitle(title4);
-        sliderPage.setDescription(description4);
-        sliderPage.setImageDrawable(R.drawable.yearly_log);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage5.setTitle(title4);
+        sliderPage5.setDescription(description4);
+        sliderPage5.setImageDrawable(R.drawable.yearly_icon);
+        sliderPage5.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage5));
 
         String title5="Collections";
         String description5="The Collections page is where you can keep a list of your favorite movies, gift ideas for your loved one or even your bucket list. " +
                 "Keep track of your Mind!";
+        SliderPage sliderPage6 = new SliderPage();
 
-        sliderPage.setTitle(title5);
-        sliderPage.setDescription(description5);
-        sliderPage.setImageDrawable(R.drawable.collections);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage6.setTitle(title5);
+        sliderPage6.setDescription(description5);
+        sliderPage6.setImageDrawable(R.drawable.collections_icon);
+        sliderPage6.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage6));
 
         String title6="Help";
         String description6="If you eat a lot of cheese and forget how the app works you can always go the 'Help and Documentation' tab.  "
                 ;
+        SliderPage sliderPage7 = new SliderPage();
 
-        sliderPage.setTitle(title6);
-        sliderPage.setDescription(description6);
-        sliderPage.setImageDrawable(R.drawable.drawer);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage7.setTitle(title6);
+        sliderPage7.setDescription(description6);
+        sliderPage7.setImageDrawable(R.drawable.drawer);
+        sliderPage7.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage7));
 
         String title7="You are all set.Enjoy Bullet Journal";
         String description7="What are you waiting for? Get Started."
                 ;
+        SliderPage sliderPage8 = new SliderPage();
 
-        sliderPage.setTitle(title7);
-        sliderPage.setDescription(description7);
-        sliderPage.setImageDrawable(R.drawable.success);
-        sliderPage.setBgColor(getResources().getColor(R.color.BluePrimary));
-        addSlide(AppIntroFragment.newInstance(sliderPage));
+        sliderPage8.setTitle(title7);
+        sliderPage8.setDescription(description7);
+        sliderPage8.setImageDrawable(R.drawable.success);
+        sliderPage8.setBgColor(getResources().getColor(R.color.BluePrimary));
+        addSlide(AppIntroFragment.newInstance(sliderPage8));
 
 
     }
