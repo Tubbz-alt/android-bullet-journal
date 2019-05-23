@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp"
-    android:fontFamily="@font/montserrat"
-
-
-    >
+    android:fontFamily="@font/montserrat">
 
     <TextView
         android:id="@+id/masterTitle"
@@ -15,12 +12,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/White"
         android:fontFamily="@font/montserrat"
-
-
-
-
         android:textAlignment="center"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
         android:background="@color/BluePrimary"

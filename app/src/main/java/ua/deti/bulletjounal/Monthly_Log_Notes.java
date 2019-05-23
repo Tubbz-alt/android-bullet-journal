@@ -95,8 +95,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
         mAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void OnDelete(int position) {
-                removeItem(position);
-                saveDB();
+                onDeleteDialog(position);
             }
 
 
@@ -115,8 +114,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 }
                 else{
                     cross.setPaintFlags(cross.getPaintFlags()& ~Paint.STRIKE_THRU_TEXT_FLAG);
-                    Toast.makeText(getBaseContext(),exampleList.get(position).getStringType() ,
-                            Toast.LENGTH_LONG).show();
+
                     switch (exampleList.get(position).getStringType()){
                         case "Task":
 
@@ -552,8 +550,31 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+    public void onDeleteDialog(final int position)
+    {
+        final Dialog deleteDialog = new Dialog(this);
+        deleteDialog.setContentView(R.layout.pop_window_delete);
+        deleteDialog.setCancelable(false);
+        deleteDialog.setTitle("Delete item");
 
+        ImageView yes = deleteDialog.findViewById(R.id.Yes);
+        ImageView no = deleteDialog.findViewById(R.id.No);
 
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeItem(position);
+                saveDB();
+                deleteDialog.dismiss();
+            }
+        });
 
-
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteDialog.dismiss();
+            }
+        });
+        deleteDialog.show();
+    }
 }

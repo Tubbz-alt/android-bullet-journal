@@ -132,20 +132,41 @@ public class Yearly_Log extends AppCompatActivity
                 mDeleteImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listHash.get(ListDataHeader.get(groupPosition)).get(childPosition).setShow(false);
-
-                        listAdapter.notifyDataSetChanged();
+                        onDeleteDialog(groupPosition, childPosition);
                     }
                 });
                 return false;
             }
         });
-
-
-
-
-
     }
+
+           public void onDeleteDialog(final int groupPosition, final int childPosition)
+           {
+               final Dialog deleteDialog = new Dialog(this);
+               deleteDialog.setContentView(R.layout.pop_window_delete);
+               deleteDialog.setCancelable(false);
+               deleteDialog.setTitle("Delete item");
+
+               ImageView yes = deleteDialog.findViewById(R.id.Yes);
+               ImageView no = deleteDialog.findViewById(R.id.No);
+
+               yes.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       listHash.get(ListDataHeader.get(groupPosition)).get(childPosition).setShow(false);
+                       listAdapter.notifyDataSetChanged();
+                       deleteDialog.dismiss();
+                   }
+               });
+
+               no.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       deleteDialog.dismiss();
+                   }
+               });
+               deleteDialog.show();
+           }
 
     /*public void removeItem(int position){
         .remove(position);
@@ -220,7 +241,8 @@ public class Yearly_Log extends AppCompatActivity
                     //saveDB();
                     myDialog.dismiss();
                 }
-                Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
                 //String to_display=spinner_save+"-"+title_save+"-"+description_save;
 
             }

@@ -142,11 +142,8 @@ public class Daily_Log extends AppCompatActivity
         mAdapter.setOnItemClickListener(new Adapter.OnItemClickListener() {
             @Override
             public void OnDelete(int position) {
-                removeItem(position);
-                saveDB();
+                onDeleteDialog(position);
             }
-
-
 
             @Override
             public void onItemclick(int position) {
@@ -228,11 +225,6 @@ public class Daily_Log extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-
-
-
-
-
     }
 
 
@@ -281,8 +273,6 @@ public class Daily_Log extends AppCompatActivity
                 if(!title_save.equals(""))
                 {
                     String to_display = spinner_save+"-"+title_save+"-"+description_save;
-                    Toast.makeText(getBaseContext(),"Item added"  ,
-                            Toast.LENGTH_LONG).show();
                     insertItem(0,to_display);
                     saveDB();
                     myDialog.dismiss();
@@ -592,6 +582,34 @@ public class Daily_Log extends AppCompatActivity
                 return true;
         }
 
+    }
+
+    public void onDeleteDialog(final int position)
+    {
+        final Dialog deleteDialog = new Dialog(this);
+        deleteDialog.setContentView(R.layout.pop_window_delete);
+        deleteDialog.setCancelable(false);
+        deleteDialog.setTitle("Delete item");
+
+        ImageView yes = deleteDialog.findViewById(R.id.Yes);
+        ImageView no = deleteDialog.findViewById(R.id.No);
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeItem(position);
+                saveDB();
+                deleteDialog.dismiss();
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteDialog.dismiss();
+            }
+        });
+        deleteDialog.show();
     }
 
 
