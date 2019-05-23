@@ -254,8 +254,8 @@ public class Monthly_Log_Notes extends AppCompatActivity
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
-        Button save = (Button) myDialog.findViewById(R.id.Save);
-        Button cancel = (Button) myDialog.findViewById(R.id.Cancel);
+        ImageView save = myDialog.findViewById(R.id.Save);
+        ImageView cancel = myDialog.findViewById(R.id.Cancel);
 
 
 
@@ -266,23 +266,24 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 final  EditText Title = (EditText) myDialog.findViewById(R.id.title);
 
                 String spinner_save = dropdown.getSelectedItem().toString();
-                String description_save= (String) Description.getText().toString();
-                String title_save= (String) Title.getText().toString();
+                String title_save = Title.getText().toString();
+                String description_save = Description.getText().toString();
 
-                String to_display=spinner_save+"-"+title_save+"-"+description_save;
+                if(description_save.equals(""))
+                    description_save = "No description";
 
+                if(!title_save.equals(""))
+                {
+                    String to_display=spinner_save+"-"+title_save+"-"+description_save;
+                    Toast.makeText(getBaseContext(),"Done"  ,
+                            Toast.LENGTH_LONG).show();
+                    insertItem(0,to_display);
+                    saveDB();
+                    myDialog.dismiss();
 
-                Toast.makeText(getBaseContext(),"Done"  ,
-                        Toast.LENGTH_LONG).show();
-
+                }
+                Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
                 //createNewTextView(to_display);
-
-
-                insertItem(0,to_display);
-                saveDB();
-                myDialog.dismiss();
-
-
             }
         });
 

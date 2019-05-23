@@ -105,7 +105,7 @@ public class Yearly_Log extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        setTitle("Yearly Log");
 
 
         listView=(ExpandableListView)findViewById(R.id.Expandable_List);
@@ -178,8 +178,6 @@ public class Yearly_Log extends AppCompatActivity
 
                 Calendar mycal = new GregorianCalendar(2019, position, 1);
                 int daysMonth=mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
-                Toast.makeText(getBaseContext(),"Done"+daysMonth  ,
-                        Toast.LENGTH_LONG).show();
 
                 String [] days=new String[daysMonth];
 
@@ -215,23 +213,15 @@ public class Yearly_Log extends AppCompatActivity
 
                 String spinner_month = dropdown.getSelectedItem().toString();
                 String spinner_day = dropdown_2.getSelectedItem().toString();
-                String Title_text=Title.getText().toString();
-
-
-
-
-
+                String Title_text = Title.getText().toString();
+                if(!Title_text.equals(""))
+                {
+                    insertItem(spinner_month,spinner_day,Title_text);
+                    //saveDB();
+                    myDialog.dismiss();
+                }
+                Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
                 //String to_display=spinner_save+"-"+title_save+"-"+description_save;
-
-
-
-
-
-
-                insertItem(spinner_month,spinner_day,Title_text);
-                //saveDB();
-                myDialog.dismiss();
-
 
             }
         });

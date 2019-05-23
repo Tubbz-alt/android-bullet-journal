@@ -110,8 +110,6 @@ public class Adapter_yearly extends BaseExpandableListAdapter {
 
         txtListChild.setText(item.getDay());
         txtListChild_b.setText(item.getTitle());
-        Toast.makeText(parent.getContext(),"ola dssa "+item.getShow()  ,
-                Toast.LENGTH_LONG).show();
 
         if (item.getShow()) {
 

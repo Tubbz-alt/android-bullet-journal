@@ -47,17 +47,10 @@ public class MainActivity extends AppCompatActivity
         if (!sp.getBoolean("first", false)) {
             SharedPreferences.Editor editor = sp.edit();
             editor.putBoolean("first", true);
-<<<<<<< HEAD
-            editor.apply();*/
-            //Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
-            //startActivity(intent);
-       // }
-=======
             editor.apply();
             Intent intent = new Intent(this, Intro.class); // Call the AppIntro java class
             startActivity(intent);
        }
->>>>>>> c6c80647219adae418ab2447c9d95420138ae963
 
     }
 
