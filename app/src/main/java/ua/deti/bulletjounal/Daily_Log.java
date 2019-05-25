@@ -278,7 +278,10 @@ public class Daily_Log extends AppCompatActivity
                     saveDB();
                     myDialog.dismiss();
                 }
-                Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
+                else{
+                    Toast.makeText(getBaseContext(), "You need to specify a title!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

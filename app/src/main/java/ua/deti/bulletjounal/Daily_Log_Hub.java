@@ -375,7 +375,7 @@ public class Daily_Log_Hub extends AppCompatActivity
                 String path=spinner_1+"/"+month;
                 File documentsFolder = new File(myDir,path);
                 if(!documentsFolder.exists()){
-                    Toast.makeText(getBaseContext(),"ola"+documentsFolder,Toast.LENGTH_LONG).show();
+
                     documentsFolder.mkdirs();
 
                 }
