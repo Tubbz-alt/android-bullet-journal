@@ -41,7 +41,7 @@ public class Intro extends AppIntro2 {
 
 
         String title2="Daily Log";
-        String description2="In your Daily Log you can organize from the present day to the next 4 days by adding Tasks,Events and Notes through the + button. Keep track of your Daily life!";
+        String description2="In your Daily Log you can organize from the present day to the next 4 days by adding Tasks,Events and Notes through the + button.\n Keep track of your Daily life!";
         SliderPage sliderPage3 = new SliderPage();
 
         sliderPage3.setTitle(title2);
@@ -54,7 +54,7 @@ public class Intro extends AppIntro2 {
 
 
         String title3="Monthly Log";
-        String description3="In your Monthly Log Log you can organize from the present month to the next 2 months adding items refering to a specific day or to the all month. " +
+        String description3="In your Monthly Log Log you can organize from the present month to the next 2 months adding items refering to a specific day or to the all month.\n " +
                 "Keep track of your Monthly life!";
         SliderPage sliderPage4 = new SliderPage();
 
@@ -65,7 +65,7 @@ public class Intro extends AppIntro2 {
         addSlide(AppIntroFragment.newInstance(sliderPage4));
 
         String title4="Yearly Log";
-        String description4="In your Yearly Log Log you can organize your present year, by adding for example the date of your next trip or the birthday of your friend. " +
+        String description4="In your Yearly Log Log you can organize your present year, by adding for example the date of your next trip or the birthday of your friend.\n " +
                 "Keep track of your Yearly life!";
         SliderPage sliderPage5 = new SliderPage();
 
@@ -76,7 +76,7 @@ public class Intro extends AppIntro2 {
         addSlide(AppIntroFragment.newInstance(sliderPage5));
 
         String title5="Collections";
-        String description5="The Collections page is where you can keep a list of your favorite movies, gift ideas for your loved one or even your bucket list. " +
+        String description5="The Collections page is where you can keep a list of your favorite movies, gift ideas for your loved one or even your bucket list.\n " +
                 "Keep track of your Mind!";
         SliderPage sliderPage6 = new SliderPage();
 

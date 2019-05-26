@@ -200,9 +200,7 @@ public class Monthly_Log_Calendar extends AppCompatActivity
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         Collection<CalendarDay> dates=new ArrayList<>();
 
-        eventDec =new EventDecorator(Color.BLACK,dates);
-        taskDec =new EventDecorator(Color.GREEN,dates);
-        noteDec =new EventDecorator(Color.RED,dates);
+
 
         for(int i=first_day;i<=last_day;i++)
         {

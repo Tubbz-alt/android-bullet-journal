@@ -275,8 +275,7 @@ public class Monthly_Log_Notes extends AppCompatActivity
                 if(!title_save.equals(""))
                 {
                     String to_display=spinner_save+"-"+title_save+"-"+description_save;
-                    Toast.makeText(getBaseContext(),"Done"  ,
-                            Toast.LENGTH_LONG).show();
+
                     insertItem(0,to_display);
                     saveDB();
                     myDialog.dismiss();
