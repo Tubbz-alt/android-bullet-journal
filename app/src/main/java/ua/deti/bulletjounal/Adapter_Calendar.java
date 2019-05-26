@@ -114,7 +114,7 @@ public class Adapter_Calendar extends RecyclerView.Adapter<Adapter_Calendar.View
         Item currentItem=mList.get(i);
         viewHolder.mImagevIew.setImageResource(currentItem.getType());
         String itemName = currentItem.getTitle();
-        viewHolder.mTextView.setText(itemName.length() <= 20 ? itemName : itemName.substring(0,17) + "...");
+        viewHolder.mTextView.setText(itemName.length() <= 10 ? itemName : itemName.substring(0,7) + "...");
 
     }
 

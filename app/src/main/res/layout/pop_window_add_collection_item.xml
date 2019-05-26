@@ -13,7 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="51dp"
         android:fontFamily="@font/montserrat"
-        android:text="New Collection"
+        android:text="New item"
         android:background="@color/BluePrimary"
         android:textAlignment="center"
         android:textStyle="bold"
