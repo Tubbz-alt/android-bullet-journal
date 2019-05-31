@@ -285,6 +285,7 @@ public class Daily_Log_Hub extends AppCompatActivity
         int lastDay=months_days.get(currMonth+1);//
 
         int temp=lastDay-currDay;
+        Toast.makeText(getBaseContext(),"ola"+temp,Toast.LENGTH_SHORT).show();
         if(temp<5){
 
             int indice=0;
@@ -294,12 +295,17 @@ public class Daily_Log_Hub extends AppCompatActivity
 
             }
             int new_day=1;
-            if(indice<5){
+            while(indice<5){
+
                 days[indice]=new_day+"/"+year_months.get(currMonth+2);
                 indice++;
                 new_day++;
 
             }
+            Toast.makeText(getBaseContext(),"ola"+days[4],Toast.LENGTH_SHORT).show();
+
+
+
 
         }
         else{
